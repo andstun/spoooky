@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 3e64ca29b0882c648a1f3d563e06ad65
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Scripts/AugmentaObjectBehaviour.cs
+  uploadId: 708283

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: b446f1b70eb6336438998902939ce81d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Scripts/Editor/AugmentaSceneCameraEditor.cs
+  uploadId: 708283

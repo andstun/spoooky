@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d7a911dfaff1dc54b8dc9f835fa19814
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Prefabs/AugmentaVideoOutputWithCamera.prefab
+  uploadId: 708283

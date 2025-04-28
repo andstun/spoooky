@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d3afda59a121123408759af0c81b8cfc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Plugins/UnityOSC/Lib/OSC/OSCMessage.cs
+  uploadId: 708283

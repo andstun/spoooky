@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 630ed87da88e5bb419c5e1e3a58ae74d
+timeCreated: 1519727297
+licenseType: Store
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Scripts/AugmentaObject.cs
+  uploadId: 708283

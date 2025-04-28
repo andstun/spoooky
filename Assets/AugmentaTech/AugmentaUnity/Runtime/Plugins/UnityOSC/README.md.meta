@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e381b354a44d4b448ac1b1707bfd1b60
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Plugins/UnityOSC/README.md
+  uploadId: 708283

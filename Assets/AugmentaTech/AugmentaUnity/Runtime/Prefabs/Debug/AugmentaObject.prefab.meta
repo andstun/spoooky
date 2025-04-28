@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d1029461073db394a800b516377c2ab4
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Prefabs/Debug/AugmentaObject.prefab
+  uploadId: 708283

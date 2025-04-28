@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 0eea18b359b788a46bd2301d86894c00
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Shaders/UnlitTextureColor.shader
+  uploadId: 708283

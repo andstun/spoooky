@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 65d27036d52cbbd4db8cc98ef8b3edf9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Scripts/AugmentaSceneCamera.cs
+  uploadId: 708283

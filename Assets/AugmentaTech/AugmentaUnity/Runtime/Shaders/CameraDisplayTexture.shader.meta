@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: baac4e2f03c0f93428cf8d763aa1854e
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Shaders/CameraDisplayTexture.shader
+  uploadId: 708283

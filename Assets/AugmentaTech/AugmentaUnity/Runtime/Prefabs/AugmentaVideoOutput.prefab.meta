@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3b1a973b921bcfc44b78a997e6497dd7
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Prefabs/AugmentaVideoOutput.prefab
+  uploadId: 708283

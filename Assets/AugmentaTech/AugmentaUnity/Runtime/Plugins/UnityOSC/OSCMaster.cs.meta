@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 85039493e6f0daf4ca49ea2144197ed4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: -50
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Plugins/UnityOSC/OSCMaster.cs
+  uploadId: 708283

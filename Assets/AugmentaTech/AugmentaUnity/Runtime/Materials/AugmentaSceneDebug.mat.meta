@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d895c72d4749de34c910f12e6fc4048b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Materials/AugmentaSceneDebug.mat
+  uploadId: 708283

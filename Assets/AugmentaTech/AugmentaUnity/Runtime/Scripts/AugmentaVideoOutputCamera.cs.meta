@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 48c22896cd63ce544b3c2b1635387b3a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Scripts/AugmentaVideoOutputCamera.cs
+  uploadId: 708283

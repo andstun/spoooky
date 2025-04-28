@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 720106550ad579446883f2c8f5a30219
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Materials/AugmentaOrientationDebug.mat
+  uploadId: 708283

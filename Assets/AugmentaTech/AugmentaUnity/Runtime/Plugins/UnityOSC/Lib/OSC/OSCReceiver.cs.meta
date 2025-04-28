@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 496d08e6f78e9ab4db31370fbd16ede0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Plugins/UnityOSC/Lib/OSC/OSCReceiver.cs
+  uploadId: 708283

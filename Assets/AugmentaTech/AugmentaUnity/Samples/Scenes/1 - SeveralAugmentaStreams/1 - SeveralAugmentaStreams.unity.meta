@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: af9a938f245a912499f4be2f8ee2b7cd
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Samples/Scenes/1 - SeveralAugmentaStreams/1
+    - SeveralAugmentaStreams.unity
+  uploadId: 708283

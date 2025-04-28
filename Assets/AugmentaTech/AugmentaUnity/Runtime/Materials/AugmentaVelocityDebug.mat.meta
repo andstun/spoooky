@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 26e3b8924c944a04f9c8eb7610036aa9
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206658
+  packageName: Augmenta for Unity
+  packageVersion: 1.1
+  assetPath: Assets/AugmentaTech/AugmentaUnity/Runtime/Materials/AugmentaVelocityDebug.mat
+  uploadId: 708283
