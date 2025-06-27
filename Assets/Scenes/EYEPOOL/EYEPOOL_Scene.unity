@@ -164,7 +164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8715168552399655840, guid: 0f6a9ca1c5f519c4a915444dc1505402, type: 3}
       propertyPath: m_Name
-      value: AugmentaWithCamera
+      value: Augmenta_Motion_Tracker
       objectReference: {fileID: 0}
     - target: {fileID: 8715168552399655841, guid: 0f6a9ca1c5f519c4a915444dc1505402, type: 3}
       propertyPath: m_RootOrder
@@ -172,15 +172,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8715168552399655841, guid: 0f6a9ca1c5f519c4a915444dc1505402, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1000
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8715168552399655841, guid: 0f6a9ca1c5f519c4a915444dc1505402, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1000
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8715168552399655841, guid: 0f6a9ca1c5f519c4a915444dc1505402, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1000
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8715168552399655841, guid: 0f6a9ca1c5f519c4a915444dc1505402, type: 3}
       propertyPath: m_LocalRotation.w
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 280815576}
   - component: {fileID: 280815575}
   m_Layer: 6
-  m_Name: FloorBottom_R
+  m_Name: Floor_Bottom_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -449,7 +449,7 @@ Transform:
   m_GameObject: {fileID: 280815574}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -994.15, y: -543.8, z: -1006.25}
+  m_LocalPosition: {x: -5.85, y: 10.8, z: -6.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -480,7 +480,7 @@ Transform:
   m_GameObject: {fileID: 294676484}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1012.5706, y: -544.54694, z: -1021.2008}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -716,13 +716,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 339708248}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.08715578, y: -0, z: -0, w: 0.9961947}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -60, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1508318807}
-  m_LocalEulerAnglesHint: {x: -10, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &386531956
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 386531958}
   - component: {fileID: 386531957}
   m_Layer: 6
-  m_Name: FloorBottom_L
+  m_Name: Floor_Bottom_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -949,7 +949,7 @@ Transform:
   m_GameObject: {fileID: 386531956}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1005.85, y: -543.8, z: -1006.25}
+  m_LocalPosition: {x: 5.85, y: 10.8, z: -6.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -968,7 +968,7 @@ GameObject:
   - component: {fileID: 438941766}
   - component: {fileID: 438941765}
   m_Layer: 6
-  m_Name: FloorMid_L
+  m_Name: Floor_Mid_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1181,7 +1181,7 @@ Transform:
   m_GameObject: {fileID: 438941764}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1005.85, y: -543.8, z: -1000}
+  m_LocalPosition: {x: 5.85, y: 10.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1212,13 +1212,13 @@ Transform:
   m_GameObject: {fileID: 531788006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1000, y: 1000, z: 1000}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2007777192}
-  - {fileID: 1143552912}
   - {fileID: 294676485}
+  - {fileID: 1143552912}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &537789374
@@ -1234,7 +1234,7 @@ GameObject:
   - component: {fileID: 537789376}
   - component: {fileID: 537789375}
   m_Layer: 6
-  m_Name: BackCam_R
+  m_Name: Wall_D_Cam_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1447,7 +1447,7 @@ Transform:
   m_GameObject: {fileID: 537789374}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -992.8, y: -544.6, z: -992.53}
+  m_LocalPosition: {x: 7.2, y: 5.4, z: 8.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1515,7 +1515,7 @@ GameObject:
   - component: {fileID: 713218287}
   - component: {fileID: 713218286}
   m_Layer: 6
-  m_Name: FloorTop_L
+  m_Name: Floor_Top_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1728,7 +1728,7 @@ Transform:
   m_GameObject: {fileID: 713218285}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1005.85, y: -543.8, z: -993.75}
+  m_LocalPosition: {x: 5.85, y: 10.8, z: 6.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1747,7 +1747,7 @@ GameObject:
   - component: {fileID: 741993216}
   - component: {fileID: 741993215}
   m_Layer: 6
-  m_Name: Right
+  m_Name: Wall A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1837,8 +1837,8 @@ Transform:
   m_GameObject: {fileID: 741993214}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 29.370644, y: -0.05303955, z: 21.200787}
-  m_LocalScale: {x: 3.36, y: 450, z: 1.08}
+  m_LocalPosition: {x: 16.8, y: 5.4, z: 0}
+  m_LocalScale: {x: 3.36, y: 0, z: 1.08}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 294676485}
@@ -1856,7 +1856,7 @@ GameObject:
   - component: {fileID: 742703841}
   - component: {fileID: 742703840}
   m_Layer: 6
-  m_Name: LeftCam_R
+  m_Name: Wall_A_Cam_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2069,7 +2069,7 @@ Transform:
   m_GameObject: {fileID: 742703839}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -992.53, y: -544.6, z: -1007.2}
+  m_LocalPosition: {x: 8.01, y: 5.4, z: -7.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2088,7 +2088,7 @@ GameObject:
   - component: {fileID: 772506323}
   - component: {fileID: 772506322}
   m_Layer: 6
-  m_Name: FrontCam_R
+  m_Name: Wall_B_Cam_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2301,7 +2301,7 @@ Transform:
   m_GameObject: {fileID: 772506321}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -1007.2, y: -544.6, z: -1007.47}
+  m_LocalPosition: {x: -7.2, y: 5.4, z: -8.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2331,25 +2331,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143552911}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2091387265}
+  - {fileID: 742703843}
+  - {fileID: 1152137070}
+  - {fileID: 772506325}
   - {fileID: 1872660605}
   - {fileID: 1405194401}
   - {fileID: 1503257423}
   - {fileID: 537789378}
-  - {fileID: 2091387265}
-  - {fileID: 742703843}
-  - {fileID: 772506325}
-  - {fileID: 1152137070}
-  - {fileID: 713218289}
   - {fileID: 1843166852}
-  - {fileID: 438941768}
+  - {fileID: 713218289}
   - {fileID: 1525408319}
-  - {fileID: 386531960}
+  - {fileID: 438941768}
   - {fileID: 280815578}
+  - {fileID: 386531960}
   m_Father: {fileID: 531788007}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1152137066
@@ -2365,7 +2365,7 @@ GameObject:
   - component: {fileID: 1152137068}
   - component: {fileID: 1152137067}
   m_Layer: 6
-  m_Name: FrontCam_L
+  m_Name: Wall_B_Cam_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2578,7 +2578,7 @@ Transform:
   m_GameObject: {fileID: 1152137066}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -992.8, y: -544.6, z: -1007.47}
+  m_LocalPosition: {x: 7.2, y: 5.4, z: -8.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2809,13 +2809,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152394634}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.06162845, y: 0.70441604, z: 0.06162845, w: -0.70441604}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: -60, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1508318807}
-  m_LocalEulerAnglesHint: {x: -10, y: 270, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!1 &1268851488
 GameObject:
   m_ObjectHideFlags: 0
@@ -2919,8 +2919,8 @@ Transform:
   m_GameObject: {fileID: 1268851488}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 12.570644, y: -5.453064, z: 21.200787}
-  m_LocalScale: {x: 2.46, y: 450, z: 1.98}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.36, y: 450, z: 3.36}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 294676485}
@@ -3228,7 +3228,7 @@ GameObject:
   - component: {fileID: 1405194399}
   - component: {fileID: 1405194398}
   m_Layer: 6
-  m_Name: RightCam_R
+  m_Name: Wall_C_Cam_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3441,7 +3441,7 @@ Transform:
   m_GameObject: {fileID: 1405194397}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1007.47, y: -544.6, z: -992.8}
+  m_LocalPosition: {x: -8.01, y: 5.4, z: 7.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3460,7 +3460,7 @@ GameObject:
   - component: {fileID: 1503257421}
   - component: {fileID: 1503257420}
   m_Layer: 6
-  m_Name: BackCam_L
+  m_Name: Wall_D_Cam_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3673,7 +3673,7 @@ Transform:
   m_GameObject: {fileID: 1503257419}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1007.2, y: -544.6, z: -992.53}
+  m_LocalPosition: {x: -7.2, y: 5.4, z: 8.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3704,7 +3704,7 @@ Transform:
   m_GameObject: {fileID: 1508318806}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.2, y: 531.2, z: -0.7}
+  m_LocalPosition: {x: 0, y: 200, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3728,7 +3728,7 @@ GameObject:
   - component: {fileID: 1525408317}
   - component: {fileID: 1525408316}
   m_Layer: 6
-  m_Name: FloorMid_R
+  m_Name: Floor_Mid_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3941,7 +3941,7 @@ Transform:
   m_GameObject: {fileID: 1525408315}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -994.15, y: -543.8, z: -1000}
+  m_LocalPosition: {x: -5.85, y: 10.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4004,7 +4004,7 @@ GameObject:
   - component: {fileID: 1665900296}
   - component: {fileID: 1665900295}
   m_Layer: 6
-  m_Name: Back
+  m_Name: 'Wall B '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4094,8 +4094,8 @@ Transform:
   m_GameObject: {fileID: 1665900294}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 12.570644, y: -0.05303955, z: 4.4007874}
-  m_LocalScale: {x: 3.36, y: 450, z: 1.08}
+  m_LocalPosition: {x: 0, y: 5.4, z: -16.8}
+  m_LocalScale: {x: 3.36, y: 0, z: 1.08}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 294676485}
@@ -4113,7 +4113,7 @@ GameObject:
   - component: {fileID: 1843166850}
   - component: {fileID: 1843166849}
   m_Layer: 6
-  m_Name: FloorTop_R
+  m_Name: Floor_Top_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4326,7 +4326,7 @@ Transform:
   m_GameObject: {fileID: 1843166848}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -994.15, y: -543.8, z: -993.75}
+  m_LocalPosition: {x: -5.85, y: 10.8, z: 6.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4345,7 +4345,7 @@ GameObject:
   - component: {fileID: 1872660603}
   - component: {fileID: 1872660602}
   m_Layer: 6
-  m_Name: RightCam_L
+  m_Name: Wall_C_Cam_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4558,7 +4558,7 @@ Transform:
   m_GameObject: {fileID: 1872660601}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1007.47, y: -544.6, z: -1007.2}
+  m_LocalPosition: {x: -8.01, y: 5.4, z: -7.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4789,13 +4789,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1966229671}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9961947, z: 0.08715578, w: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: -60, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1508318807}
-  m_LocalEulerAnglesHint: {x: -10, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &2007777192 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8715168552399655841, guid: 0f6a9ca1c5f519c4a915444dc1505402, type: 3}
@@ -5026,13 +5026,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2070112045}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.06162845, y: 0.70441604, z: 0.06162845, w: 0.70441604}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -60, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1508318807}
-  m_LocalEulerAnglesHint: {x: -10, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &2085908302
 GameObject:
   m_ObjectHideFlags: 0
@@ -5046,7 +5046,7 @@ GameObject:
   - component: {fileID: 2085908304}
   - component: {fileID: 2085908303}
   m_Layer: 6
-  m_Name: Front
+  m_Name: Wall D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5136,8 +5136,8 @@ Transform:
   m_GameObject: {fileID: 2085908302}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 12.570644, y: -0.05303955, z: 38.000786}
-  m_LocalScale: {x: 3.3599997, y: 450, z: 1.08}
+  m_LocalPosition: {x: 0, y: 5.4, z: 16.8}
+  m_LocalScale: {x: 3.3599997, y: 0, z: 1.08}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 294676485}
@@ -5155,7 +5155,7 @@ GameObject:
   - component: {fileID: 2091387263}
   - component: {fileID: 2091387262}
   m_Layer: 6
-  m_Name: LeftCam_L
+  m_Name: Wall_A_Cam_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5368,7 +5368,7 @@ Transform:
   m_GameObject: {fileID: 2091387261}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -992.53, y: -544.6, z: -992.8}
+  m_LocalPosition: {x: 8.01, y: 5.4, z: 7.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5387,7 +5387,7 @@ GameObject:
   - component: {fileID: 2114533751}
   - component: {fileID: 2114533750}
   m_Layer: 6
-  m_Name: Left
+  m_Name: Wall C (Entrance)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5477,8 +5477,8 @@ Transform:
   m_GameObject: {fileID: 2114533749}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -4.229355, y: -0.05303955, z: 21.200787}
-  m_LocalScale: {x: 3.36, y: 450, z: 1.08}
+  m_LocalPosition: {x: -16.8, y: 5.4, z: 0}
+  m_LocalScale: {x: 3.36, y: 0, z: 1.08}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 294676485}
