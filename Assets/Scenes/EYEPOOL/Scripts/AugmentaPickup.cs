@@ -1,54 +1,112 @@
 using UnityEngine;
 
-/// <summary>
-/// Simple trigger-based “hand” for an Augmenta person.
-/// One orb at a time; drops it automatically when the orb enters *any* sink.
-/// </summary>
+/// Trigger “hand” for an Augmenta person -- adds a colour-changing,
+/// pulsing influence ring and orbits ONE orb around it.
 [RequireComponent(typeof(Collider))]
 public class AugmentaPickup : MonoBehaviour
 {
-    private Orb carriedOrb;
+    /* ───────── Inspector / tuning ───────── */
+    [Header("Orbit")]
+    [SerializeField] float ringRadius   = 1.0f;
+    [SerializeField] float velocity     = 1.0f;     // radians per second
 
-    // assure trigger mode
-    private void Awake()
+    [Header("Ring Look")]
+    [SerializeField] float ringStroke   = 0.05f;
+    [SerializeField] int   ringSegments = 64;
+    [SerializeField] float pulseAmplitude = 0.25f;  // ±25 % width
+    [SerializeField] float pulseSpeed     = 2.0f;   // Hz
+
+    /* ───────── Private state ───────── */
+    Orb          carriedOrb;
+    float        angle;
+    LineRenderer ring;
+    Material     ringMat;
+    Color        currentClr  = Color.white;
+    Color        targetClr   = Color.white;
+    float        baseWidth;
+
+    /* ───────── Setup ───────── */
+    void Awake()
     {
-        // Debug.Log("I am awake");
-        var col = GetComponent<Collider>();
+        Collider col = GetComponent<Collider>();
+        col.isTrigger = true;
+
+        BuildRing();
     }
 
-    // ─────────────────────────────────────────────── Pick up
-    private void OnTriggerEnter(Collider other)
+    void BuildRing()
     {
-        Debug.Log("Entered collider trigger between box and something");
-        if (carriedOrb != null) return;                 // already holding one
+        var go = new GameObject("InfluenceRing");
+        go.transform.SetParent(transform, false);
 
-        Orb orb = other.GetComponent<Orb>();
-        if (orb != null && !orb.IsAttached)
+        ring = go.AddComponent<LineRenderer>();
+        ring.useWorldSpace = false;
+        ring.loop          = true;
+        ring.positionCount = ringSegments;
+        baseWidth          = ringStroke;
+        ring.startWidth = ring.endWidth = baseWidth;
+
+        ringMat         = new Material(Shader.Find("Sprites/Default"));
+        ringMat.color   = currentClr;
+        ring.material   = ringMat;
+        ring.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        ring.receiveShadows    = false;
+
+        Vector3[] pts = new Vector3[ringSegments];
+        float step = 2 * Mathf.PI / ringSegments;
+        for (int i = 0; i < ringSegments; i++)
+        {
+            float a = i * step;
+            pts[i] = new Vector3(Mathf.Cos(a), 0, Mathf.Sin(a)) * ringRadius;
+        }
+        ring.SetPositions(pts);
+    }
+
+    /* ───────── Picking up ───────── */
+    void OnTriggerEnter(Collider other)
+    {
+        if (carriedOrb != null) return;              // already holding one
+
+        if (other.TryGetComponent(out Orb orb) && !orb.IsAttached)
         {
             carriedOrb = orb;
-            carriedOrb.AttachTo(transform);
+            angle      = Random.value * 2 * Mathf.PI;
+            targetClr  = orb.orbColor;               // ring fades to orb colour
+
+            orb.AttachTo(transform);
         }
     }
 
-    // ─────────────────────────────────────────────── Follow + drop logic
-    private void Update()
+    /* ───────── Per-frame ───────── */
+    void Update()
     {
-        // Debug.Log("Updating the frame for augmenta pickup");
+        /* 1) Orbit motion */
+        if (carriedOrb != null)
+        {
+            angle += velocity * Time.deltaTime;
+            Vector3 offs = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * ringRadius;
+            carriedOrb.transform.localPosition = offs;
+        }
+        else
+        {
+            targetClr = Color.white;                 // fade back when empty
+        }
+
+        /* 2) Pulsing ring width */
+        float pulse = 1 + Mathf.Sin(Time.time * Mathf.PI * pulseSpeed) * pulseAmplitude;
+        ring.startWidth = ring.endWidth = baseWidth * pulse;
+
+        /* 3) Smooth colour fade */
+        currentClr = Color.Lerp(currentClr, targetClr, Time.deltaTime * 5f);
+        ringMat.color = currentClr;
+    }
+
+    /* ───────── External helper for dropping ───────── */
+    public void DropOrb(bool reachedCorrectSink)
+    {
         if (carriedOrb == null) return;
 
-        int sinkHere = SinkHelpers.GetSinkID(carriedOrb.transform.position);
-
-        if (sinkHere == carriedOrb.targetSinkID)
-        {
-            // correct sink reached → orb destroys & spawns replacement
-            carriedOrb.Detach(true);
-            carriedOrb = null;
-        }
-        else if (sinkHere != -1)
-        {
-            // wrong sink corner: just drop it on the floor
-            carriedOrb.Detach(false);
-            carriedOrb = null;
-        }
+        carriedOrb.Detach(reachedCorrectSink);
+        carriedOrb = null;           // Update() will fade back to white
     }
 }
