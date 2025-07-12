@@ -276,6 +276,15 @@ namespace Augmenta {
 
 			GameObject newAugmentaObjectObject = Instantiate(augmentaObjectPrefab, augmentaScene.gameObject.transform);
 
+			newAugmentaObjectObject.AddComponent<BoxCollider>();
+			Rigidbody rb = newAugmentaObjectObject.AddComponent<Rigidbody>();
+			rb.isKinematic = true;                  // no forces, just follows pivot
+			rb.useGravity = false;
+
+			// // we moved the boxcollider and the rigidbody to a child of the augmentaobject.
+			if (!newAugmentaObjectObject.GetComponent<AugmentaPickup>())
+				newAugmentaObjectObject.AddComponent<AugmentaPickup>();
+
 			AugmentaObject newAugmentaObject = newAugmentaObjectObject.GetComponent<AugmentaObject>();
 			newAugmentaObject.augmentaManager = this;
 			newAugmentaObject.useCustomObject = customObjectPrefab;
