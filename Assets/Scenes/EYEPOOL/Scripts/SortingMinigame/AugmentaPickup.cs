@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// Trigger “hand” for an Augmenta person -- adds a colour-changing,
-/// pulsing influence ring and orbits ONE orb around it.
+/// pulsing influence ring and orbits ONE ghost around it.
 [RequireComponent(typeof(Collider))]
 public class AugmentaPickup : MonoBehaviour
 {
@@ -13,11 +13,11 @@ public class AugmentaPickup : MonoBehaviour
     [Header("Ring Look")]
     [SerializeField] float ringStroke   = 0.05f;
     [SerializeField] int   ringSegments = 64;
-    [SerializeField] float pulseAmplitude = 0.25f;  // ±25 % width
+    [SerializeField] float pulseAmplitude = 0.25f;  // +/-25 % width
     [SerializeField] float pulseSpeed     = 2.0f;   // Hz
 
     /* ───────── Private state ───────── */
-    Orb          carriedOrb;
+    Ghost          carriedOrb;
     float        angle;
     LineRenderer ring;
     Material     ringMat;
@@ -67,13 +67,13 @@ public class AugmentaPickup : MonoBehaviour
     {
         if (carriedOrb != null) return;              // already holding one
 
-        if (other.TryGetComponent(out Orb orb) && !orb.IsAttached)
+        if (other.TryGetComponent(out Ghost ghost) && !ghost.IsAttached)
         {
-            carriedOrb = orb;
+            carriedOrb = ghost;
             angle      = Random.value * 2 * Mathf.PI;
-            targetClr  = orb.orbColor;               // ring fades to orb colour
+            targetClr  = ghost.ghostColor;               // ring fades to ghost colour
 
-            orb.AttachTo(transform);
+            ghost.AttachTo(transform);
         }
     }
 

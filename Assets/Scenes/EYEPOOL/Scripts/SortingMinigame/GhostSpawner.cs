@@ -2,14 +2,16 @@ using UnityEngine;               // Physics engine & core API
 using System.Collections.Generic; // (replaces raw array with List)
 
 // Attach this to an empty GameObject in the scene
-public class OrbSpawner : MonoBehaviour
+public class GhostSpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
-    [SerializeField] private int orbsToSpawn = 10;
+    [SerializeField] private int ghostsToSpawn = 10;
 
     [Header("Spawn Area (XZ)")]
     [SerializeField] private Vector2 xRange = new Vector2(-13.9f, 13.9f);
     [SerializeField] private Vector2 zRange = new Vector2(-13.9f, 13.9f);
+
+    private float Limit;
 
     private static readonly Color[] colourPalette =
     {
@@ -19,22 +21,27 @@ public class OrbSpawner : MonoBehaviour
         Color.yellow
     };
 
-    private List<GameObject> orbs = new List<GameObject>();
+    private List<GameObject> ghosts = new List<GameObject>();
 
-    private int nextOrbID = 0;
+    private int nextGhostID = 0;
+
+    void Awake() 
+    {
+        Limit = Mathf.Abs(xRange.x) + 0.15f;
+    }
 
     // ────────────────────────────────────────────────────────────────
     void Start()
     {
         Random.InitState(12345);
-        for (int i = 0; i < orbsToSpawn; i++)
+        for (int i = 0; i < ghostsToSpawn; i++)
         {
-            orbs.Add(SpawnOrb());
+            ghosts.Add(SpawnGhost());
         }
     }
 
     // ────────────────────────────────────────────────────────────────
-    private GameObject SpawnOrb() // TODO: this call will need to be repurposed to create a maze, since for now orb spawning is stackable. in the future, the maze will have to be set for people.. or, the maze will automtiaclly be set for 25 people (100 orbs). 
+    private GameObject SpawnGhost() // TODO: this call will need to be repurposed to create a maze, since for now ghost spawning is stackable. in the future, the maze will have to be set for people.. or, the maze will automtiaclly be set for 25 people (100 orbs). 
     {
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
@@ -47,28 +54,24 @@ public class OrbSpawner : MonoBehaviour
         rend.material.color = colourPalette[colorID];
 
         // Physics & behaviour
-        // Rigidbody rb = sphere.AddComponent<Rigidbody>();
-        // rb.useGravity = false;
-        Orb orb = sphere.AddComponent<Orb>();           // your custom script
+        Ghost ghost = sphere.AddComponent<Ghost>();           // your custom script
         SphereCollider sc = sphere.GetComponent<SphereCollider>();
         sc.isTrigger = true;
         sc.radius = 0.5f;
 
-        Debug.Log($"Creating orb with orbID {nextOrbID} and target sink ID {colorID}");
-
-        orb.Initialise(nextOrbID++, colorID, colourPalette[colorID], this);
+        ghost.Initialise(nextGhostID++, colorID, colourPalette[colorID], this);
         return sphere;
     }
 
-    // Called by Orb when it scores
-    public void ReplaceOrb(Orb oldOrb)
+    // Called by Ghost when it scores
+    public void ReplaceGhost(Ghost oldGhost)
     {
-        int i = orbs.IndexOf(oldOrb.gameObject);
+        int i = ghosts.IndexOf(oldGhost.gameObject);
         if (i >= 0)
         {
-            orbs[i] = SpawnOrb();     // keep list length & order intact
+            ghosts[i] = SpawnGhost();     // keep list length & order intact
         }
-    Destroy(oldOrb.gameObject);
+    Destroy(oldGhost.gameObject);
     }
 
     private Vector3 GenerateOrbPosition()
@@ -82,5 +85,10 @@ public class OrbSpawner : MonoBehaviour
     {
         int idx = Random.Range(0, colourPalette.Length);
         return colourPalette[idx];
+    }
+
+    public float getLimit() 
+    {
+        return Limit;
     }
 }
