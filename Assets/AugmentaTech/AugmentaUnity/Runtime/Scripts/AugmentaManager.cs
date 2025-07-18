@@ -280,6 +280,7 @@ namespace Augmenta {
 			collider.direction = 1; // 0 = X, 1 = Y, 2 = Z
 			collider.radius = 1.0f; // TODO: this should be coupled with the radius in AugmentaPickup
 			collider.height = 3.0f;
+			collider.isTrigger = false;
 			Rigidbody rb = newAugmentaObjectObject.AddComponent<Rigidbody>();
 			rb.isKinematic = true;                  // no forces, just follows pivot
 			rb.useGravity = false;

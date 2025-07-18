@@ -25,4 +25,9 @@ public static class Util
     {
         return new Vector3(xz.x, 0f, xz.y);
     }
+
+    public static Vector2 XYZ_to_XZ(Vector3 xyz)
+    {
+        return new Vector2(xyz.x, xyz.z);
+    }
 }

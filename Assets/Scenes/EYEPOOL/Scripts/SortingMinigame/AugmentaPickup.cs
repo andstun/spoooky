@@ -29,8 +29,7 @@ public class AugmentaPickup : MonoBehaviour
     void Awake()
     {
         Collider col = GetComponent<Collider>();
-        col.isTrigger = true;
-
+        col.isTrigger = false;
         BuildRing();
     }
 
@@ -65,6 +64,7 @@ public class AugmentaPickup : MonoBehaviour
     /* ───────── Picking up ───────── */
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("triggered from augmentapickup");
         if (carriedOrb != null) return;              // already holding one
 
         if (other.TryGetComponent(out Ghost ghost) && !ghost.IsAttached)
@@ -75,6 +75,16 @@ public class AugmentaPickup : MonoBehaviour
 
             ghost.AttachTo(transform);
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Collided with " + collision.gameObject.name);
+    }
+
+    void OnCollisionStay(Collision collisionInfo)
+    {
+        Debug.Log("On collision stay triggered from augmentapickup");
     }
 
     /* ───────── Per-frame ───────── */

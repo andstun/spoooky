@@ -1,4 +1,5 @@
 using UnityEngine;               // Physics engine & core API
+using System.Collections;
 using System.Collections.Generic; // (replaces raw array with List)
 
 // Attach this to an empty GameObject in the scene
@@ -6,6 +7,10 @@ public class GhostSpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
     [SerializeField] private int ghostsToSpawn = 10;
+    public bool toggleMovement = true;
+    [SerializeField] private float ghostHoverTime = 5f; // hover time in seconds
+    private float countdown = 5f; // used in tandem with ghostHoverTime
+    public float duration = 1.0f;         // Time to move from `from` to `to`
 
     [Header("Spawn Area (XZ)")]
     [SerializeField] private Vector2 xRange = new Vector2(-13.9f, 13.9f);
@@ -21,64 +26,78 @@ public class GhostSpawner : MonoBehaviour
         Color.yellow
     };
 
-    private List<GameObject> ghosts = new List<GameObject>();
+    private List<Ghost> ghosts = new List<Ghost>(); // TODO: a collection of ghosts may not be necessary
 
     private int nextGhostID = 0;
 
+    private MovementMaze maze;
+
     void Awake() 
     {
-        Limit = Mathf.Abs(xRange.x) + 0.15f;
+        Limit = Mathf.Abs(xRange.x) + 0.15f; // add buffer zone between ghost area and sink area
+        maze = this.GetComponent<MovementMaze>();
+        maze.Initialise();
     }
 
     // ────────────────────────────────────────────────────────────────
     void Start()
     {
-        Random.InitState(12345);
         for (int i = 0; i < ghostsToSpawn; i++)
         {
             ghosts.Add(SpawnGhost());
         }
     }
 
-    // ────────────────────────────────────────────────────────────────
-    private GameObject SpawnGhost() // TODO: this call will need to be repurposed to create a maze, since for now ghost spawning is stackable. in the future, the maze will have to be set for people.. or, the maze will automtiaclly be set for 25 people (100 orbs). 
+    void Update()
     {
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        if (toggleMovement)
+        {
+            // repeating timer to handle movement. ghosts hover in-between.
+            countdown -= Time.deltaTime;
+
+            if (countdown <= 0f)
+            {
+                List<(Ghost, MovementMazeNode, MovementMazeNode)> nextMoves = maze.getNextMoves(ghosts); // get a changeset of next moves
+                StartLerping(nextMoves); // lerp over the changeset
+                countdown = ghostHoverTime;
+            }
+        }
+    }
+
+    // ────────────────────────────────────────────────────────────────
+    private Ghost SpawnGhost()  
+    {
+        GameObject sprite = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
         // Position: random on X-Z plane, y = radius (≈0.5) so it rests on the floor
-        sphere.transform.position = GenerateOrbPosition();
+        MovementMazeNode availNode = maze.getAvailableMazeNode();
+        availNode.setOccupancy(true);
+        sprite.transform.position = Util.XZ_to_XYZ(availNode.getPos());
 
         // Colour
-        Renderer rend = sphere.GetComponent<Renderer>();
+        Renderer rend = sprite.GetComponent<Renderer>();
         int colorID = Random.Range(0, colourPalette.Length);
         rend.material.color = colourPalette[colorID];
 
         // Physics & behaviour
-        Ghost ghost = sphere.AddComponent<Ghost>();           // your custom script
-        SphereCollider sc = sphere.GetComponent<SphereCollider>();
-        sc.isTrigger = true;
+        Ghost ghost = sprite.AddComponent<Ghost>();        
+        SphereCollider sc = sprite.GetComponent<SphereCollider>();
+        sc.isTrigger = false;
         sc.radius = 0.5f;
 
-        ghost.Initialise(nextGhostID++, colorID, colourPalette[colorID], this);
-        return sphere;
+        ghost.Initialise(nextGhostID++, sprite, colorID, colourPalette[colorID], this, availNode);
+        return ghost;
     }
 
     // Called by Ghost when it scores
-    public void ReplaceGhost(Ghost oldGhost)
+    public void ReplaceGhost(Ghost oldGhost) // TODO: this logic may have to be slightly replaced if ghosts move
     {
-        int i = ghosts.IndexOf(oldGhost.gameObject);
+        int i = ghosts.IndexOf(oldGhost);
         if (i >= 0)
         {
             ghosts[i] = SpawnGhost();     // keep list length & order intact
         }
-    Destroy(oldGhost.gameObject);
-    }
-
-    private Vector3 GenerateOrbPosition()
-    {
-        float x = Random.Range(xRange.x, xRange.y);
-        float z = Random.Range(zRange.x, zRange.y);
-        return new Vector3(x, 0.5f, z);       // 0.5f so it’s not half-sunk
+        Destroy(oldGhost.gameObject);
     }
 
     private Color RandomColour()
@@ -87,8 +106,35 @@ public class GhostSpawner : MonoBehaviour
         return colourPalette[idx];
     }
 
-    public float getLimit() 
+    public float GetLimit() 
     {
         return Limit;
+    }
+
+    public void StartLerping(List<(Ghost ghost, MovementMazeNode from, MovementMazeNode to)> path)
+    {
+        for (int i = 0; i < path.Count; i++)
+        {
+            var (ghost, from, to) = path[i];
+            StartCoroutine(LerpGhost(ghost, from.getPos(), to.getPos()));
+            ghost.node = to;
+        }
+    }
+
+    private IEnumerator LerpGhost(Ghost ghost, Vector2 from, Vector2 to)
+    {
+        Vector3 fromPos = new Vector3(from.x, ghost.transform.position.y, from.y);
+        Vector3 toPos   = new Vector3(to.x,   ghost.transform.position.y, to.y);
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            ghost.transform.position = Vector3.Lerp(fromPos, toPos, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        ghost.transform.position = toPos; // snap to final position
     }
 }

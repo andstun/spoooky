@@ -6,20 +6,32 @@ public class MovementMazeNode
     public bool Debug = true;
 
     private int NodeID;
-    private int Occupied; // check if null, otherwise contains occupant ghostID
+    private bool Occupied; // check if null, otherwise contains occupant ghostID
     private Vector2 Pos;
-    private List<MovementMazeNode> Neighbours;
+    public List<MovementMazeNode> Neighbours; // TODO: find a better way to set this later
 
-    MovementMazeNode(int nodeID, Vector2 position, List<MovementMazeNode> neighbours)
+    public MovementMazeNode(int nodeID, Vector2 position)
+    {
+        NodeID = nodeID;
+        Pos = position;
+        Neighbours = new List<MovementMazeNode>();
+    }
+
+    public MovementMazeNode(int nodeID, Vector2 position, List<MovementMazeNode> neighbours)
     {
         NodeID = nodeID;
         Pos = position;
         Neighbours = neighbours;
     }
 
-    public void ReserveNode() // or call this Swap()
+    public bool isOccupied() 
     {
-        
+        return Occupied;
+    }
+
+    public void setOccupancy(bool occupied)
+    {
+        Occupied = occupied;
     }
 
     public Vector2 getPos() 
@@ -30,6 +42,11 @@ public class MovementMazeNode
     public List<MovementMazeNode> getNeighbours() 
     {
         return Neighbours;
+    }
+
+    public void ReserveNode() // or call this Swap()
+    {
+        
     }
 
     // list emptyNodes; 
