@@ -42,5 +42,3 @@ To use Augmenta, you can refer to the AugmentaTech library in this repo as well 
 
 
 
-Daniel
-
