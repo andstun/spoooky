@@ -18,13 +18,9 @@ public class GhostSpawner : MonoBehaviour
 
     private float Limit;
 
-    private static readonly Color[] colourPalette =
-    {
-        Color.red,
-        Color.green,
-        Color.blue,
-        Color.yellow
-    };
+    [SerializeField] private MaterialColorPalette colorPaletteAsset;
+
+    private static Color[] colourPalette;
 
     private List<Ghost> ghosts = new List<Ghost>(); // TODO: a collection of ghosts may not be necessary
 
@@ -34,6 +30,7 @@ public class GhostSpawner : MonoBehaviour
 
     void Awake() 
     {
+        colourPalette = colorPaletteAsset.GetColors();
         Limit = Mathf.Abs(xRange.x) + 0.15f; // add buffer zone between ghost area and sink area
         maze = this.GetComponent<MovementMaze>();
         maze.Initialise();
@@ -82,7 +79,7 @@ public class GhostSpawner : MonoBehaviour
         // Physics & behaviour
         Ghost ghost = sprite.AddComponent<Ghost>();        
         SphereCollider sc = sprite.GetComponent<SphereCollider>();
-        sc.isTrigger = false;
+        sc.isTrigger = true;
         sc.radius = 0.5f;
 
         ghost.Initialise(nextGhostID++, sprite, colorID, colourPalette[colorID], this, availNode);

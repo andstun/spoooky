@@ -11,10 +11,13 @@ public class AugmentaPickup : MonoBehaviour
     [SerializeField] float velocity     = 1.0f;     // radians per second
 
     [Header("Ring Look")]
-    [SerializeField] float ringStroke   = 0.05f;
+    [SerializeField] float ringStroke   = 0.20f;
     [SerializeField] int   ringSegments = 64;
     [SerializeField] float pulseAmplitude = 0.25f;  // +/-25 % width
     [SerializeField] float pulseSpeed     = 2.0f;   // Hz
+
+    [Header("Delays")]
+    [SerializeField] float pickupDelay = 2.0f;
 
     /* ───────── Private state ───────── */
     Ghost          carriedOrb;
@@ -24,6 +27,11 @@ public class AugmentaPickup : MonoBehaviour
     Color        currentClr  = Color.white;
     Color        targetClr   = Color.white;
     float        baseWidth;
+
+    private Ghost overlappingGhost;
+    private float pickupTimer;
+    private bool isOverlapping = false;
+    private bool isTryingToDrop = false;
 
     /* ───────── Setup ───────── */
     void Awake()
@@ -64,42 +72,55 @@ public class AugmentaPickup : MonoBehaviour
     /* ───────── Picking up ───────── */
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("triggered from augmentapickup");
-        if (carriedOrb != null) return;              // already holding one
+        // Debug.Log("triggered from augmentapickup");
+
+        if (carriedOrb != null) return;
 
         if (other.TryGetComponent(out Ghost ghost) && !ghost.IsAttached)
         {
-            carriedOrb = ghost;
-            angle      = Random.value * 2 * Mathf.PI;
-            targetClr  = ghost.ghostColor;               // ring fades to ghost colour
-
-            ghost.AttachTo(transform);
+            overlappingGhost = ghost;
+            pickupTimer = 0f;
+            isOverlapping = true;
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerExit(Collider other)
     {
-        Debug.Log("Collided with " + collision.gameObject.name);
-    }
-
-    void OnCollisionStay(Collision collisionInfo)
-    {
-        Debug.Log("On collision stay triggered from augmentapickup");
+        if (overlappingGhost != null && other.gameObject == overlappingGhost.gameObject)
+        {
+            overlappingGhost = null;
+            isOverlapping = false;
+        }
     }
 
     /* ───────── Per-frame ───────── */
     void Update()
     {
-        /* 1) Orbit motion */
+        // 1) Orbit motion
         if (carriedOrb != null)
         {
+            // Debug.Log("Carried orb is not null");
             angle += velocity * Time.deltaTime;
             Vector3 offs = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * ringRadius;
             carriedOrb.transform.localPosition = offs;
         }
+        else if (isOverlapping && overlappingGhost != null)
+        {
+            pickupTimer += Time.deltaTime;
+            if (pickupTimer >= pickupDelay)
+            {
+                carriedOrb = overlappingGhost;
+                angle = Random.value * 2 * Mathf.PI;
+                targetClr = carriedOrb.ghostColor; // TODO: necessary?
+                carriedOrb.AttachTo(transform);
+
+                overlappingGhost = null;
+                isOverlapping = false;
+            }
+        }
         else
         {
-            targetClr = Color.white;                 // fade back when empty
+            targetClr = Color.white;
         }
 
         /* 2) Pulsing ring width */
@@ -108,15 +129,17 @@ public class AugmentaPickup : MonoBehaviour
 
         /* 3) Smooth colour fade */
         currentClr = Color.Lerp(currentClr, targetClr, Time.deltaTime * 5f);
+        currentClr.a = 1f; // force opaque
         ringMat.color = currentClr;
     }
 
     /* ───────── External helper for dropping ───────── */
-    public void DropOrb(bool reachedCorrectSink)
+    public void DropOrb()
     {
+        Debug.Log("Drop orb called");
         if (carriedOrb == null) return;
 
-        carriedOrb.Detach(reachedCorrectSink);
+        // carriedOrb.Detach(reachedCorrectSink);
         carriedOrb = null;           // Update() will fade back to white
     }
 }

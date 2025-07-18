@@ -6,13 +6,18 @@ public class Ghost : MonoBehaviour
     public int ghostID { get; private set; }
     public GameObject sprite;
     public int targetSinkID { get; private set; }
-    public Color ghostColor {get; private set; }
+    public Color ghostColor { get; private set; }
 
     public bool IsAttached { get; private set; } // TODO: make this private?
+    private AugmentaPickup personAttached;
+
+    [SerializeField] float dropoffDelay = 1.0f;
 
     private GhostSpawner spawner;
 
     private bool _initialised = false;
+
+    private float dropoffTimer = 0f;
 
     public MovementMazeNode node; // TODO: make this private
 
@@ -32,6 +37,7 @@ public class Ghost : MonoBehaviour
         _initialised = true;
 
         spawner = owner;
+        dropoffTimer = 0f;
     }
 
     // ─────────────────────────────────────────────── Called by AugmentaPickup
@@ -41,10 +47,16 @@ public class Ghost : MonoBehaviour
 
         IsAttached = true;
         transform.SetParent(parent, true);
+        personAttached = parent.GetComponent<AugmentaPickup>();
+        if (personAttached == null)
+        {
+            Debug.Log("unable to pick up person properly");
+        }
     }
 
     public void Detach(bool reachedCorrectSink)
     {
+        Debug.Log("Detach called");
         if (!IsAttached) return;
 
         if (reachedCorrectSink)
@@ -52,6 +64,7 @@ public class Ghost : MonoBehaviour
             IsAttached = false;
             transform.SetParent(null, true); // detach movement of ghost from parent
             spawner.ReplaceGhost(this);   // spawns a fresh one & removes me
+            personAttached.DropOrb();
         }
     }
 
@@ -59,19 +72,18 @@ public class Ghost : MonoBehaviour
     private void Update() // TODO: this Update() method and AugmentaPickup's Update() method do the same thing; prune logic here
     {
         int sinkHere = Util.GetSinkID(transform.position, spawner.GetLimit());
-        if (sinkHere == targetSinkID)            // correct corner reached by itself
+        if (sinkHere != targetSinkID) dropoffTimer = 0f;
+
+        dropoffTimer += Time.deltaTime;
+        Debug.Log($"dropoffTimer: {dropoffTimer}");
+        if (dropoffTimer >= dropoffDelay)
         {
-            Detach(true);                        // deletes + respawns
+            Detach(true);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("triggered from ghost");
-    }
-
-    void OnCollisionStay(Collision collisionInfo)
-    {
-        Debug.Log("On collision stay triggered from ghost");
+        // Debug.Log("triggered from ghost");
     }
 }

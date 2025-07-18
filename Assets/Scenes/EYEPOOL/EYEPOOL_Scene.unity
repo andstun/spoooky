@@ -13490,6 +13490,7 @@ MonoBehaviour:
   duration: 1
   xRange: {x: -13.9, y: 13.9}
   zRange: {x: -13.9, y: 13.9}
+  colorPaletteAsset: {fileID: 11400000, guid: 3c0c6d243419646968f45060b2c4cd22, type: 2}
 --- !u!114 &1512456045
 MonoBehaviour:
   m_ObjectHideFlags: 0
