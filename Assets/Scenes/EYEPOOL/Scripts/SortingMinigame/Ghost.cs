@@ -7,15 +7,16 @@ public class Ghost : MonoBehaviour
     public GameObject sprite;
     public int targetSinkID { get; private set; }
     public Color ghostColor { get; private set; }
+    private bool _initialised = false;
 
     public bool IsAttached { get; private set; } // TODO: make this private?
     private AugmentaPickup personAttached;
 
     [SerializeField] float dropoffDelay = 1.0f;
 
-    private GhostSpawner spawner;
+    public bool deleteInsteadOfReplace = false;
 
-    private bool _initialised = false;
+    private GhostSpawner spawner;
 
     private float dropoffTimer = 0f;
 
@@ -56,15 +57,23 @@ public class Ghost : MonoBehaviour
 
     public void Detach(bool reachedCorrectSink)
     {
-        Debug.Log("Detach called");
         if (!IsAttached) return;
 
         if (reachedCorrectSink)
         {
             IsAttached = false;
             transform.SetParent(null, true); // detach movement of ghost from parent
-            spawner.ReplaceGhost(this);   // spawns a fresh one & removes me
             personAttached.DropOrb();
+
+            if (deleteInsteadOfReplace)
+            {
+                Debug.Log("Delete instead of replace");
+                spawner.RemoveGhostFromGhostList(this);
+                return;
+            }
+
+            float delay = Random.Range(1f, 8f); // TODO: modularize into range, probs
+            spawner.StartCoroutine(spawner.DelayedReplaceGhost(this, delay));
         }
     }
 
@@ -75,7 +84,6 @@ public class Ghost : MonoBehaviour
         if (sinkHere != targetSinkID) dropoffTimer = 0f;
 
         dropoffTimer += Time.deltaTime;
-        Debug.Log($"dropoffTimer: {dropoffTimer}");
         if (dropoffTimer >= dropoffDelay)
         {
             Detach(true);

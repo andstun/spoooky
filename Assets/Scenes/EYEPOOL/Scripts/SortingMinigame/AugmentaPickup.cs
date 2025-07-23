@@ -1,10 +1,15 @@
 using UnityEngine;
+using Augmenta;
 
 /// Trigger “hand” for an Augmenta person -- adds a colour-changing,
 /// pulsing influence ring and orbits ONE ghost around it.
 [RequireComponent(typeof(Collider))]
 public class AugmentaPickup : MonoBehaviour
 {
+    private AugmentaObject augmentaObject;
+
+    public float speedToRingRadiusFactor = 0.05f;
+    public float speedDifferenceThreshold = 0.1f;
     /* ───────── Inspector / tuning ───────── */
     [Header("Orbit")]
     [SerializeField] float ringRadius   = 1.0f;
@@ -33,11 +38,14 @@ public class AugmentaPickup : MonoBehaviour
     private bool isOverlapping = false;
     private bool isTryingToDrop = false;
 
+    private float lastSpeed = -1f;
+
     /* ───────── Setup ───────── */
     void Awake()
     {
         Collider col = GetComponent<Collider>();
         col.isTrigger = false;
+        augmentaObject = GetComponent<AugmentaObject>();
         BuildRing();
     }
 
@@ -58,6 +66,20 @@ public class AugmentaPickup : MonoBehaviour
         ring.material   = ringMat;
         ring.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         ring.receiveShadows    = false;
+
+        Vector3[] pts = new Vector3[ringSegments];
+        float step = 2 * Mathf.PI / ringSegments;
+        for (int i = 0; i < ringSegments; i++)
+        {
+            float a = i * step;
+            pts[i] = new Vector3(Mathf.Cos(a), 0, Mathf.Sin(a)) * ringRadius;
+        }
+        ring.SetPositions(pts);
+    }
+
+    void UpdateRingRadius(float newRadius)
+    {
+        ringRadius = newRadius;
 
         Vector3[] pts = new Vector3[ringSegments];
         float step = 2 * Mathf.PI / ringSegments;
@@ -99,9 +121,18 @@ public class AugmentaPickup : MonoBehaviour
         // 1) Orbit motion
         if (carriedOrb != null)
         {
-            // Debug.Log("Carried orb is not null");
-            angle += velocity * Time.deltaTime;
-            Vector3 offs = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * ringRadius;
+            float speed = augmentaObject.worldVelocity3D.magnitude;
+            // Debug.Log($"Speed: {speed} speed difference: {speed - lastSpeed}");
+            // Update only if speed changed significantly
+            if (Mathf.Abs(speed - lastSpeed) > speedDifferenceThreshold)
+            {
+                UpdateRingRadius(1f + speed * speedToRingRadiusFactor);
+                lastSpeed = speed;
+            }
+
+            // orb spinning logic
+            angle += (velocity + (speed * speedToRingRadiusFactor)) * Time.deltaTime;
+            Vector3 offs = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * ringRadius; 
             carriedOrb.transform.localPosition = offs;
         }
         else if (isOverlapping && overlappingGhost != null)
@@ -136,7 +167,8 @@ public class AugmentaPickup : MonoBehaviour
     /* ───────── External helper for dropping ───────── */
     public void DropOrb()
     {
-        Debug.Log("Drop orb called");
+        UpdateRingRadius(1.0f); // return ring to original size
+        // Debug.Log("Drop orb called");
         if (carriedOrb == null) return;
 
         // carriedOrb.Detach(reachedCorrectSink);

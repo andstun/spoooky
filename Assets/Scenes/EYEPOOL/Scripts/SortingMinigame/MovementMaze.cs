@@ -49,6 +49,10 @@ public class MovementMaze : MonoBehaviour
         return nodes;
     }
 
+    public int NumNodes() {
+        return nodes.Count;
+    }
+
     public MovementMazeNode getAvailableMazeNode() {
         MovementMazeNode availNode;
         var rng = new System.Random();
@@ -82,4 +86,6 @@ public class MovementMaze : MonoBehaviour
         }
         return moves;
     }
+
+    // create an algorithm that randomly assigns ghosts a path from one node to the next
 }
