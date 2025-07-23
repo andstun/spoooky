@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 // Utility class 
 public static class Util
@@ -29,5 +30,33 @@ public static class Util
     public static Vector2 XYZ_to_XZ(Vector3 xyz)
     {
         return new Vector2(xyz.x, xyz.z);
+    }
+
+    public static class RandomExtensions
+    {
+        private static bool hasSpare = false;
+        private static float spare;
+
+        public static float Gaussian(float mean = 0, float stdDev = 1)
+        {
+            if (hasSpare)
+            {
+                hasSpare = false;
+                return spare * stdDev + mean;
+            }
+
+            float u, v, s;
+            do
+            {
+                u = UnityEngine.Random.value * 2 - 1;
+                v = UnityEngine.Random.value * 2 - 1;
+                s = u * u + v * v;
+            } while (s >= 1 || s == 0);
+
+            s = Mathf.Sqrt(-2.0f * Mathf.Log(s) / s);
+            spare = v * s;
+            hasSpare = true;
+            return mean + stdDev * u * s;
+        }
     }
 }

@@ -13729,7 +13729,7 @@ MonoBehaviour:
   ghostsToSpawn: 10
   ghostsPerPerson: 4
   maxGhostsInRoom: 60
-  toggleMovement: 0
+  toggleMovement: 1
   ghostHoverTime: 5
   duration: 1
   xRange: {x: -13.9, y: 13.9}

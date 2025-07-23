@@ -1,4 +1,5 @@
 using UnityEngine;               // Physics engine & core API
+using System;
 using System.Collections;
 using System.Collections.Generic; // (replaces raw array with List)
 using Augmenta;
@@ -14,8 +15,8 @@ public class GhostSpawner : MonoBehaviour
     public int ghostsPerPerson = 4;
     public int maxGhostsInRoom = 60;
     public bool toggleMovement = true;
-    [SerializeField] private float ghostHoverTime = 5f; // hover time in seconds
-    private float countdown = 5f; // used in tandem with ghostHoverTime
+    [SerializeField] private float ghostMovemementStepWindow = 2f; // hover time in seconds
+    private float countdown = 5f; // used in tandem with ghostMovemementStepWindow
     public float duration = 1.0f;         // Time to move from `from` to `to`
 
     [Header("Spawn Area (XZ)")]
@@ -63,18 +64,17 @@ public class GhostSpawner : MonoBehaviour
 
     void Update()
     {
-        if (toggleMovement)
-        {
-            // repeating timer to handle movement. ghosts hover in-between.
-            countdown -= Time.deltaTime;
-
-            if (countdown <= 0f)
+            if (toggleMovement)
             {
-                List<(Ghost, MovementMazeNode, MovementMazeNode)> nextMoves = maze.getNextMoves(ghosts); // get a changeset of next moves
-                StartLerping(nextMoves); // lerp over the changeset
-                countdown = ghostHoverTime;
+                // repeating timer to handle movement. ghosts hover in-between.
+                countdown -= Time.deltaTime;
+                if (countdown <= 0f)
+                {
+                    List<(Ghost, MovementMazeNode, MovementMazeNode)> nextMoves = maze.getNextMoves(ghosts); // get a changeset of next moves
+                    StartLerping(nextMoves); // lerp over the changeset
+                    countdown = ghostMovemementStepWindow;
+                }
             }
-        }
     }
 
     void OnDestroy()
@@ -98,7 +98,7 @@ public class GhostSpawner : MonoBehaviour
 
         // Colour
         Renderer rend = sprite.GetComponent<Renderer>();
-        int colorID = Random.Range(0, colourPalette.Length);
+        int colorID = UnityEngine.Random.Range(0, colourPalette.Length);
         rend.material.color = colourPalette[colorID];
 
         // Physics & behaviour
@@ -107,7 +107,13 @@ public class GhostSpawner : MonoBehaviour
         sc.isTrigger = true;
         sc.radius = 0.5f;
 
-        ghost.Initialise(nextGhostID++, sprite, colorID, colourPalette[colorID], this, availNode);
+        float ghostMovementSpeed;
+        do
+        {
+            ghostMovementSpeed = Util.RandomExtensions.Gaussian(2f, 0.5f);
+        } while (ghostMovementSpeed < 1.0f || ghostMovementSpeed > 3.0f);
+
+        ghost.Initialise(nextGhostID++, sprite, colorID, colourPalette[colorID], this, availNode, ghostMovementSpeed);
         return ghost;
     }
 
@@ -145,7 +151,7 @@ public class GhostSpawner : MonoBehaviour
         updateNumGhostsToSpawn();
         for (int i = 0; i < ghostsPerPerson; i++)
         {
-            float delay = Random.Range(1f, 8f); // TODO: modularize into range, probs
+            float delay = UnityEngine.Random.Range(1f, 8f); // TODO: modularize into range, probs
             yield return new WaitForSeconds(delay);
             Ghost ghost = SpawnGhost();
             ghosts.Add(ghost);
@@ -187,7 +193,7 @@ public class GhostSpawner : MonoBehaviour
 
     private Color RandomColour()
     {
-        int idx = Random.Range(0, colourPalette.Length);
+        int idx = UnityEngine.Random.Range(0, colourPalette.Length);
         return colourPalette[idx];
     }
 
@@ -213,14 +219,14 @@ public class GhostSpawner : MonoBehaviour
         Vector3 toPos = new Vector3(to.x, ghost.transform.position.y, to.y);
 
         float elapsed = 0f;
-        while (elapsed < duration)
+        float ghostDuration = duration / ghost.movementSpeed; // each ghost has a different one based on speed
+        while (elapsed < ghostDuration)
         {
-            float t = elapsed / duration;
+            float t = elapsed / ghostDuration;
             ghost.transform.position = Vector3.Lerp(fromPos, toPos, t);
             elapsed += Time.deltaTime;
             yield return null;
         }
-
         ghost.transform.position = toPos; // snap to final position
     }
 }

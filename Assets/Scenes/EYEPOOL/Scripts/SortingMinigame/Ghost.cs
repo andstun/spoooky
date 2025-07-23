@@ -3,7 +3,7 @@ using UnityEngine;
 public class Ghost : MonoBehaviour
 {
     // Read-only to every other script
-    public int ghostID { get; private set; }
+    public int ghostID { get; private set; } // TODO: research difference between this and [Serialize] private
     public GameObject sprite;
     public int targetSinkID { get; private set; }
     public Color ghostColor { get; private set; }
@@ -22,8 +22,10 @@ public class Ghost : MonoBehaviour
 
     public MovementMazeNode node; // TODO: make this private
 
+    public float movementSpeed; // TODO: make this private
+
     /// <summary>Call this right after AddComponent. Subsequent calls are ignored.</summary>
-    public void Initialise(int _ghostID, GameObject _sprite, int _sinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node)
+    public void Initialise(int _ghostID, GameObject _sprite, int _sinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed)
     {
         if (_initialised)
         {
@@ -35,6 +37,7 @@ public class Ghost : MonoBehaviour
         targetSinkID = _sinkID;
         ghostColor = _ghostColor;
         node = _node;
+        movementSpeed = _movementSpeed;
         _initialised = true;
 
         spawner = owner;

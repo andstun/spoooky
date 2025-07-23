@@ -1,13 +1,14 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public class MovementMaze : MonoBehaviour
 {
 
     public float radius = 2.4f; // not applicable to this case (3D case only)
-	public Vector2 regionSize = new Vector2(27.8f, 27.8f);
-	public int rejectionSamples = 30;
-	public float displayRadius = 0.5f;
+    public Vector2 regionSize = new Vector2(27.8f, 27.8f);
+    public int rejectionSamples = 30;
+    public float displayRadius = 0.5f;
 
     private int nodeIDCounter = 0;
 
@@ -17,11 +18,11 @@ public class MovementMaze : MonoBehaviour
     public void Initialise() // should be initializable only once; 
     {
         Vector2 centre = Util.XYZ_to_XZ(transform.position);
-        Vector2 half   = regionSize * 0.5f;
+        Vector2 half = regionSize * 0.5f;
 
         // generate list of well-spaced coordinates (poisson disk)
         points = PoissonDiscSampling.GeneratePoints(radius, regionSize, rejectionSamples);
-        
+
         foreach (Vector2 p in points)
         {
             Vector3 worldPos = centre - half + p; // bottom-left corner of the region in world space
@@ -45,26 +46,30 @@ public class MovementMaze : MonoBehaviour
         }
     }
 
-    public List<MovementMazeNode> Nodes() {
+    public List<MovementMazeNode> Nodes()
+    {
         return nodes;
     }
 
-    public int NumNodes() {
+    public int NumNodes()
+    {
         return nodes.Count;
     }
 
-    public MovementMazeNode getAvailableMazeNode() {
+    public MovementMazeNode getAvailableMazeNode()
+    {
         MovementMazeNode availNode;
         var rng = new System.Random();
 
-        do {
+        do
+        {
             availNode = nodes[rng.Next(0, nodes.Count)]; // generate 
         } while (availNode.isOccupied());
 
         return availNode;
     }
 
-    public List<(Ghost, MovementMazeNode, MovementMazeNode)> getNextMoves(List<Ghost> ghosts) 
+    public List<(Ghost, MovementMazeNode, MovementMazeNode)> getNextMoves(List<Ghost> ghosts)
     {
         var rng = new System.Random();
         List<(Ghost, MovementMazeNode, MovementMazeNode)> moves = new List<(Ghost, MovementMazeNode, MovementMazeNode)>();
@@ -72,12 +77,18 @@ public class MovementMaze : MonoBehaviour
         {
             if (g.IsAttached) continue;
 
+
             List<MovementMazeNode> availableNeighbours = new List<MovementMazeNode>();
             foreach (MovementMazeNode neighbour in g.node.Neighbours)
             {
                 if (!neighbour.isOccupied()) availableNeighbours.Add(neighbour);
             }
             MovementMazeNode from = g.node;
+            if (availableNeighbours.Count == 0)
+            {
+                moves.Add((g, from, from));
+                continue;
+            }
             int randInd = rng.Next(0, availableNeighbours.Count);
             MovementMazeNode to = availableNeighbours[randInd];
             from.setOccupancy(false);
