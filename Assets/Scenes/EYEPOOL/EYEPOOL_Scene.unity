@@ -13822,6 +13822,72 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485275556}
   m_Mesh: {fileID: 8560288642341180724, guid: f0df8b46627b24c7992eee89589c128e, type: 3}
+--- !u!1001 &499961950
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 890228286}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 303.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 193.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 413.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6384468663761909679, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 385a222a8ad9a4b1e8b10607f06ea687, type: 2}
+    - target: {fileID: 919132149155446097, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_Name
+      value: Sconce lowpoly (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+--- !u!4 &499961951 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+  m_PrefabInstance: {fileID: 499961950}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &504812670
 GameObject:
   m_ObjectHideFlags: 0
@@ -20005,68 +20071,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 607449952}
   m_Mesh: {fileID: 4045934593981046349, guid: 587b772689ebc452ca7729443fe7126b, type: 3}
---- !u!1001 &619546538
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 890228286}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 452.3
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -6.13
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -180
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_Name
-      value: Sconce lowpoly (3)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
---- !u!4 &619546539 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-  m_PrefabInstance: {fileID: 619546538}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &622378657
 GameObject:
   m_ObjectHideFlags: 0
@@ -21691,6 +21695,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1143552912}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1001 &792891786
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 890228286}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -154.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 185.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -413.9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6384468663761909679, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 385a222a8ad9a4b1e8b10607f06ea687, type: 2}
+    - target: {fileID: 919132149155446097, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: m_Name
+      value: Sconce lowpoly (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+--- !u!4 &792891787 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+  m_PrefabInstance: {fileID: 792891786}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &812452721
 GameObject:
   m_ObjectHideFlags: 0
@@ -22338,9 +22408,9 @@ Transform:
   - {fileID: 469592344}
   - {fileID: 561770536}
   - {fileID: 2136421812}
-  - {fileID: 1004605540}
+  - {fileID: 792891787}
   - {fileID: 2017874475}
-  - {fileID: 619546539}
+  - {fileID: 499961951}
   - {fileID: 1001926540}
   - {fileID: 1399908474}
   - {fileID: 1619490082}
@@ -22670,68 +22740,6 @@ Transform:
   - {fileID: 534577045}
   m_Father: {fileID: 890228286}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1004605539
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 890228286}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -299.3
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -6.13
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-      propertyPath: m_Name
-      value: Sconce lowpoly (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
---- !u!4 &1004605540 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
-  m_PrefabInstance: {fileID: 1004605539}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1005841386
 GameObject:
   m_ObjectHideFlags: 0
@@ -40266,15 +40274,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -146.1
+      value: -294.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.13
+      value: 193.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.4
+      value: 413.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_LocalRotation.w
@@ -40304,6 +40312,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6384468663761909679, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 385a222a8ad9a4b1e8b10607f06ea687, type: 2}
     - target: {fileID: 919132149155446097, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_Name
       value: Sconce lowpoly (2)
@@ -42094,15 +42106,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.8
+      value: 142.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.13
+      value: 185.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.8
+      value: -413.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_LocalRotation.w
@@ -42132,6 +42144,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6384468663761909679, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 385a222a8ad9a4b1e8b10607f06ea687, type: 2}
     - target: {fileID: 919132149155446097, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_Name
       value: Sconce lowpoly
