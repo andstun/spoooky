@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Ghost : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Ghost : MonoBehaviour
     public Color ghostColor { get; private set; }
     private bool _initialised = false;
 
-    public bool IsAttached { get; private set; } // TODO: make this private?
+    // public bool IsAttached { get; private set; } // TODO: make this private?
     private AugmentaPickup personAttached;
 
     [SerializeField] float dropoffDelay = 1.0f;
@@ -23,6 +24,22 @@ public class Ghost : MonoBehaviour
     public MovementMazeNode node; // TODO: make this private
 
     public float movementSpeed; // TODO: make this private
+
+    public enum GhostState
+    {
+        Hovering,
+        Planning,
+        Moving,
+        Attached
+    }
+
+    public GhostState state = GhostState.Hovering;
+    public Queue<MovementMazeNode> path = new Queue<MovementMazeNode>();
+    public int hopsUntilHover = 3;
+    public float hoverTime = 2f;
+    private float hoverCountdown = 0f;
+    private MovementMaze maze; // cached ref set during Initialize()
+
 
     /// <summary>Call this right after AddComponent. Subsequent calls are ignored.</summary>
     public void Initialise(int _ghostID, GameObject _sprite, int _sinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed)
@@ -47,9 +64,9 @@ public class Ghost : MonoBehaviour
     // ─────────────────────────────────────────────── Called by AugmentaPickup
     public void AttachTo(Transform parent)
     {
-        if (IsAttached) return;
+        if (state == GhostState.Attached) return;
 
-        IsAttached = true;
+        state = GhostState.Attached;
         transform.SetParent(parent, true);
         personAttached = parent.GetComponent<AugmentaPickup>();
         if (personAttached == null)
@@ -60,11 +77,11 @@ public class Ghost : MonoBehaviour
 
     public void Detach(bool reachedCorrectSink)
     {
-        if (!IsAttached) return;
+        if (state != GhostState.Attached) return;
 
         if (reachedCorrectSink)
         {
-            IsAttached = false;
+            state = GhostState.Hovering; // TODO: really, this should be dead but idt the state matters
             transform.SetParent(null, true); // detach movement of ghost from parent
             personAttached.DropOrb();
 
@@ -83,18 +100,43 @@ public class Ghost : MonoBehaviour
     // ─────────────────────────────────────────────── Only orbs lying free
     private void Update() // TODO: this Update() method and AugmentaPickup's Update() method do the same thing; prune logic here
     {
-        int sinkHere = Util.GetSinkID(transform.position, spawner.GetLimit());
-        if (sinkHere != targetSinkID) dropoffTimer = 0f;
-
-        dropoffTimer += Time.deltaTime;
-        if (dropoffTimer >= dropoffDelay)
+        switch (state)
         {
-            Detach(true);
+            case GhostState.Hovering:
+                hoverCountdown -= Time.deltaTime;
+                if (hoverCountdown <= 0f)
+                {
+                    state = GhostState.Planning;
+                }
+                break;
+
+            case GhostState.Planning:
+                PlanPath();
+                break;
+
+            case GhostState.Moving:
+                // noop — handled in coroutine
+                break;
+            case GhostState.Attached:
+                int sinkHere = Util.GetSinkID(transform.position, spawner.GetLimit());
+                if (sinkHere != targetSinkID) dropoffTimer = 0f;
+
+                dropoffTimer += Time.deltaTime;
+                if (dropoffTimer >= dropoffDelay)
+                {
+                    Detach(true);
+                }
+                break;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         // Debug.Log("triggered from ghost");
+    }
+
+    private void PlanPath()
+    {
+        
     }
 }

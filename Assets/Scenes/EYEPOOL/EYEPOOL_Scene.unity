@@ -36867,7 +36867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   augmentaManager: {fileID: 2007777193}
-  ghostsToSpawn: 1
+  ghostsToSpawn: 60
   ghostsPerPerson: 4
   maxGhostsInRoom: 60
   toggleMovement: 1

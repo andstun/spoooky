@@ -77,7 +77,7 @@ public class MovementMaze : MonoBehaviour
         
         foreach (Ghost g in ghosts)
         {
-            if (g.IsAttached) continue;
+            if (g.state == Ghost.GhostState.Attached) continue;
 
             MovementMazeNode from = g.node;
             MovementMazeNode to = sampleWithoutReplacement(unavailable, from);
@@ -94,7 +94,7 @@ public class MovementMaze : MonoBehaviour
         List<(Ghost, MovementMazeNode, MovementMazeNode)> moves = new List<(Ghost, MovementMazeNode, MovementMazeNode)>();
         foreach (Ghost g in ghosts)
         {
-            if (g.IsAttached) continue;
+            if (g.state == Ghost.GhostState.Attached) continue;
 
 
             List<MovementMazeNode> availableNeighbours = new List<MovementMazeNode>();

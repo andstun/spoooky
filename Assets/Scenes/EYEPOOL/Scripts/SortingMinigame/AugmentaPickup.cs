@@ -98,7 +98,7 @@ public class AugmentaPickup : MonoBehaviour
 
         if (carriedOrb != null) return;
 
-        if (other.TryGetComponent(out Ghost ghost) && !ghost.IsAttached)
+        if (other.TryGetComponent(out Ghost ghost) && ghost.state != Ghost.GhostState.Attached)
         {
             overlappingGhost = ghost;
             pickupTimer = 0f;
