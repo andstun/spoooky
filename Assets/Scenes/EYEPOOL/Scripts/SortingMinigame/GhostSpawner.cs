@@ -71,9 +71,9 @@ public class GhostSpawner : MonoBehaviour
                 countdown -= Time.deltaTime;
                 if (countdown <= 0f)
                 {
-                    List<(Ghost, MovementMazeNode, MovementMazeNode)> nextMoves = maze.getNextMovesBounded(ghosts); // get a changeset of next moves
-                    StartLerping(nextMoves); // lerp over the changeset
-                    countdown = ghostMovemementStepWindow;
+                    // List<(Ghost, MovementMazeNode, MovementMazeNode)> nextMoves = maze.getNextMovesBounded(ghosts); // get a changeset of next moves
+                    // StartLerping(nextMoves); // lerp over the changeset
+                    // countdown = ghostMovemementStepWindow;
                 }
             }
     }
@@ -113,7 +113,12 @@ public class GhostSpawner : MonoBehaviour
             ghostMovementSpeed = Util.RandomExtensions.Gaussian(2f, 0.5f);
         } while (ghostMovementSpeed < 1.0f || ghostMovementSpeed > 3.0f);
 
-        ghost.Initialise(nextGhostID++, sprite, colorID, colourPalette[colorID], this, availNode, ghostMovementSpeed);
+        ghost.state = Ghost.GhostState.Hovering;
+        float hoverCountdown = UnityEngine.Random.Range(2f, 5f); // or constant
+        ghost.hopsUntilHover = UnityEngine.Random.Range(2, 5);   // e.g. 2–4 hops before resting
+        ghost.maze = this.maze;
+
+        ghost.Initialise(nextGhostID++, sprite, colorID, colourPalette[colorID], this, availNode, ghostMovementSpeed, hoverCountdown);
         return ghost;
     }
 

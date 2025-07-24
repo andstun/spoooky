@@ -140,6 +140,7 @@ public class AugmentaPickup : MonoBehaviour
             pickupTimer += Time.deltaTime;
             if (pickupTimer >= pickupDelay)
             {
+                Debug.Log("Ghost state should be attached");
                 carriedOrb = overlappingGhost;
                 angle = Random.value * 2 * Mathf.PI;
                 targetClr = carriedOrb.ghostColor; // TODO: necessary?
