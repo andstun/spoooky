@@ -55,7 +55,7 @@ public class GhostSpawner : MonoBehaviour
             augmentaManager.augmentaObjectLeave += OnAugmentaObjectLeave;
         }
 
-        int peopleInRoom = augmentaManager.augmentaScene.augmentaObjectCount;
+        int peopleInRoom = ghostsToSpawn / 4;  // augmentaManager.augmentaScene.augmentaObjectCount;
         ghostsToSpawn = peopleInRoom * ghostsPerPerson;
         for (int i = 0; i < peopleInRoom; i++)
         {
