@@ -16,6 +16,7 @@ public class GhostSpawner : MonoBehaviour
     public int maxGhostsInRoom = 60;
     public bool toggleMovement = true;
     [SerializeField] private float ghostMovemementStepWindow = 2f; // hover time in seconds
+    public float ghostMovementCurveIntensity = 2f;
     private float countdown = 5f; // used in tandem with ghostMovemementStepWindow
     public float duration = 1.0f;         // Time to move from `from` to `to`
 
@@ -70,7 +71,7 @@ public class GhostSpawner : MonoBehaviour
                 countdown -= Time.deltaTime;
                 if (countdown <= 0f)
                 {
-                    List<(Ghost, MovementMazeNode, MovementMazeNode)> nextMoves = maze.getNextMoves(ghosts); // get a changeset of next moves
+                    List<(Ghost, MovementMazeNode, MovementMazeNode)> nextMoves = maze.getNextMovesBounded(ghosts); // get a changeset of next moves
                     StartLerping(nextMoves); // lerp over the changeset
                     countdown = ghostMovemementStepWindow;
                 }
@@ -93,7 +94,6 @@ public class GhostSpawner : MonoBehaviour
 
         // Position: random on X-Z plane, y = radius (≈0.5) so it rests on the floor
         MovementMazeNode availNode = maze.getAvailableMazeNode();
-        availNode.setOccupancy(true);
         sprite.transform.position = Util.XZ_to_XYZ(availNode.getPos());
 
         // Colour
@@ -212,21 +212,42 @@ public class GhostSpawner : MonoBehaviour
         }
     }
 
+    private Vector3 QuadraticBezier(Vector3 a, Vector3 b, Vector3 c, float t)
+    {
+        Vector3 ab = Vector3.Lerp(a, b, t);
+        Vector3 bc = Vector3.Lerp(b, c, t);
+        return Vector3.Lerp(ab, bc, t);
+    }
+
+
     // add a parameter here: call it speed, and make it per-ghost. 
     private IEnumerator LerpGhost(Ghost ghost, Vector2 from, Vector2 to)
     {
         Vector3 fromPos = new Vector3(from.x, ghost.transform.position.y, from.y);
         Vector3 toPos = new Vector3(to.x, ghost.transform.position.y, to.y);
 
+        // --- Add wobble offset to midpoint ---
+        // Option 1: Simple upward arc (hover effect)
+        // Vector3 offset = Vector3.up * 0.5f;
+
+        // Option 2: Randomized wobble (feel free to tweak scale)
+        // TODO: ghostMovementCurveIntensity should be a function of distance between the nodes
+        Vector3 randomXZ = UnityEngine.Random.insideUnitCircle.normalized * ghostMovementCurveIntensity;
+        Vector3 offset = new Vector3(randomXZ.x, 0.25f, randomXZ.y);  // small wobble on XZ + slight lift
+
+        Vector3 mid = (fromPos + toPos) / 2f + offset;
+
         float elapsed = 0f;
-        float ghostDuration = duration / ghost.movementSpeed; // each ghost has a different one based on speed
+        float ghostDuration = duration / ghost.movementSpeed;
+
         while (elapsed < ghostDuration)
         {
             float t = elapsed / ghostDuration;
-            ghost.transform.position = Vector3.Lerp(fromPos, toPos, t);
+            ghost.transform.position = QuadraticBezier(fromPos, mid, toPos, t);
             elapsed += Time.deltaTime;
             yield return null;
         }
+
         ghost.transform.position = toPos; // snap to final position
     }
 }

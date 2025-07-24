@@ -65,11 +65,30 @@ public class MovementMaze : MonoBehaviour
         {
             availNode = nodes[rng.Next(0, nodes.Count)]; // generate 
         } while (availNode.isOccupied());
-
+        availNode.setOccupancy(true);
         return availNode;
     }
 
-    public List<(Ghost, MovementMazeNode, MovementMazeNode)> getNextMoves(List<Ghost> ghosts)
+    public List<(Ghost, MovementMazeNode, MovementMazeNode)> getNextMovesUnbounded(List<Ghost> ghosts)
+    {
+        var rng = new System.Random(); // TODO: not sure whether to use System or UnityEngine
+        List<(Ghost, MovementMazeNode, MovementMazeNode)> moves = new List<(Ghost, MovementMazeNode, MovementMazeNode)>();
+        HashSet<MovementMazeNode> unavailable = new HashSet<MovementMazeNode>();
+        
+        foreach (Ghost g in ghosts)
+        {
+            if (g.IsAttached) continue;
+
+            MovementMazeNode from = g.node;
+            MovementMazeNode to = sampleWithoutReplacement(unavailable, from);
+            from.setOccupancy(false);
+            to.setOccupancy(true);
+            moves.Add((g, from, to));
+        }
+        return moves;
+    }
+
+    public List<(Ghost, MovementMazeNode, MovementMazeNode)> getNextMovesBounded(List<Ghost> ghosts)
     {
         var rng = new System.Random();
         List<(Ghost, MovementMazeNode, MovementMazeNode)> moves = new List<(Ghost, MovementMazeNode, MovementMazeNode)>();
@@ -96,6 +115,18 @@ public class MovementMaze : MonoBehaviour
             moves.Add((g, from, to));
         }
         return moves;
+    }
+
+    public MovementMazeNode sampleWithoutReplacement(HashSet<MovementMazeNode> unavailable, MovementMazeNode from)
+    {
+        MovementMazeNode to;
+        do
+        {
+            to = nodes[UnityEngine.Random.Range(0, nodes.Count)];
+        } while (unavailable.Contains(to) && from != to);
+        unavailable.Add(to);
+        unavailable.Remove(from);
+        return to;
     }
 
     // create an algorithm that randomly assigns ghosts a path from one node to the next
