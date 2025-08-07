@@ -1,10 +1,17 @@
 using UnityEngine;
 
+// Scriptable object material palette to assign colours to portals (sinks) 
+
 [CreateAssetMenu(fileName = "MaterialColorPalette", menuName = "Data/Material Color Palette")]
 public class MaterialColorPalette : ScriptableObject
 {
-    public Material[] materials;
+    [SerializeField] private Material[] materials;
 
+    public Material[] GetMaterials()
+    {
+        return materials;
+    }
+    
     public Color[] GetColors()
     {
         Color[] colors = new Color[materials.Length];

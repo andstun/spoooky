@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08329fa4be0f04b76a4ab4cc59c2894c, type: 3}
-  m_Name: MaterialColorPalette
+  m_Name: SinkColorPalette
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: b6a930cdeeed14d468c6f5736bf92b96, type: 2}
