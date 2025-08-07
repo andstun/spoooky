@@ -1,11 +1,14 @@
 using UnityEngine;
-using UnityEngine.Events;      // lets you wire callbacks in the Inspector
+using UnityEngine.Events;      // lets you wire callbacks in the inspector
 
+/// <summary>
 /// Fires UnityEvents when specific keys are pressed.  
-/// Add listeners in code or directly in the Inspector.
+/// Add listeners in code or directly in the inspector.
+/// </summary>
+
 public class KeypressManager : MonoBehaviour
 {
-    /* ───── Public events you can hook into ───── */
+    // ───── Public events you can hook into ─────
     [Header("Key-press callbacks")]
     public UnityEvent OnEscapePressed;
     public UnityEvent OnWPressed;
@@ -22,14 +25,14 @@ public class KeypressManager : MonoBehaviour
             QuitGame();
         }
 
-        // W, L, U can be extended via the Inspector or from code
+        // W, L, U, and R can be extended via the inspector or from code
         if (Input.GetKeyDown(KeyCode.W)) OnWPressed?.Invoke(); // Toggle test walls / skin
         if (Input.GetKeyDown(KeyCode.L)) OnLPressed?.Invoke(); // Toggle lights (sun vs mood)
         if (Input.GetKeyDown(KeyCode.U)) OnUPressed?.Invoke(); // Toggle UI element (displays ghosts)
         if (Input.GetKeyDown(KeyCode.R)) OnRPressed?.Invoke(); // Toggle RenderTextures
     }
 
-    /* ───── Private helpers ───── */
+    // ───── Private helpers ─────
     void QuitGame()
     {
 #if UNITY_EDITOR
