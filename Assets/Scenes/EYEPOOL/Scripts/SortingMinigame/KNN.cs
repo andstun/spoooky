@@ -8,11 +8,11 @@ using UnityEngine;
 /// <summary>
 /// Builds a neighbour list for each point.  
 /// For every point it:
-///   • randomly picks k in [3,6]  
-///   • takes the k-1 closest neighbours  
-///   • and forces the k-th slot to be *the* furthest neighbour
+///   - randomly picks k in [3,6]  
+///   - takes the k-1 closest neighbours  
+///   - and forces the k-th slot to be *the* furthest neighbour
 /// Returned array is parallel to <paramref name="points"/>:
-///   neighbours[i]  → indices of points that are neighbours of point i.
+///   neighbours[i] is the indices of points that are neighbours of point i.
 /// </summary>
 public static class KNN
 {
