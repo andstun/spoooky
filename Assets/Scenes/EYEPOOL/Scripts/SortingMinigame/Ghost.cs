@@ -23,8 +23,8 @@ public class Ghost : MonoBehaviour
     private float dropoffTimer = 0f;
 
     public MovementMazeNode node; // TODO: make this private
-
-    public float movementSpeed; // TODO: make this private
+    private float _movementSpeed;
+    public float movementSpeed => _movementSpeed;
 
     public enum GhostState
     {
@@ -49,28 +49,27 @@ public class Ghost : MonoBehaviour
     private Coroutine moveRoutine;   // handle to FollowPath()
 
     /// <summary>Call this right after AddComponent. Subsequent calls are ignored.</summary>
-    public void Initialise(int _ghostID, GameObject _sprite, int _sinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed, float _hoverCountdown)
+    public void Initialise(int _ghostID, GameObject _sprite, int _sinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float movementSpeed, float _hoverCountdown)
     {
         if (_initialised)
         {
             Debug.LogWarning($"{name} is already initialised – ignoring.");
             return;
         }
-        ghostID = _ghostID;
-        sprite = _sprite;
-        targetSinkID = _sinkID;
-        ghostColor = _ghostColor;
-        node = _node;
-        movementSpeed = _movementSpeed;
+        ghostID        = _ghostID;
+        sprite         = _sprite;
+        targetSinkID   = _sinkID;
+        ghostColor     = _ghostColor; // TODO: change some of these to underscores, depending. _ should imply private. 
+        node           = _node;
+        _movementSpeed = movementSpeed;
         hoverCountdown = _hoverCountdown;
-        hoverTime = _hoverCountdown;
-        _initialised = true;
-
-        spawner = owner;
-        dropoffTimer = 0f;
+        hoverTime      = _hoverCountdown;
+        _initialised   = true;
+        spawner        = owner;
+        dropoffTimer   = 0f;
     }
 
-    // ─────────────────────────────────────────────── Called by AugmentaPickup
+    // called by AugmentaPickup
     public void AttachTo(Transform parent)
     {
         if (state == GhostState.Attached) return;
@@ -85,6 +84,9 @@ public class Ghost : MonoBehaviour
         state = GhostState.Attached;
         transform.SetParent(parent, true);
         personAttached = parent.GetComponent<AugmentaPickup>();
+        // TODO: if you maintain a list of available nodes at all times, do you need setOccupancy / occupancy field? 
+        // idts
+        maze.makeMazeNodeAvailable(node);
         if (personAttached == null)
         {
             Debug.Log("unable to pick up person properly");
@@ -97,9 +99,10 @@ public class Ghost : MonoBehaviour
 
         if (reachedCorrectSink)
         {
+            Debug.Log($"Depositing. State of deleteInsteadOfReplace: {deleteInsteadOfReplace}");
             state = GhostState.Hovering; // TODO: really, this should be dead but idt the state matters
             transform.SetParent(null, true); // detach movement of ghost from parent
-            personAttached.DropOrb();
+            personAttached.DropGhost();
 
             if (deleteInsteadOfReplace)
             {
@@ -113,22 +116,27 @@ public class Ghost : MonoBehaviour
         }
     }
 
-    // ─────────────────────────────────────────────── Only orbs lying free
-    private void Update() // TODO: this Update() method and AugmentaPickup's Update() method do the same thing; prune logic here
+    private void Update() // TODO: this Update() method and AugmentaPickup's Update() method might do the same thing; prune logic here
     {
         // Debug.Log($"Ghost state: {state}");
         switch (state)
         {
             case GhostState.Hovering:
-                hoverCountdown -= Time.deltaTime;
-                if (hoverCountdown <= 0f)
+                if (spawner.toggleMovement)
                 {
-                    state = GhostState.Planning;
+                    hoverCountdown -= Time.deltaTime;
+                    if (hoverCountdown <= 0f)
+                    {
+                        state = GhostState.Planning;
+                    }
                 }
                 break;
 
             case GhostState.Planning:
-                PlanPath();
+                if (spawner.toggleMovement)
+                {
+                    PlanPath();
+                }
                 break;
 
             case GhostState.Moving:
@@ -184,6 +192,8 @@ public class Ghost : MonoBehaviour
 
     private IEnumerator FollowPath()
     {
+        if (!spawner.toggleMovement) yield break;
+
         while (path.Count > 0)
         {
             if (state == GhostState.Attached) yield break; // early exit in case state changes
@@ -220,7 +230,7 @@ public class Ghost : MonoBehaviour
         // Option 1: Simple upward arc (hover effect)
         // Vector3 offset = Vector3.up * 0.5f;
 
-        // Option 2: Randomized wobble (feel free to tweak scale)
+        // Option 2: Randomized wobble (can tweak scale)
         // TODO: ghostMovementCurveIntensity should be a function of distance between the nodes
         Vector3 randomXZ = UnityEngine.Random.insideUnitCircle.normalized * ghostMovementCurveIntensity;
         Vector3 offset = new Vector3(randomXZ.x, 0.25f, randomXZ.y);  // small wobble on XZ + slight lift
@@ -228,7 +238,7 @@ public class Ghost : MonoBehaviour
         Vector3 mid = (fromPos + toPos) / 2f + offset;
 
         float elapsed = 0f;
-        float ghostDuration = duration / movementSpeed;
+        float ghostDuration = duration / _movementSpeed;
 
         while (elapsed < ghostDuration)
         {

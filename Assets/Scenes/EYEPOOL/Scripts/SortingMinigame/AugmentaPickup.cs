@@ -8,7 +8,7 @@ public class AugmentaPickup : MonoBehaviour
 {
     private AugmentaObject augmentaObject;
 
-    public float speedToRingRadiusFactor = 0.05f;
+    public float speedToRingRadiusFactor = 0.5f; // TODO: this needs to be set in the client
     public float speedDifferenceThreshold = 0.1f;
     /* ───────── Inspector / tuning ───────── */
     [Header("Orbit")]
@@ -25,7 +25,7 @@ public class AugmentaPickup : MonoBehaviour
     [SerializeField] float pickupDelay = 2.0f;
 
     /* ───────── Private state ───────── */
-    Ghost          carriedOrb;
+    Ghost        carriedOrb;
     float        angle;
     LineRenderer ring;
     Material     ringMat;
@@ -36,19 +36,24 @@ public class AugmentaPickup : MonoBehaviour
     private Ghost overlappingGhost;
     private float pickupTimer;
     private bool isOverlapping = false;
-    private bool isTryingToDrop = false;
 
     private float lastSpeed = -1f;
 
-    /* ───────── Setup ───────── */
     void Awake()
     {
         Collider col = GetComponent<Collider>();
         col.isTrigger = false;
         augmentaObject = GetComponent<AugmentaObject>();
+        var augmentaObjects = Object.FindObjectsOfType<AugmentaObject>();
         BuildRing();
     }
 
+    void Start()
+    {
+        // Debug.Log($"[Start] Augmenta object id: {augmentaObject.id}, oid: {augmentaObject.oid}");
+    }
+
+    // Create aura ring
     void BuildRing()
     {
         var go = new GameObject("InfluenceRing");
@@ -77,6 +82,7 @@ public class AugmentaPickup : MonoBehaviour
         ring.SetPositions(pts);
     }
 
+    // Called in Update() for orbit logic (radius change)
     void UpdateRingRadius(float newRadius)
     {
         ringRadius = newRadius;
@@ -91,11 +97,9 @@ public class AugmentaPickup : MonoBehaviour
         ring.SetPositions(pts);
     }
 
-    /* ───────── Picking up ───────── */
+    // Entered ghost collider
     void OnTriggerEnter(Collider other)
     {
-        // Debug.Log("triggered from augmentapickup");
-
         if (carriedOrb != null) return;
 
         if (other.TryGetComponent(out Ghost ghost) && ghost.state != Ghost.GhostState.Attached)
@@ -106,6 +110,7 @@ public class AugmentaPickup : MonoBehaviour
         }
     }
 
+    // Exited ghost collider
     void OnTriggerExit(Collider other)
     {
         if (overlappingGhost != null && other.gameObject == overlappingGhost.gameObject)
@@ -115,14 +120,14 @@ public class AugmentaPickup : MonoBehaviour
         }
     }
 
-    /* ───────── Per-frame ───────── */
     void Update()
     {
+        // Debug.Log($"[{augmentaObject.id}] WorldPos: {augmentaObject.worldPosition2D}, UnityPos: {transform.position}, WorldVelocity3D: {augmentaObject.worldVelocity3D}");
+
         // 1) Orbit motion
-        if (carriedOrb != null)
+        if (carriedOrb != null) // "I am already holding a ghost"
         {
             float speed = augmentaObject.worldVelocity3D.magnitude;
-            // Debug.Log($"Speed: {speed} speed difference: {speed - lastSpeed}");
             // Update only if speed changed significantly
             if (Mathf.Abs(speed - lastSpeed) > speedDifferenceThreshold)
             {
@@ -135,15 +140,15 @@ public class AugmentaPickup : MonoBehaviour
             Vector3 offs = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * ringRadius; 
             carriedOrb.transform.localPosition = offs;
         }
-        else if (isOverlapping && overlappingGhost != null)
+        else if (isOverlapping && overlappingGhost != null) // "I am colliding with a ghost"
         {
             pickupTimer += Time.deltaTime;
             if (pickupTimer >= pickupDelay)
             {
-                Debug.Log("Ghost state should be attached");
+                // Debug.Log("Ghost state should be attached");
                 carriedOrb = overlappingGhost;
                 angle = Random.value * 2 * Mathf.PI;
-                targetClr = carriedOrb.ghostColor; // TODO: necessary?
+                targetClr = carriedOrb.ghostColor;
                 carriedOrb.AttachTo(transform);
 
                 overlappingGhost = null;
@@ -155,24 +160,22 @@ public class AugmentaPickup : MonoBehaviour
             targetClr = Color.white;
         }
 
-        /* 2) Pulsing ring width */
+        // Pulsing ring width
         float pulse = 1 + Mathf.Sin(Time.time * Mathf.PI * pulseSpeed) * pulseAmplitude;
         ring.startWidth = ring.endWidth = baseWidth * pulse;
 
-        /* 3) Smooth colour fade */
+        // Smooth colour fade
         currentClr = Color.Lerp(currentClr, targetClr, Time.deltaTime * 5f);
         currentClr.a = 1f; // force opaque
         ringMat.color = currentClr;
     }
-
-    /* ───────── External helper for dropping ───────── */
-    public void DropOrb()
+    
+    // called externally by another class to help drop the ghost possession
+    public void DropGhost() 
     {
         UpdateRingRadius(1.0f); // return ring to original size
-        // Debug.Log("Drop orb called");
         if (carriedOrb == null) return;
 
-        // carriedOrb.Detach(reachedCorrectSink);
         carriedOrb = null;           // Update() will fade back to white
     }
 }

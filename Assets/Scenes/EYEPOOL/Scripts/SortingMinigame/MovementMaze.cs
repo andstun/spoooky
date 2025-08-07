@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public class MovementMaze : MonoBehaviour
@@ -9,11 +10,11 @@ public class MovementMaze : MonoBehaviour
     public Vector2 regionSize = new Vector2(27.8f, 27.8f);
     public int rejectionSamples = 30;
     public float displayRadius = 0.5f;
-
     private int nodeIDCounter = 0;
 
     private List<Vector2> points; // points in the xz-plane
     private List<MovementMazeNode> nodes;
+    private Queue<MovementMazeNode> randomAvailableNodes;
 
     public void Initialise() // should be initializable only once; 
     {
@@ -28,7 +29,9 @@ public class MovementMaze : MonoBehaviour
             Vector3 worldPos = centre - half + p; // bottom-left corner of the region in world space
         }
 
-        nodes = new List<MovementMazeNode>(points.Count);
+        int N = points.Count;
+
+        nodes = new List<MovementMazeNode>(N);
         foreach (Vector2 p in points)
         {
             Vector2 worldPos = centre - half + new Vector2(p.x, p.y);
@@ -37,12 +40,21 @@ public class MovementMaze : MonoBehaviour
 
         // 2) run KNN
         var graph = KNN.Build(nodes);   // parallel to points list
-        for (int i = 0; i < nodes.Count; i++)
+        for (int i = 0; i < N; i++)
         {
             foreach (int j in graph[i])
             {
                 nodes[i].Neighbours.Add(nodes[j]);   // TODO: undirected? add the reverse if desired
             }
+        }
+
+        int[] randomNodeOrder = Util.GetShuffledArray(N);
+
+        randomAvailableNodes = new Queue<MovementMazeNode>();
+        for (int i=0; i < N; i++)
+        {
+            int randomIndex = randomNodeOrder[i];
+            randomAvailableNodes.Enqueue(nodes[randomIndex]);
         }
     }
 
@@ -56,17 +68,18 @@ public class MovementMaze : MonoBehaviour
         return nodes.Count;
     }
 
+    public void makeMazeNodeAvailable(MovementMazeNode node)
+    {
+        randomAvailableNodes.Enqueue(node);
+    }
+
     public MovementMazeNode getAvailableMazeNode()
     {
-        MovementMazeNode availNode;
-        var rng = new System.Random();
-
-        do
+        if (randomAvailableNodes.Count == 0)
         {
-            availNode = nodes[rng.Next(0, nodes.Count)]; // generate 
-        } while (availNode.isOccupied());
-        availNode.setOccupancy(true);
-        return availNode;
+            return null;
+        }
+        return randomAvailableNodes.Dequeue();
     }
 
     public List<(Ghost, MovementMazeNode, MovementMazeNode)> getNextMovesUnbounded(List<Ghost> ghosts)
@@ -74,10 +87,10 @@ public class MovementMaze : MonoBehaviour
         var rng = new System.Random(); // TODO: not sure whether to use System or UnityEngine
         List<(Ghost, MovementMazeNode, MovementMazeNode)> moves = new List<(Ghost, MovementMazeNode, MovementMazeNode)>();
         HashSet<MovementMazeNode> unavailable = new HashSet<MovementMazeNode>();
-        
+
         foreach (Ghost g in ghosts)
         {
-            if (g.state == Ghost.GhostState.Attached) continue;
+            if (g == null || g.state == Ghost.GhostState.Attached) continue;
 
             MovementMazeNode from = g.node;
             MovementMazeNode to = sampleWithoutReplacement(unavailable, from);
@@ -94,7 +107,7 @@ public class MovementMaze : MonoBehaviour
         List<(Ghost, MovementMazeNode, MovementMazeNode)> moves = new List<(Ghost, MovementMazeNode, MovementMazeNode)>();
         foreach (Ghost g in ghosts)
         {
-            if (g.state == Ghost.GhostState.Attached) continue;
+            if (g == null || g.state == Ghost.GhostState.Attached) continue;
 
 
             List<MovementMazeNode> availableNeighbours = new List<MovementMazeNode>();
@@ -128,6 +141,5 @@ public class MovementMaze : MonoBehaviour
         unavailable.Remove(from);
         return to;
     }
-
-    // create an algorithm that randomly assigns ghosts a path from one node to the next
+    // TODO: create an algorithm that randomly assigns ghosts a path from one node to the next
 }

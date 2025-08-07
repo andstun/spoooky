@@ -12,10 +12,10 @@ public class GhostSpawner : MonoBehaviour
 
     [Header("Spawn Settings")]
     [SerializeField] private int ghostsToSpawn = 10; // TODO: to be made fully private later, only change-able via programmer / testing view / GUI
+    public int _ghostsToSpawn => ghostsToSpawn;
     public int ghostsPerPerson = 4;
     public int maxGhostsInRoom = 60;
     public bool toggleMovement = true;
-    [SerializeField] private float ghostMovemementStepWindow = 2f; // hover time in seconds
     public float ghostMovementCurveIntensity = 2f;
     private float countdown = 5f; // used in tandem with ghostMovemementStepWindow
     public float duration = 1.0f;         // Time to move from `from` to `to`
@@ -26,9 +26,9 @@ public class GhostSpawner : MonoBehaviour
 
     private float Limit;
 
-    [SerializeField] private MaterialColorPalette colorPaletteAsset;
+    [SerializeField] private MaterialColorPalette sinkPaletteAsset;
 
-    private static Color[] colourPalette;
+    private static Material[] materialPalette;
 
     private List<Ghost> ghosts = new List<Ghost>(); // TODO: a collection of ghosts may not be necessary
     private Queue<Ghost> ghostsQueue = new Queue<Ghost>(); // for creation / deletion cycles
@@ -38,17 +38,15 @@ public class GhostSpawner : MonoBehaviour
 
     void Awake()
     {
-        colourPalette = colorPaletteAsset.GetColors();
+        materialPalette = sinkPaletteAsset.GetMaterials();
         Limit = Mathf.Abs(xRange.x) + 0.15f; // add buffer zone between ghost area and sink area
         maze = this.GetComponent<MovementMaze>();
         maze.Initialise();
         maxGhostsInRoom = maze.NumNodes();
     }
 
-    // ────────────────────────────────────────────────────────────────
     void Start()
     {
-
         if (augmentaManager != null)
         {
             augmentaManager.augmentaObjectEnter += OnAugmentaObjectEnter;
@@ -65,17 +63,18 @@ public class GhostSpawner : MonoBehaviour
 
     void Update()
     {
-            if (toggleMovement)
+        if (toggleMovement)
+        {
+            // repeating timer to handle movement. ghosts hover in-between.
+            countdown -= Time.deltaTime;
+            if (countdown <= 0f)
             {
-                // repeating timer to handle movement. ghosts hover in-between.
-                countdown -= Time.deltaTime;
-                if (countdown <= 0f)
-                {
+                // This is old code, before per-ghost movement. 
                     // List<(Ghost, MovementMazeNode, MovementMazeNode)> nextMoves = maze.getNextMovesBounded(ghosts); // get a changeset of next moves
                     // StartLerping(nextMoves); // lerp over the changeset
                     // countdown = ghostMovemementStepWindow;
-                }
             }
+        }
     }
 
     void OnDestroy()
@@ -87,19 +86,24 @@ public class GhostSpawner : MonoBehaviour
         }
     }
 
-    // ────────────────────────────────────────────────────────────────
     private Ghost SpawnGhost()
     {
         GameObject sprite = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
         // Position: random on X-Z plane, y = radius (≈0.5) so it rests on the floor
         MovementMazeNode availNode = maze.getAvailableMazeNode();
+        if (availNode == null)
+        {
+            Debug.Log("No maze nodes available");
+            return null;
+        }
+
         sprite.transform.position = Util.XZ_to_XYZ(availNode.getPos());
 
         // Colour
         Renderer rend = sprite.GetComponent<Renderer>();
-        int colorID = UnityEngine.Random.Range(0, colourPalette.Length);
-        rend.material.color = colourPalette[colorID];
+        int materialID = UnityEngine.Random.Range(0, materialPalette.Length);
+        rend.material = materialPalette[materialID];
 
         // Physics & behaviour
         Ghost ghost = sprite.AddComponent<Ghost>();
@@ -118,7 +122,8 @@ public class GhostSpawner : MonoBehaviour
         ghost.hopsUntilHover = UnityEngine.Random.Range(2, 5);   // e.g. 2–4 hops before resting
         ghost.maze = this.maze;
 
-        ghost.Initialise(nextGhostID++, sprite, colorID, colourPalette[colorID], this, availNode, ghostMovementSpeed, hoverCountdown);
+        ghost.Initialise(nextGhostID++, sprite, materialID, materialPalette[materialID].color, this, availNode, ghostMovementSpeed, hoverCountdown);
+        ghost.gameObject.layer = LayerMask.NameToLayer("GameLogicLayer");
         return ghost;
     }
 
@@ -126,9 +131,15 @@ public class GhostSpawner : MonoBehaviour
     public void ReplaceGhost(Ghost oldGhost) // TODO: this logic may have to be slightly replaced if ghosts move
     {
         int i = ghosts.IndexOf(oldGhost);
-        if (i >= 0)
+        if (i < 0) return;
+        maze.makeMazeNodeAvailable(oldGhost.node);
+        Ghost newGhost = SpawnGhost();
+        if (newGhost != null)
         {
-            ghosts[i] = SpawnGhost();     // keep list length & order intact
+            ghosts[i] = newGhost;     // keep list length & order intact
+        } else 
+        {
+            ghosts.RemoveAt(i); // ghost is totally removed from list
         }
         Destroy(oldGhost.gameObject);
     }
@@ -148,6 +159,7 @@ public class GhostSpawner : MonoBehaviour
 
     public void OnAugmentaObjectEnter(AugmentaObject obj, Augmenta.AugmentaDataType dataType)
     {
+        // Debug.Log("OnAugmentaObjectEnter() called");
         StartCoroutine(DelayedSpawnGhostsPerPerson()); // Spawn 4 new ghosts in a delayed fashion
     }
 
@@ -158,7 +170,13 @@ public class GhostSpawner : MonoBehaviour
         {
             float delay = UnityEngine.Random.Range(1f, 8f); // TODO: modularize into range, probs
             yield return new WaitForSeconds(delay);
+            if (ghosts.Count >= maxGhostsInRoom)
+            {
+                Debug.Log("Reached max count early exit");
+                break;
+            }
             Ghost ghost = SpawnGhost();
+            if (ghost == null) continue;
             ghosts.Add(ghost);
             ghostsQueue.Enqueue(ghost);
         }
@@ -168,6 +186,7 @@ public class GhostSpawner : MonoBehaviour
     // that don't clear until gone
     public void OnAugmentaObjectLeave(AugmentaObject obj, Augmenta.AugmentaDataType dataType)
     {
+        Debug.Log("OnAugmentaObjectLeave() called");
         StartCoroutine(ConsumeGhostsUntilAvailable());
     }
 
@@ -184,22 +203,17 @@ public class GhostSpawner : MonoBehaviour
                 continue;
             }
             Ghost ghost = ghostsQueue.Dequeue();
+            Debug.Log("Marking ghost as deleteInsteadOfReplace");
             ghost.deleteInsteadOfReplace = true;
             ghostsNeeded--;
+            // RemoveGhostFromGhostList(ghost); // remove ghost from ghostlist
         }
     }
-
 
     public void updateNumGhostsToSpawn()
     {
         int newNumGhosts = augmentaManager.augmentaObjects.Count * ghostsPerPerson;
         ghostsToSpawn = Mathf.Clamp(newNumGhosts, 0, maxGhostsInRoom);
-    }
-
-    private Color RandomColour()
-    {
-        int idx = UnityEngine.Random.Range(0, colourPalette.Length);
-        return colourPalette[idx];
     }
 
     public float GetLimit()
@@ -254,5 +268,15 @@ public class GhostSpawner : MonoBehaviour
         }
 
         ghost.transform.position = toPos; // snap to final position
+    }
+
+    public float getAvgGhostMovementSpeed()
+    {
+        float totalSpeed = 0f;
+        foreach (Ghost g in ghosts)
+        {
+            totalSpeed += g.movementSpeed;
+        }
+        return totalSpeed / ghosts.Count;
     }
 }
