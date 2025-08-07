@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.Rendering;
 
 [ExecuteAlways]
 public class RoomLightingMasterControl : MonoBehaviour
@@ -9,7 +9,7 @@ public class RoomLightingMasterControl : MonoBehaviour
     public float masterIntensity = 6f;
 
     [Header("Area Lights (Assign all 5)")]
-    public HDAdditionalLightData[] areaLights;
+    public Light[] areaLights;
 
     void Update()
     {

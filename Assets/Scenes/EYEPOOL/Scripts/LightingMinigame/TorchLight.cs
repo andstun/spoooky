@@ -1,15 +1,15 @@
 using UnityEngine;
-using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.Rendering;
 
-[RequireComponent(typeof(HDAdditionalLightData))]
+[RequireComponent(typeof(Light))]
 public class TorchFlicker : MonoBehaviour
 {
-    HDAdditionalLightData hd;
+    Light hd;
     float baseIntensity;
 
     void Awake()
     {
-        hd = GetComponent<HDAdditionalLightData>();
+        hd = GetComponent<Light>();
         baseIntensity = hd.intensity;
     }
 

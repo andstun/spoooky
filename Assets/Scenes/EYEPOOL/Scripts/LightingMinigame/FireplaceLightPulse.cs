@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.Rendering;
 
-[RequireComponent(typeof(HDAdditionalLightData))]
+[RequireComponent(typeof(Light))]
 public class FireplacePulse : MonoBehaviour
 {
-    HDAdditionalLightData hd;
-    void Awake() => hd = GetComponent<HDAdditionalLightData>();
+    Light hd;
+    void Awake() => hd = GetComponent<Light>();
 
     void Update()
     {
