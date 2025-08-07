@@ -1,4 +1,3 @@
-// Assets/Scripts/CameraFootprintDebugger.cs
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,17 +11,17 @@ using UnityEditor;
 [RequireComponent(typeof(Camera))]
 public class CameraFootprintDebugger : MonoBehaviour
 {
-    /* ───── Desired footprint ───── */
+    // ───── Desired footprint ───── 
     [Header("Footprint (metres)")]
     [Min(0.001f)] public float footprintWidth = 1.92f;
     [Min(0.001f)] public float footprintHeight = 1.08f;
 
-    /* ───── Floor plane ───── */
+    // ───── Floor plane ───── 
     [Header("Floor plane")]
     [Tooltip("World-space Y coordinate of the floor the projector hits.")]
     public float floorY = 0f;
 
-    /* ───── Gizmo look ───── */
+    // ───── Gizmo look ───── 
     [Header("Gizmo appearance")]
     public Color gizmoColour = Color.cyan;
 
@@ -31,26 +30,19 @@ public class CameraFootprintDebugger : MonoBehaviour
 
     private Camera cam;
 
-    /* ───────────────────────────────────────────── */
-    /*                Initialisation                */
-    /* ───────────────────────────────────────────── */
+    // initialisation
 
     private void OnEnable() => cam = GetComponent<Camera>();
 
-    private void OnValidate() // runs when you edit values in Inspector
+    private void OnValidate() // runs when you edit values in inspector
     {
         cam = GetComponent<Camera>();
         ApplyFootprint(footprintWidth, footprintHeight);
     }
 
-    /* ───────────────────────────────────────────── */
-    /*           PUBLIC helper / API method          */
-    /* ───────────────────────────────────────────── */
-
     /// <summary>
-    /// Forces <paramref name="cam"/> (or this component’s camera if null)
-    /// to render exactly <paramref name="width"/> × <paramref name="height"/>
-    /// metres on the floor. Works by setting aspect + orthographicSize.
+    /// Forces camera to render exactly a specific width/height
+    /// Works by setting aspect + orthographicSize.
     /// </summary>
     public void ApplyFootprint(float width, float height, Camera targetCam = null)
     {
@@ -60,16 +52,13 @@ public class CameraFootprintDebugger : MonoBehaviour
 
         c.orthographic = true;               // make sure we’re ortho
         c.aspect = width / height;    // width : height
-        // c.orthographicSize = height * 0.5f;      // half-height
 
-        // Cache the latest values so the Inspector stays in sync
+        // Cache the latest values so the inspector stays in sync
         footprintWidth = width;
         footprintHeight = height;
     }
 
-    /* ───────────────────────────────────────────── */
-    /*                 Debug Gizmos                 */
-    /* ───────────────────────────────────────────── */
+    // draws debug lines to outline the camera frustum
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
@@ -80,7 +69,7 @@ public class CameraFootprintDebugger : MonoBehaviour
 
         Gizmos.color = gizmoColour;
 
-        // Corners in viewport space (BL, BR, TR, TL)
+        // corners in viewport space (BL, BR, TR, TL)
         Vector2[] vps =
         {
             new Vector2(0f, 0f),
@@ -101,7 +90,7 @@ public class CameraFootprintDebugger : MonoBehaviour
             Debug.DrawRay(r.origin, r.direction * t, gizmoColour); // down-ray
         }
 
-        // Outline rectangle on the floor
+        // outline rectangle on the floor
         for (int i = 0; i < 4; i++)
         {
             Debug.DrawLine(worldCorners[i],
@@ -109,7 +98,7 @@ public class CameraFootprintDebugger : MonoBehaviour
                            gizmoColour);
         }
 
-        // Centre point (optional)
+        // dot the centre point of the viewport rect
         if (drawCentre)
         {
             Ray centreRay = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
