@@ -1,6 +1,8 @@
-/*
-From SebLague: https://github.com/SebLague/Poisson-Disc-Sampling/blob/master/Poisson%20Disc%20Sampling%20E01/PoissonDiscSampling.cs
-*/
+/// <summary>
+/// From SebLague: https://github.com/SebLague/Poisson-Disc-Sampling/blob/master/Poisson%20Disc%20Sampling%20E01/PoissonDiscSampling.cs
+/// Uses Poisson Disc Sampling (Robert Bridson) to generate a randomly-distributed set of points in a given area
+/// where each pair of points is a minimum distance apart
+/// </summary>
 
 using System.Collections;
 using System.Collections.Generic;
