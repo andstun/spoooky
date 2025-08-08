@@ -1,19 +1,17 @@
 using UnityEngine;
 using Augmenta;
 
-/// Trigger “hand” for an Augmenta person -- adds a colour-changing,
-/// pulsing influence ring and orbits ONE ghost around it.
-[RequireComponent(typeof(Collider))]
+/// Adds interactivity to an Augmenta object:
+/// Pulsing influence ring and orbits ONE ghost around it.
 public class AugmentaPickup : MonoBehaviour
 {
-    private AugmentaObject augmentaObject;
-
-    public float speedToRingRadiusFactor = 0.5f; // TODO: this needs to be set in the client
-    public float speedDifferenceThreshold = 0.1f;
-    /* ───────── Inspector / tuning ───────── */
+    /* ───────── Inspector Params ───────── */
+    
     [Header("Orbit")]
     [SerializeField] float ringRadius   = 1.0f;
     [SerializeField] float velocity     = 1.0f;     // radians per second
+    public float speedToRingRadiusFactor = 0.5f;  // Degree to which orbit gets bigger upon speed change.
+    public float speedDifferenceThreshold = 0.1f; // Saves computation
 
     [Header("Ring Look")]
     [SerializeField] float ringStroke   = 0.20f;
@@ -25,13 +23,16 @@ public class AugmentaPickup : MonoBehaviour
     [SerializeField] float pickupDelay = 2.0f;
 
     /* ───────── Private state ───────── */
-    Ghost        carriedOrb;
-    float        angle;
-    LineRenderer ring;
-    Material     ringMat;
-    Color        currentClr  = Color.white;
-    Color        targetClr   = Color.white;
-    float        baseWidth;
+    private AugmentaObject myAugmentaObject;
+    private CapsuleCollider myCollider;
+
+    private Ghost        carriedGhost;
+    private float        angle;
+    private LineRenderer ring;
+    private Material     ringMat;
+    private Color        currentClr  = Color.white;
+    private Color        targetClr   = Color.white;
+    private float        baseWidth;
 
     private Ghost overlappingGhost;
     private float pickupTimer;
@@ -41,17 +42,42 @@ public class AugmentaPickup : MonoBehaviour
 
     void Awake()
     {
-        Collider col = GetComponent<Collider>();
-        col.isTrigger = false;
-        augmentaObject = GetComponent<AugmentaObject>();
-        var augmentaObjects = Object.FindObjectsOfType<AugmentaObject>();
+        myAugmentaObject = GetComponent<AugmentaObject>();
+    }
+
+    public void Initialise(float _ringRadius) 
+    {
+        ringRadius = _ringRadius;
+        myCollider = gameObject.AddComponent<CapsuleCollider>();
+        myCollider.radius = _ringRadius;
+		myCollider.direction = 1; // 0 = X, 1 = Y, 2 = Z 
+		myCollider.height = 3.0f;
+		myCollider.isTrigger = false;
+
+		Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+		rb.isKinematic = true;                  // no forces, just follows pivot
+		rb.useGravity = false;
+
         BuildRing();
     }
 
-    void Start()
+    void OnValidate()
     {
-        // Debug.Log($"[Start] Augmenta object id: {augmentaObject.id}, oid: {augmentaObject.oid}");
+        if (myCollider == null)
+        {
+            return;
+        }
+        if (ringRadius != myCollider.radius) // only change if there's been a radius change
+        {
+            myCollider.radius = ringRadius; 
+            UpdateRingRadius(ringRadius);
+        }
     }
+
+    // void Start()
+    // {
+    //     Debug.Log($"[Start] Augmenta object id: {myAugmentaObject.id}, oid: {myAugmentaObject.oid}");
+    // }
 
     // Create aura ring
     void BuildRing()
@@ -100,7 +126,7 @@ public class AugmentaPickup : MonoBehaviour
     // Entered ghost collider
     void OnTriggerEnter(Collider other)
     {
-        if (carriedOrb != null) return;
+        if (carriedGhost != null) return;
 
         if (other.TryGetComponent(out Ghost ghost) && ghost.state != Ghost.GhostState.Attached)
         {
@@ -122,12 +148,12 @@ public class AugmentaPickup : MonoBehaviour
 
     void Update()
     {
-        // Debug.Log($"[{augmentaObject.id}] WorldPos: {augmentaObject.worldPosition2D}, UnityPos: {transform.position}, WorldVelocity3D: {augmentaObject.worldVelocity3D}");
+        // Debug.Log($"[{myAugmentaObject.id}] WorldPos: {myAugmentaObject.worldPosition2D}, UnityPos: {transform.position}, WorldVelocity3D: {myAugmentaObject.worldVelocity3D}");
 
-        // 1) Orbit motion
-        if (carriedOrb != null) // "I am already holding a ghost"
+        // Orbit motion
+        if (carriedGhost != null) // "I am already holding a ghost"
         {
-            float speed = augmentaObject.worldVelocity3D.magnitude;
+            float speed = myAugmentaObject.worldVelocity3D.magnitude;
             // Update only if speed changed significantly
             if (Mathf.Abs(speed - lastSpeed) > speedDifferenceThreshold)
             {
@@ -138,7 +164,7 @@ public class AugmentaPickup : MonoBehaviour
             // orb spinning logic
             angle += (velocity + (speed * speedToRingRadiusFactor)) * Time.deltaTime;
             Vector3 offs = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * ringRadius; 
-            carriedOrb.transform.localPosition = offs;
+            carriedGhost.transform.localPosition = offs;
         }
         else if (isOverlapping && overlappingGhost != null) // "I am colliding with a ghost"
         {
@@ -146,10 +172,10 @@ public class AugmentaPickup : MonoBehaviour
             if (pickupTimer >= pickupDelay)
             {
                 // Debug.Log("Ghost state should be attached");
-                carriedOrb = overlappingGhost;
+                carriedGhost = overlappingGhost;
                 angle = Random.value * 2 * Mathf.PI;
-                targetClr = carriedOrb.ghostColor;
-                carriedOrb.AttachTo(transform);
+                targetClr = carriedGhost.ghostColor;
+                carriedGhost.AttachTo(transform);
 
                 overlappingGhost = null;
                 isOverlapping = false;
@@ -174,8 +200,8 @@ public class AugmentaPickup : MonoBehaviour
     public void DropGhost() 
     {
         UpdateRingRadius(1.0f); // return ring to original size
-        if (carriedOrb == null) return;
+        if (carriedGhost == null) return;
 
-        carriedOrb = null;           // Update() will fade back to white
+        carriedGhost = null;           // Update() will fade back to white
     }
 }

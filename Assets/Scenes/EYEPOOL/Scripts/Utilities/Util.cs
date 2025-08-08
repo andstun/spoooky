@@ -30,6 +30,11 @@ public static class Util
         return new Vector2(xyz.x, xyz.z);
     }
 
+    public static Vector2 GetExtents(Vector2 xRange, Vector2 zRange)
+    {
+        return new Vector2(xRange.y - xRange.x, zRange.y - zRange.x);
+    }
+
     public static class RandomExtensions // allow for randomly-generated values following a normal distribution
     {
         private static bool hasSpare = false;

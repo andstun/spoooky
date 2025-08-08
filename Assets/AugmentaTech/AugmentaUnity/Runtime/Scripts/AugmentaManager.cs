@@ -89,6 +89,8 @@ namespace Augmenta {
 
 		public bool positionFromBoundingBox = false;
 
+		public float auraRingRadius = 1.0f;
+
 		//Augmenta Prefabs
 		public GameObject augmentaScenePrefab;
 		public GameObject augmentaObjectPrefab;
@@ -276,18 +278,11 @@ namespace Augmenta {
 
 			GameObject newAugmentaObjectObject = Instantiate(augmentaObjectPrefab, augmentaScene.gameObject.transform);
 
-			CapsuleCollider collider = newAugmentaObjectObject.AddComponent<CapsuleCollider>();
-			collider.direction = 1; // 0 = X, 1 = Y, 2 = Z
-			collider.radius = 1.0f; // TODO: this should be coupled with the radius in AugmentaPickup
-			collider.height = 3.0f;
-			collider.isTrigger = false;
-			Rigidbody rb = newAugmentaObjectObject.AddComponent<Rigidbody>();
-			rb.isKinematic = true;                  // no forces, just follows pivot
-			rb.useGravity = false;
-
-			// // we moved the boxcollider and the rigidbody to a child of the augmentaobject.
 			if (!newAugmentaObjectObject.GetComponent<AugmentaPickup>())
-				newAugmentaObjectObject.AddComponent<AugmentaPickup>();
+			{
+				AugmentaPickup objectInteractions = newAugmentaObjectObject.AddComponent<AugmentaPickup>();
+				objectInteractions.Initialise(auraRingRadius);
+			}
 
 			AugmentaObject newAugmentaObject = newAugmentaObjectObject.GetComponent<AugmentaObject>();
 			newAugmentaObject.augmentaManager = this;

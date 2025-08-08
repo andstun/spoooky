@@ -8,7 +8,7 @@ public class MovementMazeNode
     private int NodeID;
     private bool Occupied; // check if null, otherwise contains occupant ghostID
     private Vector2 Pos;
-    public List<MovementMazeNode> Neighbours; // TODO: find a better way to set this later
+    public List<MovementMazeNode> Neighbours;
 
     public MovementMazeNode(int nodeID, Vector2 position)
     {
@@ -42,10 +42,5 @@ public class MovementMazeNode
     public List<MovementMazeNode> getNeighbours() 
     {
         return Neighbours;
-    }
-
-    public void ReserveNode() // or call this Swap()
-    {
-        
     }
 }

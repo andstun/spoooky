@@ -1,4 +1,4 @@
-// TODO: replace this with a faster example that uses kD trees.
+// TODO: could replace this with a faster example that uses kD trees.
 // naive implementation of KNN that runs in O(n^2logn) time 
 
 using System;
@@ -9,10 +9,7 @@ using UnityEngine;
 /// Builds a neighbour list for each point.  
 /// For every point it:
 ///   - randomly picks k in [3,6]  
-///   - takes the k-1 closest neighbours  
-///   - and forces the k-th slot to be *the* furthest neighbour
-/// Returned array is parallel to <paramref name="points"/>:
-///   neighbours[i] is the indices of points that are neighbours of point i.
+///   - runs a KNN implementation (standard or variation)
 /// </summary>
 public static class KNN
 {
@@ -31,17 +28,16 @@ public static class KNN
         return neighbours;
     }
 
-    /* ---------- helpers ---------- */
-
-    private static List<int> GetSetForPoint(int idx, int k, List<MovementMazeNode> nds)
+    // Standard KNN implementation
+    private static List<int> GetSetForPoint(int idx, int k, List<MovementMazeNode> nodes)
     {
         var dists = new List<(int j, float sqr)>();
 
-        Vector2 p = nds[idx].getPos();
-        for (int j = 0; j < nds.Count; j++)
+        Vector2 p = nodes[idx].getPos();
+        for (int j = 0; j < nodes.Count; j++)
         {
             if (j == idx) continue;
-            float sqr = (nds[j].getPos() - p).sqrMagnitude;
+            float sqr = (nodes[j].getPos() - p).sqrMagnitude;
             dists.Add((j, sqr));
         }
 
@@ -57,15 +53,16 @@ public static class KNN
         return result;
     }
 
-    private static List<int> QuirkyGetSetForPoint(int idx, int k, List<MovementMazeNode> nds)
+    // Variation of KNN where the kth slot gets mapped to the FURTHEST neighbour instead of the next-closest
+    private static List<int> QuirkyGetSetForPoint(int idx, int k, List<MovementMazeNode> nodes)
     {
         var dists = new List<(int j, float sqr)>();
 
-        Vector2 p = nds[idx].getPos();
-        for (int j = 0; j < nds.Count; j++)
+        Vector2 p = nodes[idx].getPos();
+        for (int j = 0; j < nodes.Count; j++)
         {
             if (j == idx) continue;
-            float sqr = (nds[j].getPos() - p).sqrMagnitude;
+            float sqr = (nodes[j].getPos() - p).sqrMagnitude;
             dists.Add((j, sqr));
         }
 

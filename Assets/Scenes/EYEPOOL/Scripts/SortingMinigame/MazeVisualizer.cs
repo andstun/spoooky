@@ -3,11 +3,11 @@ using UnityEngine;
 [ExecuteAlways]                 // so it runs in Edit mode too
 public class MazeGraphGizmos : MonoBehaviour
 {
-    [Header("Wiring")]
+    [Header("Maze Reference")]
     [SerializeField] MovementMaze maze;        // your data
-    [Header("Designer options")]
+    [Header("Visualization Options")]
     [SerializeField] bool showMaze = false; // the toggle
-    public float displayRadius = 0.5f;
+    public float nodeDisplayRadius = 0.5f;
 
     void OnDrawGizmos()
     {
@@ -24,7 +24,7 @@ public class MazeGraphGizmos : MonoBehaviour
         Gizmos.color = Color.white;
         foreach (var n in nodes)
         {
-            Gizmos.DrawSphere(Util.XZ_to_XYZ(n.getPos()), displayRadius);
+            Gizmos.DrawSphere(Util.XZ_to_XYZ(n.getPos()), nodeDisplayRadius);
 
             if (n.getNeighbours() == null) continue;   // extra safety
             foreach (var neighbour in n.getNeighbours())

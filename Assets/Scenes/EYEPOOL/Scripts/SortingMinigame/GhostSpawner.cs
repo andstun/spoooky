@@ -7,30 +7,38 @@ using Augmenta;
 // Attach this to an empty GameObject in the scene
 public class GhostSpawner : MonoBehaviour
 {
+    /* ───────── Inspector Params ───────── */
     [Header("Augmenta Manager Reference")]
     [SerializeField] private AugmentaManager augmentaManager;
 
     [Header("Spawn Settings")]
-    [SerializeField] private int ghostsToSpawn = 10; // TODO: to be made fully private later, only change-able via programmer / testing view / GUI
-    public int _ghostsToSpawn => ghostsToSpawn;
+    public int ghostsToSpawn { get; private set; } = 10; 
     public int ghostsPerPerson = 4;
-    public int maxGhostsInRoom = 60;
-    public bool toggleMovement = true;
-    public float ghostMovementCurveIntensity = 2f;
-    private float countdown = 5f; // used in tandem with ghostMovemementStepWindow
-    public float duration = 1.0f;         // Time to move from `from` to `to`
+    [SerializeField] private int maxGhostsInRoom = 60;
+    private float minimumPresence = 20f;
+    private Dictionary<int, Coroutine> presenceTimers = new Dictionary<int, Coroutine>();
+
+    [Header("Movement Parameters")]
+    public bool toggleGhostMovement = true;
+
+    // former movement parameters
+    /* public float ghostMovementCurveIntensity = 2f; 
+    // private float countdown = 5f; 
+    // public float duration = 1.0f;         // Time to move from `from` to `to` */
 
     [Header("Spawn Area (XZ)")]
     [SerializeField] private Vector2 xRange = new Vector2(-13.9f, 13.9f);
     [SerializeField] private Vector2 zRange = new Vector2(-13.9f, 13.9f);
 
-    private float Limit;
+    private float sinkBoundary;
 
+    [Header("Portal Colour Palette")]
     [SerializeField] private MaterialColorPalette sinkPaletteAsset;
 
+    /* ───────── Private state ───────── */
     private static Material[] materialPalette;
 
-    private List<Ghost> ghosts = new List<Ghost>(); // TODO: a collection of ghosts may not be necessary
+    private List<Ghost> ghosts = new List<Ghost>();
     private Queue<Ghost> ghostsQueue = new Queue<Ghost>(); // for creation / deletion cycles
     private int nextGhostID = 0;
 
@@ -39,9 +47,9 @@ public class GhostSpawner : MonoBehaviour
     void Awake()
     {
         materialPalette = sinkPaletteAsset.GetMaterials();
-        Limit = Mathf.Abs(xRange.x) + 0.15f; // add buffer zone between ghost area and sink area
+        sinkBoundary = Mathf.Abs(xRange.x) + 0.15f; // add buffer zone between ghost area and sink area
         maze = this.GetComponent<MovementMaze>();
-        maze.Initialise();
+        maze.Initialise(Util.GetExtents(xRange, zRange)); // TODO: might need onValidate()
         maxGhostsInRoom = maze.NumNodes();
     }
 
@@ -61,31 +69,6 @@ public class GhostSpawner : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (toggleMovement)
-        {
-            // repeating timer to handle movement. ghosts hover in-between.
-            countdown -= Time.deltaTime;
-            if (countdown <= 0f)
-            {
-                // This is old code, before per-ghost movement. 
-                    // List<(Ghost, MovementMazeNode, MovementMazeNode)> nextMoves = maze.getNextMovesBounded(ghosts); // get a changeset of next moves
-                    // StartLerping(nextMoves); // lerp over the changeset
-                    // countdown = ghostMovemementStepWindow;
-            }
-        }
-    }
-
-    void OnDestroy()
-    {
-        if (augmentaManager != null)
-        {
-            augmentaManager.augmentaObjectEnter -= OnAugmentaObjectEnter;
-            augmentaManager.augmentaObjectLeave -= OnAugmentaObjectLeave;
-        }
-    }
-
     private Ghost SpawnGhost()
     {
         GameObject sprite = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -94,7 +77,7 @@ public class GhostSpawner : MonoBehaviour
         MovementMazeNode availNode = maze.getAvailableMazeNode();
         if (availNode == null)
         {
-            Debug.Log("No maze nodes available");
+            // Debug.Log("No maze nodes available");
             return null;
         }
 
@@ -128,7 +111,7 @@ public class GhostSpawner : MonoBehaviour
     }
 
     // Called by Ghost when it scores
-    public void ReplaceGhost(Ghost oldGhost) // TODO: this logic may have to be slightly replaced if ghosts move
+    public void ReplaceGhost(Ghost oldGhost)
     {
         int i = ghosts.IndexOf(oldGhost);
         if (i < 0) return;
@@ -146,33 +129,69 @@ public class GhostSpawner : MonoBehaviour
 
     public IEnumerator DelayedReplaceGhost(Ghost oldGhost, float delay)
     {
-        oldGhost.gameObject.SetActive(false); // TODO: alternatively, could destroy immediately
+        oldGhost.gameObject.SetActive(false); 
         yield return new WaitForSeconds(delay);
         ReplaceGhost(oldGhost);
     }
 
     public void RemoveGhostFromGhostList(Ghost ghostToRemove)
     {
-        ghosts.Remove(ghostToRemove); // TODO: can optimize this
+        ghosts.Remove(ghostToRemove); // TODO: can optimize this, probably
         Destroy(ghostToRemove.gameObject);
     }
 
     public void OnAugmentaObjectEnter(AugmentaObject obj, Augmenta.AugmentaDataType dataType)
     {
-        // Debug.Log("OnAugmentaObjectEnter() called");
-        StartCoroutine(DelayedSpawnGhostsPerPerson()); // Spawn 4 new ghosts in a delayed fashion
+        int id = obj.id; // Assume unique per person
+        Debug.Log($"Object {id} is entering");
+        
+        if (!presenceTimers.ContainsKey(id))
+        {
+            Coroutine c = StartCoroutine(ConfirmPresenceAfterDelay(obj, id));
+            presenceTimers[id] = c;
+        }
+    }
+
+    public void OnAugmentaObjectLeave(AugmentaObject obj, Augmenta.AugmentaDataType dataType)
+    {
+        int id = obj.id;
+        // Debug.Log($"Object {id} is leaving");
+
+        // Cancel ghost spawn if they left early
+        if (presenceTimers.TryGetValue(id, out Coroutine c))
+        {
+            StopCoroutine(c);
+            presenceTimers.Remove(id);
+            // Debug.Log($"Cancelled spawn for object {id} due to early exit");
+        }
+
+        StartCoroutine(ConsumeGhostsUntilAvailable());
+    }
+
+    private IEnumerator ConfirmPresenceAfterDelay(AugmentaObject obj, int id)
+    {
+        yield return new WaitForSeconds(minimumPresence);
+
+        // If we're still tracking the object after 5 seconds, they didn't leave
+        if (presenceTimers.ContainsKey(id))
+        {
+            // Debug.Log($"Object {id} confirmed present after {minimumPresence} seconds");
+            presenceTimers.Remove(id);
+            StartCoroutine(DelayedSpawnGhostsPerPerson());
+        }
     }
 
     public IEnumerator DelayedSpawnGhostsPerPerson()
     {
+        yield return new WaitForSeconds(minimumPresence);
         updateNumGhostsToSpawn();
         for (int i = 0; i < ghostsPerPerson; i++)
         {
-            float delay = UnityEngine.Random.Range(1f, 8f); // TODO: modularize into range, probs
+            float delay = UnityEngine.Random.Range(1f, 8f); // time between ghost spawns
             yield return new WaitForSeconds(delay);
             if (ghosts.Count >= maxGhostsInRoom)
             {
-                Debug.Log("Reached max count early exit");
+                // Debug.Log("Reached max count early exit");
                 break;
             }
             Ghost ghost = SpawnGhost();
@@ -180,14 +199,6 @@ public class GhostSpawner : MonoBehaviour
             ghosts.Add(ghost);
             ghostsQueue.Enqueue(ghost);
         }
-    }
-
-    // TODO: potential bug here where someone can quickly enter/exit to add a bunch of ghosts 
-    // that don't clear until gone
-    public void OnAugmentaObjectLeave(AugmentaObject obj, Augmenta.AugmentaDataType dataType)
-    {
-        Debug.Log("OnAugmentaObjectLeave() called");
-        StartCoroutine(ConsumeGhostsUntilAvailable());
     }
 
     private IEnumerator ConsumeGhostsUntilAvailable()
@@ -203,7 +214,6 @@ public class GhostSpawner : MonoBehaviour
                 continue;
             }
             Ghost ghost = ghostsQueue.Dequeue();
-            Debug.Log("Marking ghost as deleteInsteadOfReplace");
             ghost.deleteInsteadOfReplace = true;
             ghostsNeeded--;
             // RemoveGhostFromGhostList(ghost); // remove ghost from ghostlist
@@ -216,58 +226,9 @@ public class GhostSpawner : MonoBehaviour
         ghostsToSpawn = Mathf.Clamp(newNumGhosts, 0, maxGhostsInRoom);
     }
 
-    public float GetLimit()
+    public float GetSinkBoundary()
     {
-        return Limit;
-    }
-
-    public void StartLerping(List<(Ghost ghost, MovementMazeNode from, MovementMazeNode to)> path)
-    {
-        for (int i = 0; i < path.Count; i++)
-        {
-            var (ghost, from, to) = path[i];
-            StartCoroutine(LerpGhost(ghost, from.getPos(), to.getPos()));
-            ghost.node = to;
-        }
-    }
-
-    private Vector3 QuadraticBezier(Vector3 a, Vector3 b, Vector3 c, float t)
-    {
-        Vector3 ab = Vector3.Lerp(a, b, t);
-        Vector3 bc = Vector3.Lerp(b, c, t);
-        return Vector3.Lerp(ab, bc, t);
-    }
-
-
-    // add a parameter here: call it speed, and make it per-ghost. 
-    private IEnumerator LerpGhost(Ghost ghost, Vector2 from, Vector2 to)
-    {
-        Vector3 fromPos = new Vector3(from.x, ghost.transform.position.y, from.y);
-        Vector3 toPos = new Vector3(to.x, ghost.transform.position.y, to.y);
-
-        // --- Add wobble offset to midpoint ---
-        // Option 1: Simple upward arc (hover effect)
-        // Vector3 offset = Vector3.up * 0.5f;
-
-        // Option 2: Randomized wobble (feel free to tweak scale)
-        // TODO: ghostMovementCurveIntensity should be a function of distance between the nodes
-        Vector3 randomXZ = UnityEngine.Random.insideUnitCircle.normalized * ghostMovementCurveIntensity;
-        Vector3 offset = new Vector3(randomXZ.x, 0.25f, randomXZ.y);  // small wobble on XZ + slight lift
-
-        Vector3 mid = (fromPos + toPos) / 2f + offset;
-
-        float elapsed = 0f;
-        float ghostDuration = duration / ghost.movementSpeed;
-
-        while (elapsed < ghostDuration)
-        {
-            float t = elapsed / ghostDuration;
-            ghost.transform.position = QuadraticBezier(fromPos, mid, toPos, t);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        ghost.transform.position = toPos; // snap to final position
+        return sinkBoundary;
     }
 
     public float getAvgGhostMovementSpeed()
@@ -279,4 +240,80 @@ public class GhostSpawner : MonoBehaviour
         }
         return totalSpeed / ghosts.Count;
     }
+
+    // Destructor
+    void OnDestroy()
+    {
+        if (augmentaManager != null)
+        {
+            augmentaManager.augmentaObjectEnter -= OnAugmentaObjectEnter;
+            augmentaManager.augmentaObjectLeave -= OnAugmentaObjectLeave;
+        }
+    }
+
+    /// <summary> This is old code, when movement was centralized at the spawner-level. 
+    /// Keeping it around for now as ghost movement mechanics haven't been fully finalized. </summary>
+    // void Update()
+    // {
+    //     if (toggleGhostMovement)
+    //     {
+    //         // repeating timer to handle movement. ghosts hover in-between.
+    //         countdown -= Time.deltaTime;
+    //         if (countdown <= 0f)
+    //         {
+    //             List<(Ghost, MovementMazeNode, MovementMazeNode)> nextMoves = maze.getNextMovesBounded(ghosts); // get a changeset of next moves
+    //             StartLerping(nextMoves); // lerp over the changeset
+    //             countdown = ghostMovemementStepWindow;
+    //         }
+    //     }
+    // }
+
+    // public void StartLerping(List<(Ghost ghost, MovementMazeNode from, MovementMazeNode to)> path)
+    // {
+    //     for (int i = 0; i < path.Count; i++)
+    //     {
+    //         var (ghost, from, to) = path[i];
+    //         StartCoroutine(LerpGhost(ghost, from.getPos(), to.getPos()));
+    //         ghost.node = to;
+    //     }
+    // }
+
+    // private Vector3 QuadraticBezier(Vector3 a, Vector3 b, Vector3 c, float t)
+    // {
+    //     Vector3 ab = Vector3.Lerp(a, b, t);
+    //     Vector3 bc = Vector3.Lerp(b, c, t);
+    //     return Vector3.Lerp(ab, bc, t);
+    // }
+
+
+    // // add a parameter here: call it speed, and make it per-ghost. 
+    // private IEnumerator LerpGhost(Ghost ghost, Vector2 from, Vector2 to)
+    // {
+    //     Vector3 fromPos = new Vector3(from.x, ghost.transform.position.y, from.y);
+    //     Vector3 toPos = new Vector3(to.x, ghost.transform.position.y, to.y);
+
+    //     // --- Add wobble offset to midpoint ---
+    //     // Option 1: Simple upward arc (hover effect)
+    //     // Vector3 offset = Vector3.up * 0.5f;
+
+    //     // Option 2: Randomized wobble (feel free to tweak scale)
+    //     // TODO: ghostMovementCurveIntensity should be a function of distance between the nodes
+    //     Vector3 randomXZ = UnityEngine.Random.insideUnitCircle.normalized * ghostMovementCurveIntensity;
+    //     Vector3 offset = new Vector3(randomXZ.x, 0.25f, randomXZ.y);  // small wobble on XZ + slight lift
+
+    //     Vector3 mid = (fromPos + toPos) / 2f + offset;
+
+    //     float elapsed = 0f;
+    //     float ghostDuration = duration / ghost.movementSpeed;
+
+    //     while (elapsed < ghostDuration)
+    //     {
+    //         float t = elapsed / ghostDuration;
+    //         ghost.transform.position = QuadraticBezier(fromPos, mid, toPos, t);
+    //         elapsed += Time.deltaTime;
+    //         yield return null;
+    //     }
+
+    //     ghost.transform.position = toPos; // snap to final position
+    // }
 }

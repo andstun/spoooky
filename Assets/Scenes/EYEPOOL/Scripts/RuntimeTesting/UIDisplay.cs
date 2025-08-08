@@ -20,7 +20,7 @@ public class UIDisplay : MonoBehaviour
     {
         if (ghostSpawner != null && logText != null)
         {
-            int numGhosts = ghostSpawner._ghostsToSpawn;
+            int numGhosts = ghostSpawner.ghostsToSpawn;
             float avgGhostSpeed = ghostSpawner.getAvgGhostMovementSpeed();
 
             logText.text = $"# Ghosts: {numGhosts}\n\nGhost Speed: {avgGhostSpeed:F2}";

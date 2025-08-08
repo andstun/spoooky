@@ -6,7 +6,7 @@ public class AudioListenerFixer
     [MenuItem("Tools/Remove Extra AudioListeners")]
     public static void FixAudioListeners()
     {
-        var listeners = Object.FindObjectsOfType<AudioListener>();
+        var listeners = Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None);
         if (listeners.Length <= 1)
         {
             Debug.Log("Only one AudioListener found. No changes made.");
