@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5669509213079653873
+--- !u!114 &-5842378900503090252
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23,9 +23,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Wall3_Mat
+  m_Name: WallA_Mat
   m_Shader: {fileID: 4800000, guid: 6e4ae4064600d784cac1e41a9e6f2e59, type: 3}
-  m_Parent: {fileID: 2100000, guid: 018e08a8678664e94a15a5762b905365, type: 2}
+  m_Parent: {fileID: 2100000, guid: dd1f4b66223ce4aabaa019f4715e48d5, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _DISABLE_SSR_TRANSPARENT
@@ -51,21 +51,23 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseColorMap:
-        m_Texture: {fileID: 8400000, guid: 61ee539eecebc485e9828a5db8449019, type: 2}
+        m_Texture: {fileID: 8400000, guid: 43c6386bcaacc4b1d82e8110b15c5a6b, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissiveColorMap:
-        m_Texture: {fileID: 8400000, guid: 61ee539eecebc485e9828a5db8449019, type: 2}
+        m_Texture: {fileID: 8400000, guid: 43c6386bcaacc4b1d82e8110b15c5a6b, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 8400000, guid: 61ee539eecebc485e9828a5db8449019, type: 2}
+        m_Texture: {fileID: 8400000, guid: 43c6386bcaacc4b1d82e8110b15c5a6b, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EmissiveIntensity: 40.5
+    - _EmissiveIntensity: 29.2
+    - _UseEmissiveIntensity: 1
     m_Colors:
-    - _EmissiveColor: {r: 40.5, g: 40.5, b: 40.5, a: 40.5}
+    - _EmissiveColor: {r: 29.2, g: 29.2, b: 29.2, a: 29.2}
+    - _EmissiveColorLDR: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
