@@ -23,7 +23,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hologram 4
+  m_Name: Hologram 14
   m_Shader: {fileID: -6465566751694194690, guid: 00fb02e193f61b7479713a23309fdaab, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -84,7 +84,7 @@ Material:
     - _ExcludeFromTUAndAA: 0
     - _OpaqueCullMode: 2
     - _PerPixelSorting: 0
-    - _Power: 0.03
+    - _Power: 0.34
     - _RenderQueueType: 4
     - _SrcBlend: 1
     - _StencilRef: 0
@@ -108,7 +108,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 0.2633543, g: 2.4107993, b: 7.975868, a: 0.3921569}
+    - _Color: {r: 0.47121933, g: 2.4671931, b: 4.924577, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
