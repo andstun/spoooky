@@ -166,7 +166,7 @@ public class AugmentaPickup : MonoBehaviour
             Vector3 offs = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * ringRadius; 
             carriedGhost.transform.localPosition = offs;
         }
-        else if (isOverlapping && overlappingGhost != null) // "I am colliding with a ghost"
+        else if (isOverlapping && overlappingGhost != null && !overlappingGhost.isCoveredByCobwebs) // "I am colliding with a ghost and it isn't covered in cobwebs"
         {
             pickupTimer += Time.deltaTime;
             if (pickupTimer >= pickupDelay)

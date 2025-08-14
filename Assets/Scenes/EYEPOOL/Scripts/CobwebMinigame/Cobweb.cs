@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Cobweb : MonoBehaviour
 {
-    [SerializeField] private TYPE cobwebMeshPath; // TODO read from defined folder. 
+    [SerializeField] private MeshRenderer cobwebMeshPath; // TODO read from defined folder. 
 
     void Awake()
     {

@@ -35,11 +35,14 @@ public class Ghost : MonoBehaviour
     /* ───────── Private state ───────── */
     private bool _initialised = false;
     private AugmentaPickup personAttached;
-    private GhostSpawner spawner;
+    [SerializeField] private GhostSpawner spawner;
     private float dropoffTimer = 0f;
     private Coroutine moveRoutine;   // handle to FollowPath()
 
-    /// <summary>Call this right after AddComponent. Subsequent calls are ignored.</summary>
+    public bool isCoveredByCobwebs { get; private set; }
+    private float cobwebCoveredUntil = -1f;
+
+    /// <summary> Call this right after AddComponent. Subsequent calls are ignored. </summary>
     public void Initialise(int _ghostID, GameObject _sprite, int _targetSinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed, float _hoverCountdown)
     {
         if (_initialised)
@@ -63,6 +66,11 @@ public class Ghost : MonoBehaviour
 
     private void Update() 
     {
+        isCoveredByCobwebs = Time.time < cobwebCoveredUntil;
+        if (isCoveredByCobwebs)
+        {
+            Debug.Log($"Ghost covered with cobweb: {isCoveredByCobwebs}");
+        }
         switch (state)
         {
             case GhostState.Hovering:
@@ -98,6 +106,11 @@ public class Ghost : MonoBehaviour
                 break;
         }
     }
+
+    // private void LateUpdate()
+    // {
+    //     isCoveredByCobwebs = false;
+    // }
 
     // Called by AugmentaPickup to attach this Ghost to a person.
     public void AttachTo(Transform parent)
@@ -233,5 +246,10 @@ public class Ghost : MonoBehaviour
         }
 
         transform.position = toPos; // snap to final position
+    }
+
+    public void NotifyCobwebHit()
+    {
+        cobwebCoveredUntil = Time.time + 0.15f; // short grace window
     }
 }

@@ -15,7 +15,7 @@ public class GhostSpawner : MonoBehaviour
     public int ghostsToSpawn { get; private set; } = 10; 
     public int ghostsPerPerson = 4;
     [SerializeField] private int maxGhostsInRoom = 60;
-    private float minimumPresence = 20f;
+    private float minimumPresence = 10f;
     private Dictionary<int, Coroutine> presenceTimers = new Dictionary<int, Coroutine>();
 
     [Header("Movement Parameters")]
@@ -90,9 +90,28 @@ public class GhostSpawner : MonoBehaviour
 
         // Physics & behaviour
         Ghost ghost = sprite.AddComponent<Ghost>();
-        SphereCollider sc = sprite.GetComponent<SphereCollider>();
-        sc.isTrigger = true;
-        sc.radius = 0.5f;
+        SphereCollider triggerCol = sprite.GetComponent<SphereCollider>();
+        triggerCol.isTrigger = true;
+        triggerCol.radius = 0.5f;
+
+        // 2) Add a SECOND collider that is NON-TRIGGER for particle collisions
+        SphereCollider solidCol = sprite.AddComponent<SphereCollider>();
+        solidCol.isTrigger = false;
+        solidCol.radius = 0.5f;
+
+        // 3) Add a kinematic Rigidbody so the moving solid collider is “dynamic”
+        //    (avoids “moving static collider” cost/warnings and plays nice with PS)
+        var rb = sprite.AddComponent<Rigidbody>();
+        rb.isKinematic = true;
+        rb.useGravity = false;
+
+        // Register ghost collider with cobweb particle system’s trigger controller
+        CobwebTriggerController triggerCtrl = FindObjectOfType<CobwebTriggerController>();
+        if (triggerCtrl != null)
+        {
+            int slot = triggerCtrl.RegisterGhostCollider(triggerCol, ghost);
+            ghost.gameObject.AddComponent<GhostSlotTracker>().Init(triggerCtrl, slot);
+        }
 
         float ghostMovementSpeed;
         do
@@ -143,7 +162,7 @@ public class GhostSpawner : MonoBehaviour
     public void OnAugmentaObjectEnter(AugmentaObject obj, Augmenta.AugmentaDataType dataType)
     {
         int id = obj.id; // Assume unique per person
-        Debug.Log($"Object {id} is entering");
+        // Debug.Log($"Object {id} is entering");
         
         if (!presenceTimers.ContainsKey(id))
         {
