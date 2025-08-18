@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/RichardIsDoingHisBest/EYEPOOL mimic.unity
     guid: 88921183db845478d914271865d73d81
   - enabled: 1
-    path: Assets/Scenes/EYEPOOL/EYEPOOL_Scene.unity
+    path: Assets/Scenes/EYEPOOL/SpookyEyepool.unity
     guid: cbc2c6f9991e8444796ed331f19593cd
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
