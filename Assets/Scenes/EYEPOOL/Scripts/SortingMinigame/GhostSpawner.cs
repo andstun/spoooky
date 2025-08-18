@@ -105,13 +105,13 @@ public class GhostSpawner : MonoBehaviour
         rb.isKinematic = true;
         rb.useGravity = false;
 
-        // Register ghost collider with cobweb particle system’s trigger controller
-        CobwebTriggerController triggerCtrl = FindObjectOfType<CobwebTriggerController>();
-        if (triggerCtrl != null)
-        {
-            int slot = triggerCtrl.RegisterGhostCollider(triggerCol, ghost);
-            ghost.gameObject.AddComponent<GhostSlotTracker>().Init(triggerCtrl, slot);
-        }
+        // // Register ghost collider with cobweb particle system’s trigger controller
+        // CobwebTriggerController triggerCtrl = FindObjectOfType<CobwebTriggerController>();
+        // if (triggerCtrl != null)
+        // {
+        //     int slot = triggerCtrl.RegisterGhostCollider(triggerCol, ghost);
+        //     ghost.gameObject.AddComponent<GhostSlotTracker>().Init(triggerCtrl, slot);
+        // }
 
         float ghostMovementSpeed;
         do
