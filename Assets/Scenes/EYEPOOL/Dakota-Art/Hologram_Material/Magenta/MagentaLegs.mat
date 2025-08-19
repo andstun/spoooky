@@ -23,7 +23,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hologram 13
+  m_Name: MagentaLegs
   m_Shader: {fileID: -6465566751694194690, guid: 00fb02e193f61b7479713a23309fdaab, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -84,7 +84,7 @@ Material:
     - _ExcludeFromTUAndAA: 0
     - _OpaqueCullMode: 2
     - _PerPixelSorting: 0
-    - _Power: -0.39
+    - _Power: 0.29
     - _RenderQueueType: 4
     - _SrcBlend: 1
     - _StencilRef: 0
@@ -108,7 +108,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 0.09686034, g: 1.724561, b: 6.5336924, a: 1}
+    - _Color: {r: 1.1905797, g: 0, b: 1.216786, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
