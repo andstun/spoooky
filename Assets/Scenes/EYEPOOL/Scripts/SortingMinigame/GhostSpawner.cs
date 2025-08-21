@@ -33,10 +33,11 @@ public class GhostSpawner : MonoBehaviour
     private float sinkBoundary;
 
     [Header("Portal Colour Palette")]
-    [SerializeField] private MaterialColorPalette sinkPaletteAsset;
+    [SerializeField] private GhostPalette ghostPaletteAsset;
 
     /* ───────── Private state ───────── */
-    private static Material[] materialPalette;
+    private static GhostPalette.Entry[] ghostPalette;
+    // private static GameObject[] prefabPalette;
 
     private List<Ghost> ghosts = new List<Ghost>();
     private Queue<Ghost> ghostsQueue = new Queue<Ghost>(); // for creation / deletion cycles
@@ -44,9 +45,13 @@ public class GhostSpawner : MonoBehaviour
 
     private MovementMaze maze;
 
+    [SerializeField] private Transform spawnParent;     // optional parent for hierarchy
+    [SerializeField] private GameObject hardFallback;
+
     void Awake()
     {
-        materialPalette = sinkPaletteAsset.GetMaterials();
+        ghostPalette = ghostPaletteAsset.GetEntries();
+        // prefabPalette = ghostPaletteAsset.GetPrefabs();
         sinkBoundary = Mathf.Abs(xRange.x) + 0.15f; // add buffer zone between ghost area and sink area
         maze = this.GetComponent<MovementMaze>();
         maze.Initialise(Util.GetExtents(xRange, zRange)); // TODO: might need onValidate()
@@ -71,7 +76,7 @@ public class GhostSpawner : MonoBehaviour
 
     private Ghost SpawnGhost()
     {
-        GameObject sprite = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        // GameObject sprite = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
         // Position: random on X-Z plane, y = radius (≈0.5) so it rests on the floor
         MovementMazeNode availNode = maze.getAvailableMazeNode();
@@ -81,23 +86,28 @@ public class GhostSpawner : MonoBehaviour
             return null;
         }
 
-        sprite.transform.position = Util.XZ_to_XYZ(availNode.getPos());
+        // if (prefab == null) prefab = hardFallback;
+        Vector3 pos = Util.XZ_to_XYZ(availNode.getPos());
+        Quaternion rot = Quaternion.identity; // no rotation to start
 
         // Colour
-        Renderer rend = sprite.GetComponent<Renderer>();
-        int materialID = UnityEngine.Random.Range(0, materialPalette.Length);
-        rend.material = materialPalette[materialID];
+        int portalID = UnityEngine.Random.Range(0, ghostPalette.Length);
+        GameObject sprite = Instantiate(ghostPalette[portalID].prefab, pos, rot, spawnParent);
+        // sprite.transform.localScale *= 5f;
+        // Renderer rend = sprite.GetComponent<Renderer>();
+        // rend.material = ghostPalette[portalID];
 
         // Physics & behaviour
+        float colliderRadius = 0.10f;
         Ghost ghost = sprite.AddComponent<Ghost>();
-        SphereCollider triggerCol = sprite.GetComponent<SphereCollider>();
+        SphereCollider triggerCol = sprite.AddComponent<SphereCollider>();
         triggerCol.isTrigger = true;
-        triggerCol.radius = 0.5f;
+        triggerCol.radius = colliderRadius;
 
         // 2) Add a SECOND collider that is NON-TRIGGER for particle collisions
         SphereCollider solidCol = sprite.AddComponent<SphereCollider>();
         solidCol.isTrigger = false;
-        solidCol.radius = 0.5f;
+        solidCol.radius = colliderRadius;
 
         // 3) Add a kinematic Rigidbody so the moving solid collider is “dynamic”
         //    (avoids “moving static collider” cost/warnings and plays nice with PS)
@@ -124,8 +134,18 @@ public class GhostSpawner : MonoBehaviour
         ghost.hopsUntilHover = UnityEngine.Random.Range(2, 5);   // e.g. 2–4 hops before resting
         ghost.maze = this.maze;
 
-        ghost.Initialise(nextGhostID++, sprite, materialID, materialPalette[materialID].color, this, availNode, ghostMovementSpeed, hoverCountdown);
+        ghost.Initialise(nextGhostID++, 
+                        sprite, 
+                        portalID,
+                        ghostPalette[portalID].material.color, 
+                        this, 
+                        availNode, 
+                        ghostMovementSpeed, 
+                        hoverCountdown 
+                        );
         ghost.gameObject.layer = LayerMask.NameToLayer("GameLogicLayer");
+        Instantiate(ghostPalette[portalID].splat, pos, Quaternion.identity); // run the splat
+
         return ghost;
     }
 

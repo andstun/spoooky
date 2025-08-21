@@ -1,6 +1,9 @@
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// Allows for master-slave relationship between cameras
+/// </summary>
 [CustomEditor(typeof(MultiCameraController))]
 public class MultiCameraControllerEditor : Editor
 {

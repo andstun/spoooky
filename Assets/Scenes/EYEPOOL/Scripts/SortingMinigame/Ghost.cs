@@ -66,6 +66,7 @@ public class Ghost : MonoBehaviour
 
     private void Update() 
     {
+        if (!_initialised) return;
         isCoveredByCobwebs = Time.time < cobwebCoveredUntil;
         if (isCoveredByCobwebs)
         {

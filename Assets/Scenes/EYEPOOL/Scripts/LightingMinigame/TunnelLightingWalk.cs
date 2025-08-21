@@ -5,15 +5,15 @@ using UnityEngine.Rendering.HighDefinition;
 using Augmenta;  // Required for AugmentaObject
 
 [RequireComponent(typeof(Collider))]
-public class FireTriggerLighting : MonoBehaviour
+public class TunnelTrigger : MonoBehaviour
 {
     [Header("Lighting Control")]
     public RoomLightingMasterControl lightingControl;
     [Range(0, 10)]
     public float maxLightValue = 10f;
-    public float rampDuration = 3.0f;
-    public float fadeDuration = 30.0f;
-    public float idleTime = 60.0f;
+    public float rampDuration = 10.0f;
+    public float fadeDuration = 10.0f;
+    public float idleTime = 10.0f;
 
     private Collider triggerZone;
     private readonly HashSet<AugmentaObject> usersInZone = new();
@@ -40,7 +40,7 @@ public class FireTriggerLighting : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    public void TriggerEnter(Collider other)
     {
         AugmentaObject augmenta = other.GetComponent<AugmentaObject>();
         if (augmenta == null) return;
@@ -59,11 +59,23 @@ public class FireTriggerLighting : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
+        Debug.Log("TriggeredExit");
         AugmentaObject augmenta = other.GetComponent<AugmentaObject>();
         if (augmenta == null) return;
 
         usersInZone.Remove(augmenta);
         lastActivityTime = Time.time;
+
+        if (rampCoroutine != null)
+        {
+            StopCoroutine(rampCoroutine);
+            rampCoroutine = null;
+        }
+
+        if (usersInZone.Count == 0)
+        {
+            lightHasTriggered = false;
+        }
     }
 
     IEnumerator RampLight(float start, float end, float duration)

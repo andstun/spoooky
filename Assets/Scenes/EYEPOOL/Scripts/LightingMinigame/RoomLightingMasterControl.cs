@@ -6,7 +6,7 @@ public class RoomLightingMasterControl : MonoBehaviour
 {
     [Header("Master Intensity (Lumens)")]
     [Range(0, 10)]
-    public float masterIntensity = 6f;
+    public float masterIntensity = 0f;
 
     [Header("Area Lights (Assign all 5)")]
     public Light[] areaLights;

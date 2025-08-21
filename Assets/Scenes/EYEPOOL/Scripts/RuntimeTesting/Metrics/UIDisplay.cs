@@ -8,6 +8,7 @@ public class UIDisplay : MonoBehaviour
     [Header("References")]
     [SerializeField] private KeypressManager keypressManager;
     [SerializeField] private GhostSpawner ghostSpawner;
+    [SerializeField] private FPSCounter fpsCounter;
     [SerializeField] private TextMeshProUGUI logText;
     [SerializeField] private CanvasGroup canvasGroup;
     private bool isDisabled = false;
@@ -16,15 +17,26 @@ public class UIDisplay : MonoBehaviour
     {
         keypressManager.OnUPressed.AddListener(ToggleVisibility);
     }
-    void Update() 
+    void Update()
     {
-        if (ghostSpawner != null && logText != null)
+        if (logText == null) return;
+
+        string text = "";
+
+        if (ghostSpawner != null)
         {
             int numGhosts = ghostSpawner.ghostsToSpawn;
             float avgGhostSpeed = ghostSpawner.getAvgGhostMovementSpeed();
-
-            logText.text = $"# Ghosts: {numGhosts}\n\nGhost Speed: {avgGhostSpeed:F2}";
+            text += $"# Ghosts: {numGhosts}\nGhost Speed: {avgGhostSpeed:F2}\n\n";
         }
+
+        if (fpsCounter != null)
+        {
+            text += $"FPS: {fpsCounter.CurrentFPS:F1}\n" +
+                    $"Avg FPS: {fpsCounter.AverageFPS:F1}";
+        }
+
+        logText.text = text;
     }
 
     void ToggleVisibility()

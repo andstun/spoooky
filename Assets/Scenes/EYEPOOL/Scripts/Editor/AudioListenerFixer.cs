@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEditor;
 
+/// <summary>
+/// There are a lot of camera objects floating around the scene, so this tool
+/// disables all but one audio listener to avoid triggering Unity warnings
+/// </summary>
 public class AudioListenerFixer
 {
     [MenuItem("Tools/Remove Extra AudioListeners")]
