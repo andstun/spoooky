@@ -21,7 +21,7 @@ public class FPSLogger : MonoBehaviour
     void Start()
     {
         if (fpsCounter == null)
-            fpsCounter = FindObjectOfType<FPSCounter>();
+            fpsCounter = FindAnyObjectByType<FPSCounter>();
 
         // Build full file path in persistent data folder
         filePath = Path.Combine(Application.persistentDataPath, fileName);

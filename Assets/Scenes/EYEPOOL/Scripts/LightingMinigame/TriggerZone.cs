@@ -12,13 +12,6 @@ public class TriggerZone : MonoBehaviour
 
     private void OnValidate()
     {
-        // Toggle all child MeshRenderers
-        MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>(true);
-        foreach (var r in renderers)
-        {
-            r.enabled = debugPlanes;
-        }
-
         // Adjust entrance colliders (only TunnelEntranceB/D)
         foreach (Transform child in transform)
         {
@@ -32,6 +25,16 @@ public class TriggerZone : MonoBehaviour
                     bc.size = size;
                 }
             }
+        }
+    }
+
+    void Update()
+    {
+        // Toggle all child MeshRenderers
+        MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>(true);
+        foreach (var r in renderers)
+        {
+            r.enabled = debugPlanes;
         }
     }
 }
