@@ -20,7 +20,6 @@ public class TunnelEntranceTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Triggered Entrance");
         tunnel.TriggerEnter(other);
     }
 }

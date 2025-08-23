@@ -59,7 +59,6 @@ public class TunnelTrigger : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        Debug.Log("TriggeredExit");
         AugmentaObject augmenta = other.GetComponent<AugmentaObject>();
         if (augmenta == null) return;
 
