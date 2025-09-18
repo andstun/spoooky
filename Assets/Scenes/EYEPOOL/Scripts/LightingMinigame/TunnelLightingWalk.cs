@@ -71,10 +71,6 @@ public class TunnelTrigger : MonoBehaviour
             rampCoroutine = null;
         }
 
-        if (usersInZone.Count == 0)
-        {
-            lightHasTriggered = false;
-        }
     }
 
     IEnumerator RampLight(float start, float end, float duration)
