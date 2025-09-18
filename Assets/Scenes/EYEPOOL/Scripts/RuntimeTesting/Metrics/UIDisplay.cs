@@ -25,7 +25,8 @@ public class UIDisplay : MonoBehaviour
 
         if (ghostSpawner != null)
         {
-            int numGhosts = ghostSpawner.ghostsToSpawn;
+            // int numGhosts = ghostSpawner.ghostsToSpawn;
+            int numGhosts = ghostSpawner.GetGhosts();
             float avgGhostSpeed = ghostSpawner.getAvgGhostMovementSpeed();
             text += $"# Ghosts: {numGhosts}\nGhost Speed: {avgGhostSpeed:F2}\n\n";
         }

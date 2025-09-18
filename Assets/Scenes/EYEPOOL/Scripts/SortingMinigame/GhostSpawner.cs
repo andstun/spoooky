@@ -279,6 +279,11 @@ public class GhostSpawner : MonoBehaviour
         }
         return totalSpeed / ghosts.Count;
     }
+    
+    public int GetGhosts()
+    {
+        return ghosts.Count;
+    }
 
     // Destructor
     void OnDestroy()

@@ -63588,7 +63588,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2020255585}
   m_Direction: 2
   m_Value: -0.000057444853
-  m_Size: 0.9433299
+  m_Size: 0.94333
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -80326,7 +80326,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 17.000967}
+  m_AnchoredPosition: {x: 0, y: 17.000925}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1184203727
@@ -103201,7 +103201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maze: {fileID: 1512456045}
-  showMaze: 1
+  showMaze: 0
   nodeDisplayRadius: 0.5
 --- !u!1 &1516592390
 GameObject:
