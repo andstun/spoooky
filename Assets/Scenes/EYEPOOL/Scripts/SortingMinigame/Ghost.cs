@@ -31,6 +31,9 @@ public class Ghost : MonoBehaviour
     public float duration = 1.0f; // how long the total 
     public float dropoffDelay { get; private set; } = 1.0f;
     public bool deleteInsteadOfReplace = false; // public, but should only be set by GhostSpawner.
+    public GameObject splatPrefab { get; private set; }
+    [SerializeField] private float trailSpawnInterval = 0.15f;
+    [SerializeField] private float trailSpawnTimer = 0f;
 
     /* ───────── Private state ───────── */
     private bool _initialised = false;
@@ -38,30 +41,30 @@ public class Ghost : MonoBehaviour
     [SerializeField] private GhostSpawner spawner;
     private float dropoffTimer = 0f;
     private Coroutine moveRoutine;   // handle to FollowPath()
-
     public bool isCoveredByCobwebs { get; private set; }
     private float cobwebCoveredUntil = -1f;
 
     /// <summary> Call this right after AddComponent. Subsequent calls are ignored. </summary>
-    public void Initialise(int _ghostID, GameObject _sprite, int _targetSinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed, float _hoverCountdown)
+    public void Initialise(int _ghostID, GameObject _sprite, int _targetSinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed, float _hoverCountdown, GameObject newSplatPrefab)
     {
         if (_initialised)
         {
             Debug.LogWarning($"{name} is already initialised – ignoring.");
             return;
         }
-        ghostID        = _ghostID;
-        sprite         = _sprite;
-        targetSinkID   = _targetSinkID;
-        ghostColor     = _ghostColor; 
-        node           = _node;
-        movementSpeed  = _movementSpeed;
+        ghostID = _ghostID;
+        sprite = _sprite;
+        targetSinkID = _targetSinkID;
+        ghostColor = _ghostColor;
+        node = _node;
+        movementSpeed = _movementSpeed;
         hoverCountdown = _hoverCountdown;
-        hoverTime      = _hoverCountdown;
-        spawner        = owner;
-        dropoffTimer   = 0f;
+        hoverTime = _hoverCountdown;
+        spawner = owner;
+        dropoffTimer = 0f;
+        splatPrefab = newSplatPrefab;
 
-        _initialised   = true;
+        _initialised = true;
     }
 
     private void Update() 
@@ -93,7 +96,16 @@ public class Ghost : MonoBehaviour
                 break;
 
             case GhostState.Moving:
-                // noop — handled in coroutine
+                // op handled in coroutine, ghost trail handled here
+                trailSpawnTimer += Time.deltaTime;
+                if (trailSpawnTimer >= trailSpawnInterval)
+                {
+                    Color splatColor = ghostColor;
+                    splatColor.a = 0.5f;
+                    splatPrefab.GetComponent<SpriteRenderer>().color = splatColor;
+                    Instantiate(splatPrefab, transform.position, Quaternion.Euler(90, 0, 0));
+                    trailSpawnTimer = 0f;
+                }
                 break;
             case GhostState.Attached:
                 int sinkHere = Util.GetSinkID(transform.position, spawner.GetSinkBoundary());

@@ -65,6 +65,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6652725513331149018, guid: df0b3c5495b6a2643a0953f1845f8b5a, type: 3}
+      propertyPath: m_RendererPriority
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6652725513331149018, guid: df0b3c5495b6a2643a0953f1845f8b5a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 92b39626d170fb84892bd48fe304f836, type: 2}
@@ -78,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d65d4810348639f4e936d2f198c8f94c, type: 2}
     - target: {fileID: 919132149155446097, guid: df0b3c5495b6a2643a0953f1845f8b5a, type: 3}
       propertyPath: m_Name
-      value: GhostBugD
+      value: GhostBugA
       objectReference: {fileID: 0}
     - target: {fileID: 2574903233676694675, guid: df0b3c5495b6a2643a0953f1845f8b5a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -119,7 +123,7 @@ Animator:
   m_GameObject: {fileID: 648279418004459147}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b2608da5d0f8cd846bcc85d4dc85fd41, type: 2}
+  m_Controller: {fileID: 9100000, guid: a320902c7c5a84f438f0274e3c02284d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

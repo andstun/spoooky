@@ -82,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 4db4fd965d128f74eaf3123908ea45d0, type: 2}
     - target: {fileID: 919132149155446097, guid: 86f465b697c7de749a679f9a9ccb9a3f, type: 3}
       propertyPath: m_Name
-      value: GhostBugB
+      value: GhostBugD
       objectReference: {fileID: 0}
     - target: {fileID: 1143774091444133084, guid: 86f465b697c7de749a679f9a9ccb9a3f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -119,7 +119,7 @@ Animator:
   m_GameObject: {fileID: 8853144318303011211}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4e6c64491a61798429088869f20f69ce, type: 2}
+  m_Controller: {fileID: 9100000, guid: b2608da5d0f8cd846bcc85d4dc85fd41, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
