@@ -32,8 +32,8 @@ public class Ghost : MonoBehaviour
     public float dropoffDelay { get; private set; } = 1.0f;
     public bool deleteInsteadOfReplace = false; // public, but should only be set by GhostSpawner.
     public GameObject splatPrefab { get; private set; }
-    [SerializeField] private float trailSpawnInterval = 0.15f;
-    [SerializeField] private float trailSpawnTimer = 0f;
+    // [SerializeField] private float trailSpawnInterval = 0.15f;
+    // [SerializeField] private float trailSpawnTimer = 0f;
 
     /* ───────── Private state ───────── */
     private bool _initialised = false;
@@ -45,7 +45,7 @@ public class Ghost : MonoBehaviour
     private float cobwebCoveredUntil = -1f;
 
     /// <summary> Call this right after AddComponent. Subsequent calls are ignored. </summary>
-    public void Initialise(int _ghostID, GameObject _sprite, int _targetSinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed, float _hoverCountdown, GameObject newSplatPrefab)
+    public void Initialise(int _ghostID, GameObject _sprite, int _targetSinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed, float _hoverCountdown)
     {
         if (_initialised)
         {
@@ -62,7 +62,7 @@ public class Ghost : MonoBehaviour
         hoverTime = _hoverCountdown;
         spawner = owner;
         dropoffTimer = 0f;
-        splatPrefab = newSplatPrefab;
+        // splatPrefab = newSplatPrefab;
 
         _initialised = true;
     }
@@ -96,16 +96,18 @@ public class Ghost : MonoBehaviour
                 break;
 
             case GhostState.Moving:
-                // op handled in coroutine, ghost trail handled here
-                trailSpawnTimer += Time.deltaTime;
-                if (trailSpawnTimer >= trailSpawnInterval)
-                {
-                    Color splatColor = ghostColor;
-                    splatColor.a = 0.5f;
-                    splatPrefab.GetComponent<SpriteRenderer>().color = splatColor;
-                    Instantiate(splatPrefab, transform.position, Quaternion.Euler(90, 0, 0));
-                    trailSpawnTimer = 0f;
-                }
+                // op handled in coroutine
+
+                // scrapped ghost trail handled here
+                // trailSpawnTimer += Time.deltaTime;
+                // if (trailSpawnTimer >= trailSpawnInterval)
+                // {
+                //     Color splatColor = ghostColor;
+                //     splatColor.a = 0.5f;
+                //     splatPrefab.GetComponent<SpriteRenderer>().color = splatColor;
+                //     Instantiate(splatPrefab, transform.position, Quaternion.Euler(90, 0, 0));
+                //     trailSpawnTimer = 0f;
+                // }
                 break;
             case GhostState.Attached:
                 int sinkHere = Util.GetSinkID(transform.position, spawner.GetSinkBoundary());

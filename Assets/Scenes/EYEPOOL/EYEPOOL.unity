@@ -12401,7 +12401,7 @@ GameObject:
   - component: {fileID: 289808404}
   - component: {fileID: 289808403}
   m_Layer: 7
-  m_Name: Wall Area Light (Fireplace)
+  m_Name: Wall Area Light (Window)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63356,8 +63356,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2020255586}
   m_HandleRect: {fileID: 2020255585}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.9433333
+  m_Value: -0.000057444853
+  m_Size: 0.9433299
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -80147,7 +80147,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 16.999998}
+  m_AnchoredPosition: {x: 0, y: 17.000952}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1184203727
@@ -92312,7 +92312,7 @@ GameObject:
   - component: {fileID: 1470308787}
   - component: {fileID: 1470308786}
   m_Layer: 7
-  m_Name: Wall Area Light (Windows)
+  m_Name: Wall Area Light (Fireplace)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92529,7 +92529,7 @@ Light:
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 12.512125, y: 33.6}
   m_BounceIntensity: 1
-  m_ColorTemperature: 6570
+  m_ColorTemperature: 1774
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 27.927027}
   m_UseBoundingSphereOverride: 1
@@ -102632,7 +102632,6 @@ MonoBehaviour:
   toggleGhostMovement: 1
   xRange: {x: -13.9, y: 13.9}
   zRange: {x: -13.9, y: 13.9}
-  ghostSplatPrefab: {fileID: 2666447271302418984, guid: de9428b99d76fbf4b8b3be1ebae54f05, type: 3}
   ghostPaletteAsset: {fileID: 11400000, guid: 3c0c6d243419646968f45060b2c4cd22, type: 2}
   spawnParent: {fileID: 0}
   hardFallback: {fileID: 0}
@@ -122754,7 +122753,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterIntensity: 0
-  areaLights: []
+  areaLights:
+  - {fileID: 1470308787}
 --- !u!1 &1994479341
 GameObject:
   m_ObjectHideFlags: 0
