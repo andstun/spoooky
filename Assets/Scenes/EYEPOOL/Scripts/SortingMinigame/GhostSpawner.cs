@@ -32,6 +32,8 @@ public class GhostSpawner : MonoBehaviour
 
     private float sinkBoundary;
 
+    [Header("Ghost Spawn Settings")]
+
     [Header("Portal Colour Palette")]
     [SerializeField] private GhostPalette ghostPaletteAsset;
 
@@ -141,7 +143,7 @@ public class GhostSpawner : MonoBehaviour
                         this, 
                         availNode, 
                         ghostMovementSpeed, 
-                        hoverCountdown 
+                        hoverCountdown
                         );
         ghost.gameObject.layer = LayerMask.NameToLayer("GameLogicLayer");
         Instantiate(ghostPalette[portalID].splat, pos, Quaternion.identity); // run the splat

@@ -13,8 +13,9 @@ public class TunnelTrigger : MonoBehaviour
     public float maxLightValue = 10f;
     public float rampDuration = 10.0f;
     public float fadeDuration = 10.0f;
-    public float idleTime = 10.0f;
-
+    public GameObject campFireLight;
+    [SerializeField] private Vector3 initCampFireLightSize;
+    [SerializeField] private Vector3 maxCampFireLightSize = new Vector3(1.5f, 1.5f, 1.5f);
     private Collider triggerZone;
     private readonly HashSet<AugmentaObject> usersInZone = new();
     private float lastActivityTime = Mathf.NegativeInfinity;
@@ -27,16 +28,36 @@ public class TunnelTrigger : MonoBehaviour
         triggerZone = GetComponent<Collider>();
         if (!triggerZone.isTrigger)
             triggerZone.isTrigger = true;
+
+        initCampFireLightSize = campFireLight.transform.localScale;
     }
 
     void Update()
     {
+        Debug.Log($"Users in zone: {usersInZone.Count}");
+        Debug.Log("lighting scale: " + campFireLight.transform.localScale);
         // Fade out if empty and inactive long enough
-        if (usersInZone.Count == 0 && lightHasTriggered && Time.time - lastActivityTime > idleTime)
+        if (usersInZone.Count == 0 && lightHasTriggered)
         {
             lightHasTriggered = false;
             if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
             fadeCoroutine = StartCoroutine(RampLight(lightingControl.masterIntensity, 0f, fadeDuration));
+        }
+        else if (usersInZone.Count > 0 && lightHasTriggered)
+        {
+            // Increase campfire light size up to max
+            if (campFireLight.transform.localScale.x < maxCampFireLightSize.x && campFireLight.transform.localScale.x <= maxCampFireLightSize.x)
+            {
+                campFireLight.transform.localScale += new Vector3(0.0025f, 0.0025f, 0.0025f);
+            }
+        }
+        else
+        {
+            // Reset campfire light size
+            if (campFireLight.transform.localScale.x > initCampFireLightSize.x)
+            {
+                campFireLight.transform.localScale -= new Vector3(0.0025f, 0.0025f, 0.0025f);
+            }
         }
     }
 
@@ -47,10 +68,10 @@ public class TunnelTrigger : MonoBehaviour
 
         bool wasEmpty = usersInZone.Count == 0;
         usersInZone.Add(augmenta);
-        lastActivityTime = Time.time;
 
         if (wasEmpty && !lightHasTriggered)
         {
+            
             lightHasTriggered = true;
             if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
             rampCoroutine = StartCoroutine(RampLight(lightingControl.masterIntensity, maxLightValue, rampDuration));
@@ -63,9 +84,9 @@ public class TunnelTrigger : MonoBehaviour
         if (augmenta == null) return;
 
         usersInZone.Remove(augmenta);
-        lastActivityTime = Time.time;
 
-        if (rampCoroutine != null)
+
+        if (rampCoroutine != null && usersInZone.Count == 0)
         {
             StopCoroutine(rampCoroutine);
             rampCoroutine = null;
