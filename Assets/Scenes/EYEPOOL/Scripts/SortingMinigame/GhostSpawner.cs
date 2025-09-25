@@ -14,7 +14,7 @@ public class GhostSpawner : MonoBehaviour
     [Header("Spawn Settings")]
     public int ghostsToSpawn { get; private set; } = 10; 
     public int ghostsPerPerson = 4;
-    [SerializeField] private int maxGhostsInRoom = 60;
+    [SerializeField] private int maxGhostsInRoom = 20;
     private float minimumPresence = 10f;
     private Dictionary<int, Coroutine> presenceTimers = new Dictionary<int, Coroutine>();
 
@@ -57,7 +57,6 @@ public class GhostSpawner : MonoBehaviour
         sinkBoundary = Mathf.Abs(xRange.x) + 0.15f; // add buffer zone between ghost area and sink area
         maze = this.GetComponent<MovementMaze>();
         maze.Initialise(Util.GetExtents(xRange, zRange)); // TODO: might need onValidate()
-        maxGhostsInRoom = maze.NumNodes();
     }
 
     void Start()
@@ -70,6 +69,10 @@ public class GhostSpawner : MonoBehaviour
 
         int peopleInRoom = ghostsToSpawn / 4;  // augmentaManager.augmentaScene.augmentaObjectCount;
         ghostsToSpawn = peopleInRoom * ghostsPerPerson;
+        if (ghostsToSpawn > maxGhostsInRoom)
+        {
+            ghostsToSpawn = maxGhostsInRoom;
+        }
         for (int i = 0; i < peopleInRoom; i++)
         {
             StartCoroutine(DelayedSpawnGhostsPerPerson());
