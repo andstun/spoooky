@@ -5907,11 +5907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   masterIntensity: 0
   areaLights:
-  - {fileID: 1734553787}
-  - {fileID: 1809683626}
-  - {fileID: 394266921}
   - {fileID: 740934093}
-  - {fileID: 1193898866}
   master: {fileID: 1993528296}
 --- !u!1 &102885733
 GameObject:
@@ -36469,6 +36465,7 @@ GameObject:
   - component: {fileID: 652606428}
   - component: {fileID: 652606427}
   - component: {fileID: 652606429}
+  - component: {fileID: 652606430}
   m_Layer: 7
   m_Name: Point Light
   m_TagString: Untagged
@@ -36710,6 +36707,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e396c6243444880982cb70cb2b47f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &652606430
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652606425}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.5108213, y: 10.605668, z: 3.2586136}
+  m_Center: {x: 0.25400877, y: -4.802834, z: 0.13268661}
 --- !u!1 &662910073
 GameObject:
   m_ObjectHideFlags: 0
@@ -37137,7 +37155,7 @@ Light:
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 11.78363, y: 30.536732}
   m_BounceIntensity: 1
-  m_ColorTemperature: 6570
+  m_ColorTemperature: 1500
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 26.365711}
   m_UseBoundingSphereOverride: 1
@@ -63356,8 +63374,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2020255586}
   m_HandleRect: {fileID: 2020255585}
   m_Direction: 2
-  m_Value: -0.000057444853
-  m_Size: 0.9433299
+  m_Value: -0.00003231273
+  m_Size: 0.9433333
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -68530,6 +68548,7 @@ GameObject:
   - component: {fileID: 1035515242}
   - component: {fileID: 1035515241}
   - component: {fileID: 1035515243}
+  - component: {fileID: 1035515244}
   m_Layer: 7
   m_Name: Point Light
   m_TagString: Untagged
@@ -68771,6 +68790,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e396c6243444880982cb70cb2b47f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &1035515244
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035515239}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.5108213, y: 10.605668, z: 3.2586136}
+  m_Center: {x: 0.25400877, y: -4.802834, z: 0.13268661}
 --- !u!1 &1047801404
 GameObject:
   m_ObjectHideFlags: 0
@@ -69629,6 +69669,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1123566192}
   m_Mesh: {fileID: -3859624001985175979, guid: e277df40c3387462d9558bb8e9a2b66f, type: 3}
+--- !u!1 &1123782495 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8829451551789304542, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+  m_PrefabInstance: {fileID: 1171207181}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1125198974
 GameObject:
   m_ObjectHideFlags: 0
@@ -80017,6 +80062,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1077868087}
     m_Modifications:
+    - target: {fileID: 7004215306047090060, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7977752047692249711, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8829451551789304537, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.477519
@@ -80068,6 +80121,10 @@ PrefabInstance:
     - target: {fileID: 8829451551789304537, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8829451551789304537, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8829451551789304542, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
       propertyPath: m_Name
@@ -80147,7 +80204,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 17.000952}
+  m_AnchoredPosition: {x: 0, y: 17.000553}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1184203727
@@ -86461,6 +86518,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 66743285}
     m_Modifications:
+    - target: {fileID: 4726869099561852213, guid: cca45df276f7b1349b7d1952c11d1214, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4726869099561852218, guid: cca45df276f7b1349b7d1952c11d1214, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4726869099689012638, guid: cca45df276f7b1349b7d1952c11d1214, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.49033743
@@ -134860,7 +134925,9 @@ MonoBehaviour:
   maxLightValue: 10
   rampDuration: 10
   fadeDuration: 10
-  idleTime: 5
+  campFireLight: {fileID: 1123782495}
+  initCampFireLightSize: {x: 0, y: 0, z: 0}
+  maxCampFireLightSize: {x: 1.5, y: 1.5, z: 1.5}
 --- !u!114 &2134907849
 MonoBehaviour:
   m_ObjectHideFlags: 0
