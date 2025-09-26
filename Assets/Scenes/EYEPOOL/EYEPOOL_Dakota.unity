@@ -11049,7 +11049,7 @@ GameObject:
   - component: {fileID: 110873471}
   - component: {fileID: 110873472}
   m_Layer: 0
-  m_Name: Graveyard
+  m_Name: Dog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11064,8 +11064,8 @@ Transform:
   m_GameObject: {fileID: 110873470}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.6818237, y: -2.3844147, z: 0.044155598}
-  m_LocalScale: {x: 16.247057, y: 16.247057, z: 16.247057}
+  m_LocalPosition: {x: -1.6818237, y: -0.8, z: 0}
+  m_LocalScale: {x: 22.373821, y: 22.373821, z: 22.373821}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1746875816}
@@ -11114,9 +11114,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1fbba9446cf29b744b66e7b9b7d5d716, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0cbe77d62a8914b44ba2d1af88d6a1bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 8, y: 8}
@@ -44597,7 +44597,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2020255586}
   m_HandleRect: {fileID: 2020255585}
   m_Direction: 2
-  m_Value: -0.000016156366
+  m_Value: -0.000046673944
   m_Size: 0.9433333
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -56547,7 +56547,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 17.000261}
+  m_AnchoredPosition: {x: 0, y: 17.000784}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1184203727
