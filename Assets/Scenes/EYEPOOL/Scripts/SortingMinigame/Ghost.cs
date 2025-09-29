@@ -40,6 +40,7 @@ public class Ghost : MonoBehaviour
     private AugmentaPickup personAttached;
     [SerializeField] private GhostSpawner spawner;
     private AudioManager audioManager;
+    private Animator animator;
     private float dropoffTimer = 0f;
     private Coroutine moveRoutine;   // handle to FollowPath()
     public bool isCoveredByCobwebs { get; private set; }
@@ -67,6 +68,7 @@ public class Ghost : MonoBehaviour
         _initialised = true;
 
         audioManager = FindAnyObjectByType<AudioManager>();
+        animator= sprite.GetComponent<Animator>();
     }
 
     private void Update()
@@ -80,6 +82,7 @@ public class Ghost : MonoBehaviour
         switch (state)
         {
             case GhostState.Hovering:
+                animator.SetTrigger("Float");
                 if (spawner.toggleGhostMovement)
                 {
                     hoverCountdown -= Time.deltaTime;
@@ -91,6 +94,7 @@ public class Ghost : MonoBehaviour
                 break;
 
             case GhostState.Planning:
+                animator.SetTrigger("Float");
                 if (spawner.toggleGhostMovement)
                 {
                     PlanPath();
@@ -112,6 +116,7 @@ public class Ghost : MonoBehaviour
                 // }
                 break;
             case GhostState.Attached:
+                animator.SetTrigger("Move");
                 int sinkHere = Util.GetSinkID(transform.position, spawner.GetSinkBoundary());
                 if (sinkHere != targetSinkID) dropoffTimer = 0f;
 
@@ -209,6 +214,7 @@ public class Ghost : MonoBehaviour
     {
         if (!spawner.toggleGhostMovement) yield break;
 
+        animator.SetTrigger("Move");
         while (path.Count > 0)
         {
             if (state == GhostState.Attached) yield break; // early exit in case state changes
