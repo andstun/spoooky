@@ -6249,7 +6249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &109611142
 Transform:
   m_ObjectHideFlags: 0
@@ -22681,6 +22681,207 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &774094918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 774094920}
+  - component: {fileID: 774094919}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &774094919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774094918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0ce1955575ed1449a0615978324c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Ghost Appears
+    clip: {fileID: 8300000, guid: 3b78e6e4080b40345aa10530ec61a22f, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    playAsOneShot: 1
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0
+    useFadeOut: 0
+    fadeOutTime: 0
+    source: {fileID: 0}
+  - name: Drop Ghost Blue
+    clip: {fileID: 8300000, guid: 16ae6c442aea44c44b52b9436873c5d6, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    playAsOneShot: 1
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0
+    useFadeOut: 0
+    fadeOutTime: 0
+    source: {fileID: 0}
+  - name: Drop Ghost Yellow
+    clip: {fileID: 8300000, guid: 97429be205d301a4a87d788f0beefed4, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    playAsOneShot: 1
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0
+    useFadeOut: 0
+    fadeOutTime: 0
+    source: {fileID: 0}
+  - name: Drop Ghost Green
+    clip: {fileID: 8300000, guid: ecca01352091e35449a214335d7f7edf, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    playAsOneShot: 1
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0
+    useFadeOut: 0
+    fadeOutTime: 0
+    source: {fileID: 0}
+  - name: Drop Ghost Purple
+    clip: {fileID: 8300000, guid: b4f5eb56832c0ba42919b7508655ff22, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    playAsOneShot: 1
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0
+    useFadeOut: 0
+    fadeOutTime: 0
+    source: {fileID: 0}
+  - name: Ghost Movement 1
+    clip: {fileID: 8300000, guid: 2e76f40d02f21d54f9de565576e33266, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    playAsOneShot: 1
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0
+    useFadeOut: 0
+    fadeOutTime: 0
+    source: {fileID: 0}
+  - name: Ghost Movement 2
+    clip: {fileID: 8300000, guid: 39b4bb66037618a468ebd3ba18979a9f, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    playAsOneShot: 1
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0
+    useFadeOut: 0
+    fadeOutTime: 0
+    source: {fileID: 0}
+  - name: Portal Sound
+    clip: {fileID: 8300000, guid: a60a1b2b48d9e394cab609d5b5f96b81, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 1
+    playAsOneShot: 0
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0
+    useFadeOut: 0
+    fadeOutTime: 0
+    source: {fileID: 0}
+  - name: Fireplace
+    clip: {fileID: 8300000, guid: 6b28977f4ff66f840a65cb7e950bbb5a, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 1
+    playAsOneShot: 0
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0.1
+    useFadeOut: 0
+    fadeOutTime: 0.1
+    source: {fileID: 0}
+  - name: Ghost Pick Up 1
+    clip: {fileID: 8300000, guid: bee528bc395f42e49adec65dc7a82351, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    playAsOneShot: 1
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0.1
+    useFadeOut: 0
+    fadeOutTime: 0.1
+    source: {fileID: 0}
+  - name: Ghost Pick Up 2
+    clip: {fileID: 8300000, guid: 90a94d30b8d09444ea6d2bc1adeca6e1, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    playAsOneShot: 1
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0.1
+    useFadeOut: 0
+    fadeOutTime: 0.1
+    source: {fileID: 0}
+  - name: Ghost Pick Up 3
+    clip: {fileID: 8300000, guid: a95ada335e72fc04cb54f2c013f573ed, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    playAsOneShot: 1
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0.1
+    useFadeOut: 0
+    fadeOutTime: 0.1
+    source: {fileID: 0}
+  - name: Main Theme
+    clip: {fileID: 8300000, guid: 321b3912343d95945bef03943d18c806, type: 3}
+    volume: 0.07
+    pitch: 1
+    loop: 1
+    playAsOneShot: 0
+    mixer: {fileID: 0}
+    useFadeIn: 0
+    fadeInTime: 0.1
+    useFadeOut: 0
+    fadeOutTime: 0.1
+    source: {fileID: 0}
+--- !u!4 &774094920
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774094918}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.0032763, y: -48.885063, z: -99.018425}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &787685970
 GameObject:
   m_ObjectHideFlags: 0
@@ -24273,7 +24474,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2020255585}
   m_Direction: 2
   m_Value: -0.000057444853
-  m_Size: 0.9433299
+  m_Size: 0.9433296
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -26662,7 +26863,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 17.000946}
+  m_AnchoredPosition: {x: 0, y: 17.00098}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1184203727
@@ -38286,7 +38487,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1347574876
 Transform:
   m_ObjectHideFlags: 0
@@ -63221,7 +63422,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831442748}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!20 &1831442752
 Camera:
   m_ObjectHideFlags: 0
@@ -72810,3 +73011,4 @@ SceneRoots:
   - {fileID: 750747575}
   - {fileID: 1055406647}
   - {fileID: 204809292}
+  - {fileID: 774094920}
