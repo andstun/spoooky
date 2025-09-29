@@ -96,7 +96,7 @@ public class GhostSpawner : MonoBehaviour
 
         // if (prefab == null) prefab = hardFallback;
         Vector3 pos = Util.XZ_to_XYZ(availNode.getPos());
-        Quaternion rot = Quaternion.identity; // no rotation to start
+        Quaternion rot = Quaternion.Euler(90, 0, 0); // no rotation to start
 
         // Colour
         int portalID = UnityEngine.Random.Range(0, ghostPalette.Length);

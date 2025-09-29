@@ -37,7 +37,6 @@ public class TunnelTrigger : MonoBehaviour
     void Update()
     {
         Debug.Log($"Users in zone: {usersInZone.Count}");
-        Debug.Log("lighting scale: " + campFireLight.transform.localScale);
         // Fade out if empty and inactive long enough
         if (usersInZone.Count == 0 && lightHasTriggered)
         {
@@ -65,7 +64,7 @@ public class TunnelTrigger : MonoBehaviour
         }
     }
 
-    public void TriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         AugmentaObject augmenta = other.GetComponent<AugmentaObject>();
         if (augmenta == null) return;
