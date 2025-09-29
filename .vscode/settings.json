@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "daydream6000.sln"
+    "dotnet.defaultSolution": "spoooky.sln"
 }

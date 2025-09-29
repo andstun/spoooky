@@ -14,6 +14,7 @@ public class TunnelTrigger : MonoBehaviour
     public float rampDuration = 10.0f;
     public float fadeDuration = 10.0f;
     public GameObject campFireLight;
+    private AudioManager audioManager;
     [SerializeField] private Vector3 initCampFireLightSize;
     [SerializeField] private Vector3 maxCampFireLightSize = new Vector3(1.5f, 1.5f, 1.5f);
     private Collider triggerZone;
@@ -25,6 +26,7 @@ public class TunnelTrigger : MonoBehaviour
 
     void Awake()
     {
+        audioManager = FindAnyObjectByType<AudioManager>();
         triggerZone = GetComponent<Collider>();
         if (!triggerZone.isTrigger)
             triggerZone.isTrigger = true;
@@ -49,6 +51,7 @@ public class TunnelTrigger : MonoBehaviour
             if (campFireLight.transform.localScale.x < maxCampFireLightSize.x && campFireLight.transform.localScale.x <= maxCampFireLightSize.x)
             {
                 campFireLight.transform.localScale += new Vector3(0.0025f, 0.0025f, 0.0025f);
+                audioManager.IncreaseVolume("Fireplace", 0.0025f);
             }
         }
         else
@@ -57,6 +60,7 @@ public class TunnelTrigger : MonoBehaviour
             if (campFireLight.transform.localScale.x > initCampFireLightSize.x)
             {
                 campFireLight.transform.localScale -= new Vector3(0.0025f, 0.0025f, 0.0025f);
+                audioManager.DecreaseVolume("Fireplace", 0.0025f);
             }
         }
     }

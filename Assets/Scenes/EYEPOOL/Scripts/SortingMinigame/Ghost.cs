@@ -39,6 +39,7 @@ public class Ghost : MonoBehaviour
     private bool _initialised = false;
     private AugmentaPickup personAttached;
     [SerializeField] private GhostSpawner spawner;
+    private AudioManager audioManager;
     private float dropoffTimer = 0f;
     private Coroutine moveRoutine;   // handle to FollowPath()
     public bool isCoveredByCobwebs { get; private set; }
@@ -63,11 +64,12 @@ public class Ghost : MonoBehaviour
         spawner = owner;
         dropoffTimer = 0f;
         // splatPrefab = newSplatPrefab;
-
         _initialised = true;
+
+        audioManager = FindAnyObjectByType<AudioManager>();
     }
 
-    private void Update() 
+    private void Update()
     {
         if (!_initialised) return;
         isCoveredByCobwebs = Time.time < cobwebCoveredUntil;
@@ -136,13 +138,14 @@ public class Ghost : MonoBehaviour
         {
             StopCoroutine(moveRoutine);
             moveRoutine = null;
-            path.Clear();                    
+            path.Clear();
         }
 
         state = GhostState.Attached;
         transform.SetParent(parent, true);
         personAttached = parent.GetComponent<AugmentaPickup>();
         maze.makeMazeNodeAvailable(node);
+        PlayPickupSound();
         if (personAttached == null)
         {
             Debug.Log("unable to pick up person properly");
@@ -159,6 +162,7 @@ public class Ghost : MonoBehaviour
             state = GhostState.Hovering; // TODO: maybe create a new dead state? 
             transform.SetParent(null, true); // detach movement of ghost from parent
             personAttached.DropGhost();
+            PlayDropOffSound(targetSinkID);
 
             if (deleteInsteadOfReplace)
             {
@@ -259,12 +263,74 @@ public class Ghost : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
+        PlayRandomMovementSound();
         transform.position = toPos; // snap to final position
     }
 
     public void NotifyCobwebHit()
     {
         cobwebCoveredUntil = Time.time + 0.15f; // short grace window
+    }
+
+
+    private void PlayPickupSound()
+    {
+        int randInt = Random.Range(1, 4);
+        switch (ghostID)
+        {
+            case 1:
+                audioManager.Play("Ghost Pick Up 1");
+                break;
+            case 2:
+                audioManager.Play("Ghost Pick Up 2");
+                break;
+            case 3:
+                audioManager.Play("Ghost Pick Up 3");
+                break;
+            default:
+                audioManager.Play("Ghost Pick Up 3");
+                break;
+        }
+    }
+    private void PlayDropOffSound(int portalID)
+    {
+        Debug.Log("Playing drop off sound");
+        switch (portalID)
+        {
+            case 0:
+                audioManager.Play("Drop Ghost Purple");
+                break;
+            case 1:
+                audioManager.Play("Drop Ghost Green");
+                break;
+            case 2:
+                audioManager.Play("Drop Ghost Yellow");
+                break;
+            case 3:
+                audioManager.Play("Drop Ghost Blue");
+                break;
+            default:
+                audioManager.Play("Drop Ghost Blue");
+                break;
+        }
+    }
+
+
+    private void PlayRandomMovementSound()
+    {
+        int randInt = Random.Range(0, 2);
+
+        switch (randInt)
+        {
+            case 0:
+                audioManager.Play("Ghost Movement 1");
+                break;
+            case 1:
+                audioManager.Play("Ghost Movement 2");
+                break;
+            default:
+                audioManager.Play("Ghost Movement 2");
+                break;
+        }
     }
 }

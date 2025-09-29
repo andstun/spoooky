@@ -20,7 +20,7 @@ public class AugmentaPickup : MonoBehaviour
     [SerializeField] float pulseSpeed     = 2.0f;   // Hz
 
     [Header("Delays")]
-    [SerializeField] float pickupDelay = 2.0f;
+    [SerializeField] float pickupDelay = 1.25f;
 
     /* ───────── Private state ───────── */
     private AugmentaObject myAugmentaObject;
