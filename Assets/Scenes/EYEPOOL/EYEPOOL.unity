@@ -14888,7 +14888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.493201
+      value: 6.3932004
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 621afb950a9d74267a1ce0f2cab0af18, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22616,7 +22616,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Drop Ghost Blue
     clip: {fileID: 8300000, guid: 16ae6c442aea44c44b52b9436873c5d6, type: 3}
-    volume: 0.25
+    volume: 0.5
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -22628,7 +22628,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Drop Ghost Yellow
     clip: {fileID: 8300000, guid: 97429be205d301a4a87d788f0beefed4, type: 3}
-    volume: 0.25
+    volume: 0.5
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -22640,7 +22640,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Drop Ghost Green
     clip: {fileID: 8300000, guid: ecca01352091e35449a214335d7f7edf, type: 3}
-    volume: 0.25
+    volume: 0.6
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -22652,7 +22652,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Drop Ghost Purple
     clip: {fileID: 8300000, guid: b4f5eb56832c0ba42919b7508655ff22, type: 3}
-    volume: 0.25
+    volume: 0.6
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -22748,7 +22748,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Main Theme
     clip: {fileID: 8300000, guid: 321b3912343d95945bef03943d18c806, type: 3}
-    volume: 0.07
+    volume: 0.2
     pitch: 1
     loop: 1
     playAsOneShot: 0
@@ -24528,7 +24528,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2020255585}
   m_Direction: 2
   m_Value: -0.000057444853
-  m_Size: 0.9433333
+  m_Size: 0.9433297
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -24761,7 +24761,7 @@ Transform:
   m_GameObject: {fileID: 1005841386}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.51, y: 9, z: -14}
+  m_LocalPosition: {x: -10.41, y: 9, z: -14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26918,7 +26918,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 17.000984}
+  m_AnchoredPosition: {x: 0, y: 17.000982}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1184203727
