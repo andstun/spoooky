@@ -153,7 +153,7 @@ public class GhostSpawner : MonoBehaviour
                         hoverCountdown
                         );
         ghost.gameObject.layer = LayerMask.NameToLayer("GameLogicLayer");
-        Instantiate(ghostPalette[portalID].splat, pos, Quaternion.identity); // run the splat
+        Instantiate(ghostPalette[portalID].splat, pos + new Vector3(-0.025f, 0f, 0f), Quaternion.Euler(90, -90, 0)); // run the splat with offset
         audioManager.Play("Ghost Appears");
 
         return ghost;

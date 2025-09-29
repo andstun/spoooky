@@ -16,17 +16,17 @@ MonoBehaviour:
   - name: Ghost A (Magenta)
     material: {fileID: 2100000, guid: b6a930cdeeed14d468c6f5736bf92b96, type: 2}
     prefab: {fileID: 258698820577650789, guid: 119e48402dac297459594148543eb383, type: 3}
-    splat: {fileID: 2170602365818914746, guid: 1c8e981e3efc744d09b6b0af41006686, type: 3}
+    splat: {fileID: 2381953076427051944, guid: 973882a828e40a545814dd54231fd297, type: 3}
   - name: Ghost B (Green)
     material: {fileID: 2100000, guid: 0372b071e877c4340935457df452eae6, type: 2}
     prefab: {fileID: 2522501667485546402, guid: 6cf73f60b60208f469297664f1f73dcd, type: 3}
-    splat: {fileID: 3038500922738979951, guid: 681f6766834f64da5ac6e60ad2a54046, type: 3}
+    splat: {fileID: 3105897833757248209, guid: 96dbab5341c8bbe4aa7d9c28b8bc6f3d, type: 3}
   - name: Ghost C (Yellow)
     material: {fileID: 2100000, guid: ef760cfaa8d29419fbae13198f2d4cc0, type: 2}
     prefab: {fileID: 6191330517372860536, guid: 76be6799ce344ed47bbe646980ee09e6, type: 3}
-    splat: {fileID: 1967266023925312440, guid: d0ab5501d4fe944b6b61d7528dcdeb85, type: 3}
+    splat: {fileID: 8044074262767614862, guid: 14aaab62e01906a44af0146b7cf03c46, type: 3}
   - name: Ghost D (Cyan)
     material: {fileID: 2100000, guid: 949ee1f5beb144c6fbd4e24c8ea2bd79, type: 2}
     prefab: {fileID: 7161362574870923318, guid: 5eabfac5f1841cb499e16f3895fc232d, type: 3}
-    splat: {fileID: 2526843492322155737, guid: ff31e9045209e4a2ab9a08352837465f, type: 3}
+    splat: {fileID: 1203943416967485543, guid: 9b18eb853e7ad2a4fbe085d61a28f93f, type: 3}
   defaultPrefab: {fileID: 0}
