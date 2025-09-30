@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7202013452936371303}
   - component: {fileID: 804623787402724300}
   - component: {fileID: 2879025881749062196}
+  - component: {fileID: 6021209538686531749}
   m_Layer: 0
   m_Name: GhostAppearMagenta
   m_TagString: Untagged
@@ -4901,3 +4902,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &6021209538686531749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2381953076427051944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aee7452926377d248b1efef03340568a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 1.5

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6905002296467031379}
   - component: {fileID: 7179961907433628385}
   - component: {fileID: 1514815562507201876}
+  - component: {fileID: 7040997170960728776}
   m_Layer: 0
   m_Name: GhostAppearYellow
   m_TagString: Untagged
@@ -4901,3 +4902,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &7040997170960728776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8044074262767614862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aee7452926377d248b1efef03340568a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 1.5
