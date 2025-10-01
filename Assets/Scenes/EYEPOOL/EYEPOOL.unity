@@ -24526,7 +24526,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2020255585}
   m_Direction: 2
   m_Value: -0.00005385455
-  m_Size: 0.9433333
+  m_Size: 0.94333
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -25072,7 +25072,7 @@ Transform:
   m_GameObject: {fileID: 1036359851}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.797, y: -0.941, z: -1.991}
+  m_LocalPosition: {x: -1.551, y: -1.455, z: -2.043}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26920,7 +26920,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 17.00092}
+  m_AnchoredPosition: {x: 0, y: 17.000914}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1184203727
@@ -62820,7 +62820,7 @@ Light:
   serializedVersion: 11
   m_Type: 3
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 2.899638
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -62863,7 +62863,7 @@ Light:
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 12, y: 31.117018}
   m_BounceIntensity: 1
-  m_ColorTemperature: 6570
+  m_ColorTemperature: 3273
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 26.675346}
   m_UseBoundingSphereOverride: 1
