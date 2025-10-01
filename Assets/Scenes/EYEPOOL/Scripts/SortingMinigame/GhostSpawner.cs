@@ -56,7 +56,7 @@ public class GhostSpawner : MonoBehaviour
     {
         ghostPalette = ghostPaletteAsset.GetEntries();
         // prefabPalette = ghostPaletteAsset.GetPrefabs();
-        sinkBoundary = Mathf.Abs(xRange.x) + 0.15f; // add buffer zone between ghost area and sink area
+        sinkBoundary = Mathf.Abs(xRange.x) - 3.5f; // add buffer zone between ghost area and sink area
         maze = this.GetComponent<MovementMaze>();
         maze.Initialise(Util.GetExtents(xRange, zRange)); // TODO: might need onValidate()
         audioManager = FindAnyObjectByType<AudioManager>();

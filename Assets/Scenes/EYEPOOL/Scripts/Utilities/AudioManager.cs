@@ -36,6 +36,7 @@ public class AudioManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Play("Game Start");
         Play("Main Theme");
         Play("Portal Sound");
         Play("Fireplace");

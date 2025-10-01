@@ -48,5 +48,8 @@ TagManager:
   - name: Ghosts
     uniqueID: 3480679455
     locked: 0
+  - name: Foreground
+    uniqueID: 3377763773
+    locked: 0
   m_RenderingLayers:
   - Default
