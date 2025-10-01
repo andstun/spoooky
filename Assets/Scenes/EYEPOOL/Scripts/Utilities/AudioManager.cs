@@ -58,7 +58,6 @@ public class AudioManager : MonoBehaviour
 
     public void Play(string name)
     {
-        Debug.Log("Attempting to play sound: " + name);
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null) return;
         

@@ -51,7 +51,7 @@ public class Ghost : MonoBehaviour
     {
         if (_initialised)
         {
-            Debug.LogWarning($"{name} is already initialised – ignoring.");
+            // Debug.LogWarning($"{name} is already initialised – ignoring.");
             return;
         }
         ghostID = _ghostID;
@@ -77,7 +77,7 @@ public class Ghost : MonoBehaviour
         isCoveredByCobwebs = Time.time < cobwebCoveredUntil;
         if (isCoveredByCobwebs)
         {
-            Debug.Log($"Ghost covered with cobweb: {isCoveredByCobwebs}");
+            // Debug.Log($"Ghost covered with cobweb: {isCoveredByCobwebs}");
         }
         switch (state)
         {
@@ -153,7 +153,7 @@ public class Ghost : MonoBehaviour
         PlayPickupSound();
         if (personAttached == null)
         {
-            Debug.Log("unable to pick up person properly");
+            // Debug.Log("unable to pick up person properly");
         }
     }
 
@@ -300,7 +300,6 @@ public class Ghost : MonoBehaviour
     }
     private void PlayDropOffSound(int portalID)
     {
-        Debug.Log("Playing drop off sound");
         switch (portalID)
         {
             case 0:

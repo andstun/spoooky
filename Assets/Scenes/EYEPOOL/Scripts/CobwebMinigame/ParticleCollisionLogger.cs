@@ -16,7 +16,7 @@ public class ParticleCollisionLogger : MonoBehaviour
     private void OnParticleCollision(GameObject other)
     {
         int n = ps.GetCollisionEvents(other, eventsBuf);
-        Debug.Log($"Particles from [{name}] hit [{other.name}] — {n} events");
+        // Debug.Log($"Particles from [{name}] hit [{other.name}] — {n} events");
 
         // Draw a few impact points/normals so you can see them in Scene view
         int limit = Mathf.Min(n, 10);

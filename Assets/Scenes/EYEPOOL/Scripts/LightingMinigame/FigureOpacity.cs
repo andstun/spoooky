@@ -24,7 +24,6 @@ public class FigureOpacity : MonoBehaviour
         {
             if (figureMaterial.GetColor("_GlowColor").a < 255)
             {
-                Debug.Log("Appearing");
                 materialColor.a += 0.01f;
                 figureMaterial.SetColor("_GlowColor", materialColor);
             }
@@ -32,7 +31,6 @@ public class FigureOpacity : MonoBehaviour
         }
         else if(!triggerOpacity && figureMaterial.GetColor("_GlowColor").a > 0)
         {
-            Debug.Log("Fading");
             materialColor.a -= 0.01f;
             figureMaterial.SetColor("_GlowColor", materialColor);
         }

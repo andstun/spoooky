@@ -13,16 +13,16 @@ public class AudioListenerFixer
         var listeners = Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None);
         if (listeners.Length <= 1)
         {
-            Debug.Log("Only one AudioListener found. No changes made.");
+            // Debug.Log("Only one AudioListener found. No changes made.");
             return;
         }
 
-        Debug.LogWarning($"Found {listeners.Length} AudioListeners. Disabling extras...");
+        // Debug.LogWarning($"Found {listeners.Length} AudioListeners. Disabling extras...");
 
         for (int i = 1; i < listeners.Length; i++)
         {
             listeners[i].enabled = false;
-            Debug.Log($"Disabled AudioListener on GameObject: {listeners[i].gameObject.name}");
+            // Debug.Log($"Disabled AudioListener on GameObject: {listeners[i].gameObject.name}");
         }
     }
 }

@@ -56,23 +56,28 @@ namespace Augmenta.UnityOSC
             CreateClient(clientId, IPAddress.Parse(destination), port);
         }
 
-        public static void CreateClient(string clientId, IPAddress destination, int port) {
-            var client = new OSCClient(destination, port) {
+        public static void CreateClient(string clientId, IPAddress destination, int port)
+        {
+            var client = new OSCClient(destination, port)
+            {
                 Name = clientId
             };
 
             Clients.Add(clientId, client);
 
             if (Instance.ShowDebug)
-                Debug.Log("Client " + clientId + " on " + destination + ":" + port + "created.");
+            // Debug.Log("Client " + clientId + " on " + destination + ":" + port + "created.");
+            return;
         }
 
-        public static void RemoveClient(string clientId) {
+        public static void RemoveClient(string clientId)
+        {
             Clients[clientId].Close();
             Clients.Remove(clientId);
 
             if (Instance.ShowDebug)
-                Debug.Log("Client " + clientId + " removed.");
+                //Debug.Log("Client " + clientId + " removed.");
+                return;
         }
 
         public static OSCReceiver CreateReceiver(string receiverId, int port) {

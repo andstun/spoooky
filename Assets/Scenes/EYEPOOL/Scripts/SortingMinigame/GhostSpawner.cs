@@ -59,7 +59,7 @@ public class GhostSpawner : MonoBehaviour
         sinkBoundary = Mathf.Abs(xRange.x) + 0.15f; // add buffer zone between ghost area and sink area
         maze = this.GetComponent<MovementMaze>();
         maze.Initialise(Util.GetExtents(xRange, zRange)); // TODO: might need onValidate()
-        audioManager = FindObjectOfType<AudioManager>();
+        audioManager = FindAnyObjectByType<AudioManager>();
     }
 
     void Start()
@@ -101,7 +101,6 @@ public class GhostSpawner : MonoBehaviour
         // Colour
         int portalID = UnityEngine.Random.Range(0, ghostPalette.Length);
         GameObject sprite = Instantiate(ghostPalette[portalID].prefab, pos, rot, spawnParent);
-        Debug.Log(portalID);
         // sprite.transform.localScale *= 5f;
         // Renderer rend = sprite.GetComponent<Renderer>();
         // rend.material = ghostPalette[portalID];

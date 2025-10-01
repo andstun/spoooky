@@ -30,7 +30,7 @@ public class FPSLogger : MonoBehaviour
         var header = "Time (s),FPS,Average FPS\n";
         File.WriteAllText(filePath, header, Encoding.UTF8);
 
-        Debug.Log($"[FPSLogger] Logging to {filePath}");
+        // Debug.Log($"[FPSLogger] Logging to {filePath}");
     }
 
     void Update()

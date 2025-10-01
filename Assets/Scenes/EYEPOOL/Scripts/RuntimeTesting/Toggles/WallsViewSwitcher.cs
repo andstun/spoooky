@@ -38,7 +38,7 @@ public class WallsViewSwitcher : MonoBehaviour
 
         if (!displayWalls || !debugWalls)
         {
-            Debug.LogWarning("[WallsViewSwitcher] 'Display Walls' or 'Debug Walls' child is missing.");
+            // Debug.LogWarning("[WallsViewSwitcher] 'Display Walls' or 'Debug Walls' child is missing.");
         }
     }
 

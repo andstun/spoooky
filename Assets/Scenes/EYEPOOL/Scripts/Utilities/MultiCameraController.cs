@@ -30,6 +30,6 @@ public class MultiCameraController : MonoBehaviour
             cam.cullingMask = cullingMask;
         }
 
-        Debug.Log($"Applied settings to {cameras.Length} cameras under {name}.");
+        // Debug.Log($"Applied settings to {cameras.Length} cameras under {name}.");
     }
 }

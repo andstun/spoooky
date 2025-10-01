@@ -129,7 +129,7 @@ namespace Augmenta
                 CleanUp();
 
 			if (!augmentaManager) {
-                Debug.LogError("AugmentaManager is not specified in AugmentaVideoOutput " + name+".");
+                // Debug.LogError("AugmentaManager is not specified in AugmentaVideoOutput " + name+".");
                 return;
 			}
 
@@ -137,14 +137,14 @@ namespace Augmenta
                 AugmentaVideoOutputCamera augmentaVideoOutputCamera = GetComponentInChildren<AugmentaVideoOutputCamera>();
 
 				if (!augmentaVideoOutputCamera) {
-                    Debug.LogError("Could not find an AugmentaVideoOutputCamera in " + name + " hierarchy.");
+                    // Debug.LogError("Could not find an AugmentaVideoOutputCamera in " + name + " hierarchy.");
                     return;
 				} else {
                     camera = augmentaVideoOutputCamera.camera;
 				}
 			} else if (cameraMode == CameraMode.External) {
 				if (!camera) {
-                    Debug.LogError("No camera specified in " + name + " which is set to use an external camera.");
+                    // Debug.LogError("No camera specified in " + name + " which is set to use an external camera.");
                     return;
                 }
 			}

@@ -534,7 +534,7 @@ namespace Augmenta {
 				UnityOSC.OSCMaster.Receivers["Augmenta-" + augmentaId].messageReceived += OSCMessageReceived;
 				portBinded = true;
 			} else {
-				Debug.LogError("Could not create OSC receiver at port " + inputPort + ".");
+				// Debug.LogError("Could not create OSC receiver at port " + inputPort + ".");
 				portBinded = false;
 			}
 		}

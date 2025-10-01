@@ -19,7 +19,7 @@ public class TunnelTrigger : MonoBehaviour
     [SerializeField] private Vector3 maxCampFireLightSize = new Vector3(1.5f, 1.5f, 1.5f);
     private Collider triggerZone;
     private readonly HashSet<AugmentaObject> usersInZone = new();
-    private float lastActivityTime = Mathf.NegativeInfinity;
+    // private float lastActivityTime = Mathf.NegativeInfinity;
     private Coroutine fadeCoroutine;
     private Coroutine rampCoroutine;
     private bool lightHasTriggered = false;
@@ -36,7 +36,6 @@ public class TunnelTrigger : MonoBehaviour
 
     void Update()
     {
-        Debug.Log($"Users in zone: {usersInZone.Count}");
         // Fade out if empty and inactive long enough
         if (usersInZone.Count == 0 && lightHasTriggered)
         {
