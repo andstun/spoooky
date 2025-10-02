@@ -24,15 +24,26 @@ public class KeypressManager : MonoBehaviour
             OnEscapePressed?.Invoke();
             QuitGame();
         }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            OnRPressed?.Invoke();
+            RestartGame();
+        }
 
-        // W, L, U, and R can be extended via the inspector or from code
+        // W, L, U, and T can be extended via the inspector or from code
         if (Input.GetKeyDown(KeyCode.W)) OnWPressed?.Invoke(); // Toggle test walls / skin
         if (Input.GetKeyDown(KeyCode.L)) OnLPressed?.Invoke(); // Toggle lights (sun vs mood)
         if (Input.GetKeyDown(KeyCode.U)) OnUPressed?.Invoke(); // Toggle UI element (displays ghosts)
-        if (Input.GetKeyDown(KeyCode.R)) OnRPressed?.Invoke(); // Toggle RenderTextures
+        if (Input.GetKeyDown(KeyCode.R)) OnRPressed?.Invoke(); // Toggle Scene Restart
+        if (Input.GetKeyDown(KeyCode.T)) OnRPressed?.Invoke(); // Toggle RenderTextures
     }
 
     // ───── Private helpers ─────
+    void RestartGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
     void QuitGame()
     {
 #if UNITY_EDITOR

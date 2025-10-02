@@ -407,7 +407,7 @@ Transform:
   m_GameObject: {fileID: 48406758}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.486, y: -1.064, z: -1.806}
+  m_LocalPosition: {x: -0.486, y: -1.064, z: -1.535}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21462,7 +21462,7 @@ Transform:
   m_GameObject: {fileID: 652606425}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.935, y: -1.004, z: -1.598}
+  m_LocalPosition: {x: 0.935, y: -1.004, z: -1.497}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22775,7 +22775,7 @@ MonoBehaviour:
   sounds:
   - name: Ghost Appears
     clip: {fileID: 8300000, guid: 3b78e6e4080b40345aa10530ec61a22f, type: 3}
-    volume: 0.25
+    volume: 0.7
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -22787,7 +22787,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Drop Ghost Blue
     clip: {fileID: 8300000, guid: 16ae6c442aea44c44b52b9436873c5d6, type: 3}
-    volume: 0.5
+    volume: 0.7
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -22799,7 +22799,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Drop Ghost Yellow
     clip: {fileID: 8300000, guid: 97429be205d301a4a87d788f0beefed4, type: 3}
-    volume: 0.5
+    volume: 0.7
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -22811,7 +22811,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Drop Ghost Green
     clip: {fileID: 8300000, guid: ecca01352091e35449a214335d7f7edf, type: 3}
-    volume: 0.6
+    volume: 0.8
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -22823,7 +22823,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Drop Ghost Purple
     clip: {fileID: 8300000, guid: b4f5eb56832c0ba42919b7508655ff22, type: 3}
-    volume: 0.6
+    volume: 0.7
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -22883,7 +22883,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Ghost Pick Up 1
     clip: {fileID: 8300000, guid: bee528bc395f42e49adec65dc7a82351, type: 3}
-    volume: 0.5
+    volume: 0.7
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -22895,7 +22895,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Ghost Pick Up 2
     clip: {fileID: 8300000, guid: 90a94d30b8d09444ea6d2bc1adeca6e1, type: 3}
-    volume: 0.5
+    volume: 0.7
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -22907,7 +22907,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Ghost Pick Up 3
     clip: {fileID: 8300000, guid: a95ada335e72fc04cb54f2c013f573ed, type: 3}
-    volume: 0.5
+    volume: 0.7
     pitch: 1
     loop: 0
     playAsOneShot: 1
@@ -25057,7 +25057,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &1020391600
 Animator:
   serializedVersion: 7
@@ -25129,7 +25129,7 @@ Transform:
   m_GameObject: {fileID: 1035515239}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.212, y: -0.943, z: -2.375}
+  m_LocalPosition: {x: 1.212, y: -0.943, z: -1.633}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25404,7 +25404,7 @@ Transform:
   m_GameObject: {fileID: 1036359851}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.551, y: -1.455, z: -2.043}
+  m_LocalPosition: {x: -1.551, y: -1.455, z: -1.952}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -38056,7 +38056,7 @@ Transform:
   m_GameObject: {fileID: 1261451547}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.459, y: -1.029, z: 1.567}
+  m_LocalPosition: {x: 0.459, y: -1.029, z: 0.952}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72206,7 +72206,7 @@ Transform:
   m_GameObject: {fileID: 2100915366}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.939, y: -1.009, z: 1.517}
+  m_LocalPosition: {x: -0.939, y: -1.009, z: 1.144}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
