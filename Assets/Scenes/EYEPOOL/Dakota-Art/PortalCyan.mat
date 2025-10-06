@@ -61,10 +61,10 @@ Material:
     - _BlendMode: 0
     - _Cell_Density: 4.77
     - _ConservativeDepthOffsetEnable: 0
-    - _Contrast: 2.82
+    - _Contrast: 2.24
     - _CullMode: 0
     - _CullModeForward: 0
-    - _Density: -0.32
+    - _Density: -1.27
     - _DepthOffsetEnable: 0
     - _DoubleSidedEnable: 1
     - _DoubleSidedGIMode: 0
@@ -101,7 +101,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 0, g: 1.5398766, b: 2.0590866, a: 0}
+    - _Color: {r: 0.016217606, g: 0.7763104, b: 1.0314465, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Offset: {r: 0.5, g: 0.5, b: 0, a: 0}
