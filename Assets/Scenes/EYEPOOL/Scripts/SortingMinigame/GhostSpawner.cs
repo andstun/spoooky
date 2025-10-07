@@ -143,7 +143,8 @@ public class GhostSpawner : MonoBehaviour
         ghost.maze = this.maze;
 
         ghost.Initialise(nextGhostID++, 
-                        sprite, 
+                        sprite,
+                        ghostPalette[portalID].captureSprite, 
                         portalID,
                         ghostPalette[portalID].material.color, 
                         this, 

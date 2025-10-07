@@ -42103,7 +42103,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9433962, g: 0.52954787, b: 0.52954787, a: 1}
   m_Intensity: 2387.324
   m_Range: 70
   m_SpotAngle: 30

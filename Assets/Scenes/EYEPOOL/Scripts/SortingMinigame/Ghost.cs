@@ -9,6 +9,7 @@ public class Ghost : MonoBehaviour
     public GameObject sprite { get; private set; }
     public int targetSinkID { get; private set; }
     public Color ghostColor { get; private set; }
+    public Sprite captureSprite { get;  private set; }
     public MovementMaze maze; // cached ref to allow 
     public MovementMazeNode node; // public, but should only be set by GhostSpawner. // TODO: maybe GhostSpawner needs to be a friend class of Ghost.
     public float movementSpeed { get; private set; }
@@ -31,9 +32,6 @@ public class Ghost : MonoBehaviour
     public float duration = 1.0f; // how long the total 
     public float dropoffDelay { get; private set; } = 1.0f;
     public bool deleteInsteadOfReplace = false; // public, but should only be set by GhostSpawner.
-    public GameObject splatPrefab { get; private set; }
-    // [SerializeField] private float trailSpawnInterval = 0.15f;
-    // [SerializeField] private float trailSpawnTimer = 0f;
 
     /* ───────── Private state ───────── */
     private bool _initialised = false;
@@ -47,7 +45,7 @@ public class Ghost : MonoBehaviour
     private float cobwebCoveredUntil = -1f;
 
     /// <summary> Call this right after AddComponent. Subsequent calls are ignored. </summary>
-    public void Initialise(int _ghostID, GameObject _sprite, int _targetSinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed, float _hoverCountdown)
+    public void Initialise(int _ghostID, GameObject _sprite, Sprite _captureSprite, int _targetSinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed, float _hoverCountdown)
     {
         if (_initialised)
         {
@@ -56,6 +54,7 @@ public class Ghost : MonoBehaviour
         }
         ghostID = _ghostID;
         sprite = _sprite;
+        captureSprite = _captureSprite;
         targetSinkID = _targetSinkID;
         ghostColor = _ghostColor;
         node = _node;
@@ -64,7 +63,6 @@ public class Ghost : MonoBehaviour
         hoverTime = _hoverCountdown;
         spawner = owner;
         dropoffTimer = 0f;
-        // splatPrefab = newSplatPrefab;
         _initialised = true;
 
         audioManager = FindAnyObjectByType<AudioManager>();
@@ -74,11 +72,6 @@ public class Ghost : MonoBehaviour
     private void Update()
     {
         if (!_initialised) return;
-        isCoveredByCobwebs = Time.time < cobwebCoveredUntil;
-        if (isCoveredByCobwebs)
-        {
-            // Debug.Log($"Ghost covered with cobweb: {isCoveredByCobwebs}");
-        }
         switch (state)
         {
             case GhostState.Hovering:
@@ -103,17 +96,6 @@ public class Ghost : MonoBehaviour
 
             case GhostState.Moving:
                 // op handled in coroutine
-
-                // scrapped ghost trail handled here
-                // trailSpawnTimer += Time.deltaTime;
-                // if (trailSpawnTimer >= trailSpawnInterval)
-                // {
-                //     Color splatColor = ghostColor;
-                //     splatColor.a = 0.5f;
-                //     splatPrefab.GetComponent<SpriteRenderer>().color = splatColor;
-                //     Instantiate(splatPrefab, transform.position, Quaternion.Euler(90, 0, 0));
-                //     trailSpawnTimer = 0f;
-                // }
                 break;
             case GhostState.Attached:
                 animator.SetTrigger("Move");
@@ -148,7 +130,9 @@ public class Ghost : MonoBehaviour
 
         state = GhostState.Attached;
         transform.SetParent(parent, true);
+        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false; // hide ghost sprite
         personAttached = parent.GetComponent<AugmentaPickup>();
+        personAttached.AttachGhostRing(this);
         maze.makeMazeNodeAvailable(node);
         PlayPickupSound();
         if (personAttached == null)

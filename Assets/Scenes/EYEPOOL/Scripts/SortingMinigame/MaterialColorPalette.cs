@@ -10,8 +10,9 @@ public class GhostPalette : ScriptableObject
     {
         public string name;              // optional label for readability
         public Material material;        // the sink/portal material
+        public Sprite captureSprite; // the material to use when the ghost is captured
         public GameObject prefab;        // the ghost prefab to spawn
-        public GameObject splat;         // the ghost splat animation
+        public GameObject splat;         // the ghost splat animations
     }
 
     [SerializeField] private Entry[] entries;

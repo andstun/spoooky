@@ -1,38 +1,40 @@
 using UnityEngine;
 using Augmenta;
+using Unity.VisualScripting;
 
 /// Adds interactivity to an Augmenta object:
-/// Pulsing influence ring and orbits ONE ghost around it.
+/// Pulsing influence ring and changes into respective Ghosts Sprite when captured
 public class AugmentaPickup : MonoBehaviour
 {
     /* ───────── Inspector Params ───────── */
-    
+
     [Header("Orbit")]
-    [SerializeField] float ringRadius   = 1.0f;
-    [SerializeField] float velocity     = 1.0f;     // radians per second
+    [SerializeField] float ringRadius = 1.0f;
+    [SerializeField] float velocity = 1.0f;     // radians per second
     public float speedToRingRadiusFactor = 0.5f;  // Degree to which orbit gets bigger upon speed change.
     public float speedDifferenceThreshold = 0.1f; // Saves computation
 
     [Header("Ring Look")]
-    [SerializeField] float ringStroke   = 0.20f;
-    [SerializeField] int   ringSegments = 64;
+    [SerializeField] float ringStroke = 0.20f;
+    [SerializeField] int ringSegments = 64;
     [SerializeField] float pulseAmplitude = 0.25f;  // +/-25 % width
-    [SerializeField] float pulseSpeed     = 2.0f;   // Hz
+    [SerializeField] float pulseSpeed = 2.0f;   // Hz
 
     [Header("Delays")]
     [SerializeField] float pickupDelay = 0.5f;
 
     /* ───────── Private state ───────── */
     private AugmentaObject myAugmentaObject;
+    private GameObject captureRingSprite;
     private CapsuleCollider myCollider;
 
-    private Ghost        carriedGhost;
-    private float        angle;
+    private Ghost carriedGhost;
+    private float angle;
     private LineRenderer ring;
-    private Material     ringMat;
-    private Color        currentClr  = Color.white;
-    private Color        targetClr   = Color.white;
-    private float        baseWidth;
+    private Material ringMat;
+    private Color currentClr = Color.white;
+    private Color targetClr = Color.white;
+    private float baseWidth;
 
     private Ghost overlappingGhost;
     private float pickupTimer;
@@ -43,20 +45,26 @@ public class AugmentaPickup : MonoBehaviour
     void Awake()
     {
         myAugmentaObject = GetComponent<AugmentaObject>();
+
     }
 
-    public void Initialise(float _ringRadius) 
+    public void Initialise(float _ringRadius)
     {
         ringRadius = _ringRadius;
         myCollider = gameObject.AddComponent<CapsuleCollider>();
         myCollider.radius = _ringRadius;
-		myCollider.direction = 1; // 0 = X, 1 = Y, 2 = Z 
-		myCollider.height = 3.0f;
-		myCollider.isTrigger = false;
+        myCollider.direction = 1; // 0 = X, 1 = Y, 2 = Z 
+        myCollider.height = 3.0f;
+        myCollider.isTrigger = false;
 
-		Rigidbody rb = gameObject.AddComponent<Rigidbody>();
-		rb.isKinematic = true;                  // no forces, just follows pivot
-		rb.useGravity = false;
+        Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+        rb.isKinematic = true;                  // no forces, just follows pivot
+        rb.useGravity = false;
+
+        captureRingSprite = new GameObject("CaptureRingSprite");
+        captureRingSprite.transform.SetParent(transform, false);
+        captureRingSprite.transform.rotation = Quaternion.Euler(90, -90, 0);
+        captureRingSprite.AddComponent<SpriteRenderer>();
 
         BuildRing();
     }
@@ -69,7 +77,7 @@ public class AugmentaPickup : MonoBehaviour
         }
         if (ringRadius != myCollider.radius) // only change if there's been a radius change
         {
-            myCollider.radius = ringRadius; 
+            myCollider.radius = ringRadius;
             UpdateRingRadius(ringRadius);
         }
     }
@@ -87,16 +95,16 @@ public class AugmentaPickup : MonoBehaviour
 
         ring = go.AddComponent<LineRenderer>();
         ring.useWorldSpace = false;
-        ring.loop          = true;
+        ring.loop = true;
         ring.positionCount = ringSegments;
-        baseWidth          = ringStroke;
+        baseWidth = ringStroke;
         ring.startWidth = ring.endWidth = baseWidth;
 
-        ringMat         = new Material(Shader.Find("Sprites/Default"));
-        ringMat.color   = currentClr;
-        ring.material   = ringMat;
+        ringMat = new Material(Shader.Find("Sprites/Default"));
+        ringMat.color = currentClr;
+        ring.material = ringMat;
         ring.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        ring.receiveShadows    = false;
+        ring.receiveShadows = false;
 
         Vector3[] pts = new Vector3[ringSegments];
         float step = 2 * Mathf.PI / ringSegments;
@@ -112,6 +120,10 @@ public class AugmentaPickup : MonoBehaviour
     void UpdateRingRadius(float newRadius)
     {
         ringRadius = newRadius;
+        if (captureRingSprite.GetComponent<SpriteRenderer>() != null)
+        {
+            captureRingSprite.transform.localScale = ringRadius * 0.6f * Vector3.one; // scale capture sprite to fit inside ring
+        }
 
         Vector3[] pts = new Vector3[ringSegments];
         float step = 2 * Mathf.PI / ringSegments;
@@ -161,12 +173,12 @@ public class AugmentaPickup : MonoBehaviour
                 lastSpeed = speed;
             }
 
-            // orb spinning logic
-            angle += (velocity + (speed * speedToRingRadiusFactor)) * Time.deltaTime;
-            Vector3 offs = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * ringRadius; 
-            carriedGhost.transform.localPosition = offs;
+            // // orb spinning logic
+            // angle += (velocity + (speed * speedToRingRadiusFactor)) * Time.deltaTime;
+            // Vector3 offs = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * ringRadius; 
+            // carriedGhost.transform.localPosition = offs;
         }
-        else if (isOverlapping && overlappingGhost != null && !overlappingGhost.isCoveredByCobwebs) // "I am colliding with a ghost and it isn't covered in cobwebs"
+        else if (isOverlapping && overlappingGhost != null) // "I am colliding with a ghost"
         {
             pickupTimer += Time.deltaTime;
             if (pickupTimer >= pickupDelay)
@@ -195,13 +207,32 @@ public class AugmentaPickup : MonoBehaviour
         currentClr.a = 1f; // force opaque
         ringMat.color = currentClr;
     }
-    
+
     // called externally by another class to help drop the ghost possession
-    public void DropGhost() 
+    public void DropGhost()
     {
+        DetachGhostRing();
         UpdateRingRadius(1.0f); // return ring to original size
         if (carriedGhost == null) return;
 
         carriedGhost = null;           // Update() will fade back to white
+    }
+
+    public void AttachGhostRing(Ghost ghost)
+    {
+        Debug.Log("attaching ghost ring sprite");
+        // ghost colour spawns with 0 alpha, and cannot modify component without getting a variable to copy first
+        Color color = ghost.ghostColor;
+        color.a = 1f;
+        captureRingSprite.GetComponent<SpriteRenderer>().sprite = ghost.captureSprite;
+        captureRingSprite.GetComponent<SpriteRenderer>().color = color;
+
+        // ring.GetComponent<LineRenderer>().enabled = false; // hide ring when ghost is attached
+    }
+    public void DetachGhostRing()
+    {
+        Debug.Log("detaching ghost ring sprite");
+        captureRingSprite.GetComponent<SpriteRenderer>().sprite = null;
+        // ring.GetComponent<LineRenderer>().enabled = true; // show ring when ghost is detached
     }
 }
