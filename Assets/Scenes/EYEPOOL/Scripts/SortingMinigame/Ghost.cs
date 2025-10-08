@@ -31,7 +31,6 @@ public class Ghost : MonoBehaviour
 
     public float duration = 1.0f; // how long the total 
     public float dropoffDelay { get; private set; } = 1.0f;
-    public bool deleteInsteadOfReplace = false; // public, but should only be set by GhostSpawner.
 
     /* ───────── Private state ───────── */
     private bool _initialised = false;
@@ -41,7 +40,6 @@ public class Ghost : MonoBehaviour
     private Animator animator;
     private float dropoffTimer = 0f;
     private Coroutine moveRoutine;   // handle to FollowPath()
-    public bool isCoveredByCobwebs { get; private set; }
     private float cobwebCoveredUntil = -1f;
 
     /// <summary> Call this right after AddComponent. Subsequent calls are ignored. </summary>
@@ -153,14 +151,8 @@ public class Ghost : MonoBehaviour
             personAttached.DropGhost();
             PlayDropOffSound(targetSinkID);
 
-            if (deleteInsteadOfReplace)
-            {
-                spawner.RemoveGhostFromGhostList(this);
-                return;
-            }
-
             float delay = Random.Range(1f, 8f);
-            spawner.StartCoroutine(spawner.DelayedReplaceGhost(this, delay));
+            spawner.DestroyGhost(this);
         }
     }
 

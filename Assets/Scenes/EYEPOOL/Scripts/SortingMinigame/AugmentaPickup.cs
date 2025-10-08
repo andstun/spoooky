@@ -220,7 +220,6 @@ public class AugmentaPickup : MonoBehaviour
 
     public void AttachGhostRing(Ghost ghost)
     {
-        Debug.Log("attaching ghost ring sprite");
         // ghost colour spawns with 0 alpha, and cannot modify component without getting a variable to copy first
         Color color = ghost.ghostColor;
         color.a = 1f;
@@ -231,7 +230,6 @@ public class AugmentaPickup : MonoBehaviour
     }
     public void DetachGhostRing()
     {
-        Debug.Log("detaching ghost ring sprite");
         captureRingSprite.GetComponent<SpriteRenderer>().sprite = null;
         // ring.GetComponent<LineRenderer>().enabled = true; // show ring when ghost is detached
     }

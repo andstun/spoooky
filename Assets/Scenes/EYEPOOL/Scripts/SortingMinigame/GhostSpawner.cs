@@ -14,9 +14,11 @@ public class GhostSpawner : MonoBehaviour
     [Header("Spawn Settings")]
     public int ghostsToSpawn { get; private set; } = 10; 
     public int ghostsPerPerson = 4;
-    [SerializeField] private int maxGhostsInRoom = 20;
+    [SerializeField] private int maxGhostsInRoom = 20; // CAP
+    public int ghostCount;
     private float minimumPresence = 10f;
     private Dictionary<int, Coroutine> presenceTimers = new Dictionary<int, Coroutine>();
+    [SerializeField] bool isSpawningWithDelay = true;
 
     [Header("Movement Parameters")]
     public bool toggleGhostMovement = true;
@@ -41,8 +43,6 @@ public class GhostSpawner : MonoBehaviour
     private static GhostPalette.Entry[] ghostPalette;
     // private static GameObject[] prefabPalette;
 
-    private List<Ghost> ghosts = new List<Ghost>();
-    private Queue<Ghost> ghostsQueue = new Queue<Ghost>(); // for creation / deletion cycles
     private int nextGhostID = 0;
 
     private MovementMaze maze;
@@ -70,15 +70,18 @@ public class GhostSpawner : MonoBehaviour
             augmentaManager.augmentaObjectLeave += OnAugmentaObjectLeave;
         }
 
-        int peopleInRoom = ghostsToSpawn / 4;  // augmentaManager.augmentaScene.augmentaObjectCount;
-        ghostsToSpawn = peopleInRoom * ghostsPerPerson;
-        if (ghostsToSpawn > maxGhostsInRoom)
+    }
+
+    void Update()
+    {
+        if (ghostCount < maxGhostsInRoom && !isSpawningWithDelay)
         {
-            ghostsToSpawn = maxGhostsInRoom;
+            isSpawningWithDelay = true;
+            StartCoroutine(DelayedGhostSpawn(0));
         }
-        for (int i = 0; i < peopleInRoom; i++)
+        else
         {
-            StartCoroutine(DelayedSpawnGhostsPerPerson());
+            Debug.Log("Reached max count early exit or is spawning with delay");
         }
     }
 
@@ -91,6 +94,7 @@ public class GhostSpawner : MonoBehaviour
         if (availNode == null)
         {
             // Debug.Log("No maze nodes available");
+            ghostCount--;
             return null;
         }
 
@@ -123,14 +127,6 @@ public class GhostSpawner : MonoBehaviour
         rb.isKinematic = true;
         rb.useGravity = false;
 
-        // // Register ghost collider with cobweb particle system’s trigger controller
-        // CobwebTriggerController triggerCtrl = FindObjectOfType<CobwebTriggerController>();
-        // if (triggerCtrl != null)
-        // {
-        //     int slot = triggerCtrl.RegisterGhostCollider(triggerCol, ghost);
-        //     ghost.gameObject.AddComponent<GhostSlotTracker>().Init(triggerCtrl, slot);
-        // }
-
         float ghostMovementSpeed;
         do
         {
@@ -142,14 +138,14 @@ public class GhostSpawner : MonoBehaviour
         ghost.hopsUntilHover = UnityEngine.Random.Range(2, 5);   // e.g. 2–4 hops before resting
         ghost.maze = this.maze;
 
-        ghost.Initialise(nextGhostID++, 
+        ghost.Initialise(nextGhostID++,
                         sprite,
-                        ghostPalette[portalID].captureSprite, 
+                        ghostPalette[portalID].captureSprite,
                         portalID,
-                        ghostPalette[portalID].material.color, 
-                        this, 
-                        availNode, 
-                        ghostMovementSpeed, 
+                        ghostPalette[portalID].material.color,
+                        this,
+                        availNode,
+                        ghostMovementSpeed,
                         hoverCountdown
                         );
         ghost.gameObject.layer = LayerMask.NameToLayer("GameLogicLayer");
@@ -160,34 +156,19 @@ public class GhostSpawner : MonoBehaviour
     }
 
     // Called by Ghost when it scores
-    public void ReplaceGhost(Ghost oldGhost)
+    public void DestroyGhost(Ghost oldGhost)
     {
-        int i = ghosts.IndexOf(oldGhost);
-        if (i < 0) return;
         maze.makeMazeNodeAvailable(oldGhost.node);
-        Ghost newGhost = SpawnGhost();
-        if (newGhost != null)
-        {
-            ghosts[i] = newGhost;     // keep list length & order intact
-        } else 
-        {
-            ghosts.RemoveAt(i); // ghost is totally removed from list
-        }
+        ghostCount--;
         Destroy(oldGhost.gameObject);
     }
 
-    public IEnumerator DelayedReplaceGhost(Ghost oldGhost, float delay)
-    {
-        oldGhost.gameObject.SetActive(false); 
-        yield return new WaitForSeconds(delay);
-        ReplaceGhost(oldGhost);
-    }
-
-    public void RemoveGhostFromGhostList(Ghost ghostToRemove)
-    {
-        ghosts.Remove(ghostToRemove); // TODO: can optimize this, probably
-        Destroy(ghostToRemove.gameObject);
-    }
+    // public IEnumerator DelayedReplaceGhost(Ghost oldGhost, float delay)
+    // {
+    //     oldGhost.gameObject.SetActive(false); 
+    //     yield return new WaitForSeconds(delay);
+    //     ReplaceGhost(oldGhost);
+    // }
 
     public void OnAugmentaObjectEnter(AugmentaObject obj, Augmenta.AugmentaDataType dataType)
     {
@@ -205,7 +186,15 @@ public class GhostSpawner : MonoBehaviour
     {
         int id = obj.id;
         // Debug.Log($"Object {id} is leaving");
-
+        if (obj.GetComponentInChildren<Ghost>() != null)
+        {
+            DestroyGhost(obj.GetComponentInChildren<Ghost>());
+            // Debug.Log("Had a ghost on exit");
+        }
+        else
+        {
+            // Debug.Log("No ghost on exit");
+        }
         // Cancel ghost spawn if they left early
         if (presenceTimers.TryGetValue(id, out Coroutine c))
         {
@@ -214,85 +203,98 @@ public class GhostSpawner : MonoBehaviour
             // Debug.Log($"Cancelled spawn for object {id} due to early exit");
         }
 
-        StartCoroutine(ConsumeGhostsUntilAvailable());
     }
 
     private IEnumerator ConfirmPresenceAfterDelay(AugmentaObject obj, int id)
     {
-        yield return new WaitForSeconds(minimumPresence);
+        yield return new WaitForSeconds(2f);
 
-        // If we're still tracking the object after 5 seconds, they didn't leave
+        // If we're still tracking the object after 2.5 seconds, they didn't leave
         if (presenceTimers.ContainsKey(id))
         {
             // Debug.Log($"Object {id} confirmed present after {minimumPresence} seconds");
             presenceTimers.Remove(id);
-            StartCoroutine(DelayedSpawnGhostsPerPerson());
+            StartCoroutine(NewPlayerGhostSpawn());
         }
     }
 
-    public IEnumerator DelayedSpawnGhostsPerPerson()
+    public IEnumerator DelayedGhostSpawn(float manDelay)
     {
+        // Debug.Log("Spawning ghost after delay");
         yield return new WaitForSeconds(minimumPresence);
-        updateNumGhostsToSpawn();
-        for (int i = 0; i < ghostsPerPerson; i++)
+        if (!(ghostCount >= maxGhostsInRoom) && isSpawningWithDelay)
         {
-            float delay = UnityEngine.Random.Range(1f, 8f); // time between ghost spawns
-            yield return new WaitForSeconds(delay);
-            if (ghosts.Count >= maxGhostsInRoom)
+            ghostCount++;
+            // Debug.Log("Reached max count early exit");
+            if (manDelay > 0f)
             {
-                // Debug.Log("Reached max count early exit");
-                break;
+                yield return new WaitForSeconds(manDelay);
             }
-            Ghost ghost = SpawnGhost();
-            if (ghost == null) continue;
-            ghosts.Add(ghost);
-            ghostsQueue.Enqueue(ghost);
+            else
+            {
+                yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 7f)); // time between ghost spawns
+            }
+            isSpawningWithDelay = false;
+            SpawnGhost();
         }
     }
+
+    public IEnumerator NewPlayerGhostSpawn()
+    {
+        // Debug.Log("Spawning new ghost set");
+        for(int i = 0; i < ghostsPerPerson; i++)
+        {
+            yield return new WaitForSeconds(0.75f);
+            if (ghostCount < maxGhostsInRoom)
+            {
+                ghostCount++;
+                SpawnGhost();
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
+    // public IEnumerator DelayedNewPlayerGhostSpawn()
+    // {
+    //     yield return new WaitForSeconds(minimumPresence);
+    //     if (!(ghostCount >= maxGhostsInRoom))
+    //     {
+
+    //     }
+    // }
 
     private IEnumerator ConsumeGhostsUntilAvailable()
     {
-        updateNumGhostsToSpawn();
-        int ghostsNeeded = ghostsPerPerson;
 
-        while (ghostsNeeded > 0)
-        {
-            if (ghostsQueue.Count == 0) // consume until ghosts is empty
-            {
-                yield return null;
-                continue;
-            }
-            Ghost ghost = ghostsQueue.Dequeue();
-            ghost.deleteInsteadOfReplace = true;
-            ghostsNeeded--;
-            // RemoveGhostFromGhostList(ghost); // remove ghost from ghostlist
-        }
+        yield return null;
+        // updateNumGhostsToSpawn();
+        // int ghostsNeeded = ghostsPerPerson;
+
+        // while (ghostsNeeded > 0)
+        // {
+        //     if (ghostsQueue.Count == 0) // consume until ghosts is empty
+        //     {
+        //         yield return null;
+        //         continue;
+        //     }
+        //     // ghost.deleteInsteadOfReplace = true;
+        //     ghostsNeeded--;
+        //     // RemoveGhostFromGhostList(ghost); // remove ghost from ghostlist
+        // }
     }
 
-    public void updateNumGhostsToSpawn()
-    {
-        int newNumGhosts = augmentaManager.augmentaObjects.Count * ghostsPerPerson;
-        ghostsToSpawn = Mathf.Clamp(newNumGhosts, 0, maxGhostsInRoom);
-    }
 
     public float GetSinkBoundary()
     {
         return sinkBoundary;
     }
-
-    public float getAvgGhostMovementSpeed()
-    {
-        float totalSpeed = 0f;
-        foreach (Ghost g in ghosts)
-        {
-            totalSpeed += g.movementSpeed;
-        }
-        return totalSpeed / ghosts.Count;
-    }
     
     public int GetGhosts()
     {
-        return ghosts.Count;
+        return ghostCount;
     }
 
     // Destructor
