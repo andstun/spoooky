@@ -14,12 +14,11 @@ public class UIDisplay : MonoBehaviour
     [SerializeField] private GhostSpawner ghostSpawner;
     [SerializeField] private FPSCounter fpsCounter;
     [SerializeField] private TextMeshProUGUI logText;
-    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private GameObject Debugger;
     [SerializeField] private Volume globalVolume;
     [SerializeField] private AudioMixer audioMixer;
 
     private Exposure exposure;
-    private bool isDisabled = false;
 
     private const string MUSIC_VOLUME_PARAM = "MUSICVOLUME";
     private const string SFX_VOLUME_PARAM = "SFXVOLUME";
@@ -119,13 +118,10 @@ public class UIDisplay : MonoBehaviour
 
     public void ToggleVisibility()
     {
-        isDisabled = !isDisabled;
 
-        if (canvasGroup != null)
+        if (Debugger != null)
         {
-            canvasGroup.alpha = isDisabled ? 0 : 1;
-            canvasGroup.interactable = !isDisabled;
-            canvasGroup.blocksRaycasts = !isDisabled;
+            Debugger.SetActive(!Debugger.activeSelf);
         }
     }
     
