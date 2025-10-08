@@ -79,10 +79,6 @@ public class GhostSpawner : MonoBehaviour
             isSpawningWithDelay = true;
             StartCoroutine(DelayedGhostSpawn(0));
         }
-        else
-        {
-            Debug.Log("Reached max count early exit or is spawning with delay");
-        }
     }
 
     private Ghost SpawnGhost()

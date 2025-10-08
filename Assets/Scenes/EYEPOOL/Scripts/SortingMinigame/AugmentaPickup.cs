@@ -10,7 +10,7 @@ public class AugmentaPickup : MonoBehaviour
 
     [Header("Orbit")]
     [SerializeField] float ringRadius = 1.0f;
-    [SerializeField] float velocity = 1.0f;     // radians per second
+    // [SerializeField] float velocity = 1.0f;     // radians per second
     public float speedToRingRadiusFactor = 0.5f;  // Degree to which orbit gets bigger upon speed change.
     public float speedDifferenceThreshold = 0.1f; // Saves computation
 
