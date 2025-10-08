@@ -52931,6 +52931,8 @@ MonoBehaviour:
   augmentaManager: {fileID: 2007777193}
   ghostsPerPerson: 4
   maxGhostsInRoom: 20
+  ghostCount: 0
+  isSpawningWithDelay: 0
   toggleGhostMovement: 1
   xRange: {x: -13.9, y: 13.9}
   zRange: {x: -13.9, y: 13.9}
