@@ -59,12 +59,12 @@ Material:
     - _AlphaDstBlend: 10
     - _AlphaSrcBlend: 1
     - _BlendMode: 0
-    - _Cell_Density: 7.3
+    - _Cell_Density: 5
     - _ConservativeDepthOffsetEnable: 0
-    - _Contrast: 8.88
+    - _Contrast: 3.18
     - _CullMode: 0
     - _CullModeForward: 0
-    - _Density: -1.78
+    - _Density: 1
     - _DepthOffsetEnable: 0
     - _DoubleSidedEnable: 1
     - _DoubleSidedGIMode: 0
@@ -77,7 +77,7 @@ Material:
     - _OpaqueCullMode: 2
     - _PerPixelSorting: 0
     - _RenderQueueType: 4
-    - _Speed: 0.1
+    - _Speed: 0.43
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 1
@@ -87,7 +87,7 @@ Material:
     - _StencilWriteMaskDepth: 9
     - _StencilWriteMaskDistortionVec: 4
     - _StencilWriteMaskMV: 43
-    - _Strength: 8
+    - _Strength: 8.46
     - _SurfaceType: 1
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
