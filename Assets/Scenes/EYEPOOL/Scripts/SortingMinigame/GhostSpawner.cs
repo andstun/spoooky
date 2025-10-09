@@ -16,7 +16,7 @@ public class GhostSpawner : MonoBehaviour
     public int ghostsPerPerson = 4;
     [SerializeField] private int maxGhostsInRoom = 20; // CAP
     public int ghostCount;
-    private float minimumPresence = 10f;
+    private float minimumPresence = 7.5f;
     private Dictionary<int, Coroutine> presenceTimers = new Dictionary<int, Coroutine>();
     [SerializeField] bool isSpawningWithDelay = true;
 
@@ -228,7 +228,7 @@ public class GhostSpawner : MonoBehaviour
             }
             else
             {
-                yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 7f)); // time between ghost spawns
+                yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 5f)); // time between ghost spawns
             }
             isSpawningWithDelay = false;
             SpawnGhost();
