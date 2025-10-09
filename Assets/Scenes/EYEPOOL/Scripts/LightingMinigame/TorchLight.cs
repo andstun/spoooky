@@ -25,8 +25,8 @@ public class TorchFlicker : MonoBehaviour
 
             // subtle colour shift
             hd.color = Color.Lerp(
-                new Color(1f, 0.44f, 0.22f),   // deep orange
-                new Color(1f, 0.55f, 0.3f),    // lighter
+                new Color(1f, 0.77f, 0.52f),   // deep orange
+                new Color(1f, 0.88f, 0.6f),    // lighter
                 n);
         }
         else
