@@ -25152,8 +25152,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 15.145543, y: 11.0758505, z: 14.032335}
-  m_Center: {x: 1.2874923, y: -5.037926, z: -3.104107}
+  m_Size: {x: 12.799953, y: 11.0758505, z: 14.032335}
+  m_Center: {x: 0.11469746, y: -5.037926, z: -3.104107}
 --- !u!114 &431196842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30411,7 +30411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &465354239
 Transform:
   m_ObjectHideFlags: 0
@@ -48815,7 +48815,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &842456221
 Transform:
   m_ObjectHideFlags: 0
@@ -48825,7 +48825,7 @@ Transform:
   m_GameObject: {fileID: 842456220}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0338097, y: -3.8493366, z: 2.0095062}
+  m_LocalPosition: {x: 2.92, y: -3.8493366, z: 2.0095062}
   m_LocalScale: {x: 0.94697, y: 0.94697, z: 0.94697}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -112085,7 +112085,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1982577196
 Transform:
   m_ObjectHideFlags: 0
@@ -114700,7 +114700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightingControl: {fileID: 1993528296}
-  maxLightValue: 10
+  maxLightValue: 1
   rampDuration: 10
   fadeDuration: 10
   campFireLight: {fileID: 1123782495}

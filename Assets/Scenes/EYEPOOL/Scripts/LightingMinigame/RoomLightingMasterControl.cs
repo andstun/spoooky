@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 public class RoomLightingMasterControl : MonoBehaviour
 {
     [Header("Master Intensity (Lumens)")]
-    [Range(0, 10)]
+    [Range(0, 1f)]
     public float masterIntensity = 0f;
 
     [Header("Area Lights (Assign all 5)")]

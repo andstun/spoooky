@@ -9,14 +9,14 @@ public class TunnelTrigger : MonoBehaviour
 {
     [Header("Lighting Control")]
     public RoomLightingMasterControl lightingControl;
-    [Range(0, 10)]
-    public float maxLightValue = 10f;
-    public float rampDuration = 10.0f;
-    public float fadeDuration = 10.0f;
+    [Range(0, 1)]
+    public float maxLightValue = 1f;
+    public float rampDuration = 1f;
+    public float fadeDuration = 1f;
     public GameObject campFireLight;
     private AudioManager audioManager;
     [SerializeField] private Vector3 initCampFireLightSize;
-    [SerializeField] private Vector3 maxCampFireLightSize = new Vector3(1.5f, 1.5f, 1.5f);
+    [SerializeField] private Vector3 maxCampFireLightSize = new Vector3(1.3f, 1.3f, 1.3f);
     private Collider triggerZone;
     public HashSet<AugmentaObject> usersInZone = new();
     // private float lastActivityTime = Mathf.NegativeInfinity;
