@@ -114827,6 +114827,7 @@ MonoBehaviour:
   rampDuration: 10
   fadeDuration: 10
   campFireLight: {fileID: 1123782495}
+  augmentaManager: {fileID: 2007777193}
   initCampFireLightSize: {x: 0, y: 0, z: 0}
   maxCampFireLightSize: {x: 1.5, y: 1.5, z: 1.5}
 --- !u!1660057539 &9223372036854775807

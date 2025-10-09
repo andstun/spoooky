@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
-using Augmenta;  // Required for AugmentaObject
+using Augmenta;
 
 [RequireComponent(typeof(Collider))]
 public class TunnelTrigger : MonoBehaviour
@@ -18,7 +18,7 @@ public class TunnelTrigger : MonoBehaviour
     [SerializeField] private Vector3 initCampFireLightSize;
     [SerializeField] private Vector3 maxCampFireLightSize = new Vector3(1.5f, 1.5f, 1.5f);
     private Collider triggerZone;
-    private readonly HashSet<AugmentaObject> usersInZone = new();
+    public HashSet<AugmentaObject> usersInZone = new();
     // private float lastActivityTime = Mathf.NegativeInfinity;
     private Coroutine fadeCoroutine;
     private Coroutine rampCoroutine;
