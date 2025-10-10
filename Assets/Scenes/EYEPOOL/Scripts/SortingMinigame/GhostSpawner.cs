@@ -16,9 +16,9 @@ public class GhostSpawner : MonoBehaviour
     public int ghostsPerPerson = 4;
     [SerializeField] private int maxGhostsInRoom = 20; // CAP
     public int ghostCount;
-    private float minimumPresence = 7.5f;
+    private float minimumPresence = 1.25f;
     private Dictionary<int, Coroutine> presenceTimers = new Dictionary<int, Coroutine>();
-    [SerializeField] bool isSpawningWithDelay = true;
+    // [SerializeField] bool isSpawningWithDelay = true;
 
     [Header("Movement Parameters")]
     public bool toggleGhostMovement = true;
@@ -70,15 +70,6 @@ public class GhostSpawner : MonoBehaviour
             augmentaManager.augmentaObjectLeave += OnAugmentaObjectLeave;
         }
 
-    }
-
-    void Update()
-    {
-        if (ghostCount < maxGhostsInRoom && !isSpawningWithDelay)
-        {
-            isSpawningWithDelay = true;
-            StartCoroutine(DelayedGhostSpawn(0));
-        }
     }
 
     private Ghost SpawnGhost()
@@ -185,19 +176,15 @@ public class GhostSpawner : MonoBehaviour
         if (obj.GetComponentInChildren<Ghost>() != null)
         {
             DestroyGhost(obj.GetComponentInChildren<Ghost>());
-            // Debug.Log("Had a ghost on exit");
         }
-        else
-        {
-            // Debug.Log("No ghost on exit");
-        }
+        // can put else statement here if we want ghosts to despawn when player leaves
         // Cancel ghost spawn if they left early
-        if (presenceTimers.TryGetValue(id, out Coroutine c))
-        {
-            StopCoroutine(c);
-            presenceTimers.Remove(id);
-            // Debug.Log($"Cancelled spawn for object {id} due to early exit");
-        }
+        // if (presenceTimers.TryGetValue(id, out Coroutine c))
+        // {
+        //     StopCoroutine(c);
+        //     presenceTimers.Remove(id);
+        //     // Debug.Log($"Cancelled spawn for object {id} due to early exit");
+        // }
 
     }
 
@@ -218,19 +205,12 @@ public class GhostSpawner : MonoBehaviour
     {
         // Debug.Log("Spawning ghost after delay");
         yield return new WaitForSeconds(minimumPresence);
-        if (!(ghostCount >= maxGhostsInRoom) && isSpawningWithDelay)
+        if (!(ghostCount >= maxGhostsInRoom))
         {
             ghostCount++;
             // Debug.Log("Reached max count early exit");
-            if (manDelay > 0f)
-            {
-                yield return new WaitForSeconds(manDelay);
-            }
-            else
-            {
-                yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 5f)); // time between ghost spawns
-            }
-            isSpawningWithDelay = false;
+            yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 5f)); // time between ghost spawns
+            // isSpawningWithDelay = false;
             SpawnGhost();
         }
     }
@@ -243,25 +223,14 @@ public class GhostSpawner : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             if (ghostCount < maxGhostsInRoom)
             {
-                ghostCount++;
-                SpawnGhost();
+                StartCoroutine(DelayedGhostSpawn(0f));
             }
             else
             {
-                break;
+                yield return null;
             }
         }
     }
-
-    // public IEnumerator DelayedNewPlayerGhostSpawn()
-    // {
-    //     yield return new WaitForSeconds(minimumPresence);
-    //     if (!(ghostCount >= maxGhostsInRoom))
-    //     {
-
-    //     }
-    // }
-
     private IEnumerator ConsumeGhostsUntilAvailable()
     {
 
