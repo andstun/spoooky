@@ -16,9 +16,10 @@ public class GhostSpawner : MonoBehaviour
     public int ghostsPerPerson = 4;
     [SerializeField] private int maxGhostsInRoom = 20; // CAP
     public int ghostCount;
-    private float minimumPresence = 1.25f;
+    private float minimumPresence = 10f;
     private Dictionary<int, Coroutine> presenceTimers = new Dictionary<int, Coroutine>();
-    // [SerializeField] bool isSpawningWithDelay = true;
+    [SerializeField] private int spawningGhostSets;
+    [SerializeField] private bool isSpawningWithDelay = false;
 
     [Header("Movement Parameters")]
     public bool toggleGhostMovement = true;
@@ -51,6 +52,7 @@ public class GhostSpawner : MonoBehaviour
 
     [SerializeField] private Transform spawnParent;     // optional parent for hierarchy
     [SerializeField] private GameObject hardFallback;
+    
 
     void Awake()
     {
@@ -70,6 +72,15 @@ public class GhostSpawner : MonoBehaviour
             augmentaManager.augmentaObjectLeave += OnAugmentaObjectLeave;
         }
 
+    }
+
+    void Update()
+    {
+        if(spawningGhostSets > 0 & !isSpawningWithDelay)
+        {
+            isSpawningWithDelay = true;
+            StartCoroutine(NewPlayerGhostSpawn());
+        }
     }
 
     private Ghost SpawnGhost()
@@ -197,7 +208,7 @@ public class GhostSpawner : MonoBehaviour
         {
             // Debug.Log($"Object {id} confirmed present after {minimumPresence} seconds");
             presenceTimers.Remove(id);
-            StartCoroutine(NewPlayerGhostSpawn());
+            spawningGhostSets++;
         }
     }
 
@@ -218,7 +229,7 @@ public class GhostSpawner : MonoBehaviour
     public IEnumerator NewPlayerGhostSpawn()
     {
         // Debug.Log("Spawning new ghost set");
-        for(int i = 0; i < ghostsPerPerson; i++)
+        for (int i = 0; i < ghostsPerPerson; i++)
         {
             yield return new WaitForSeconds(0.75f);
             if (ghostCount < maxGhostsInRoom)
@@ -230,6 +241,8 @@ public class GhostSpawner : MonoBehaviour
                 yield return null;
             }
         }
+        isSpawningWithDelay = false;
+        spawningGhostSets--;
     }
     private IEnumerator ConsumeGhostsUntilAvailable()
     {
