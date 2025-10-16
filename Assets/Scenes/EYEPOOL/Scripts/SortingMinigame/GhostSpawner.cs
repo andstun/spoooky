@@ -18,7 +18,7 @@ public class GhostSpawner : MonoBehaviour
     public int ghostCount;
     private float minimumPresence = 1.25f;
     private Dictionary<int, Coroutine> presenceTimers = new Dictionary<int, Coroutine>();
-    // [SerializeField] bool isSpawningWithDelay = true;
+    [SerializeField] bool zeroFlag = false;
 
     [Header("Movement Parameters")]
     public bool toggleGhostMovement = true;
@@ -70,6 +70,20 @@ public class GhostSpawner : MonoBehaviour
             augmentaManager.augmentaObjectLeave += OnAugmentaObjectLeave;
         }
 
+    }
+
+    void Update()
+    {
+        // Keeps ghost count above 0
+        if (ghostCount <= 0 && !zeroFlag)
+        {
+            zeroFlag = true;
+            StartCoroutine((NewPlayerGhostSpawn()));
+        }
+        if(ghostCount > 0)
+        {
+            zeroFlag = false;
+        }
     }
 
     private Ghost SpawnGhost()
@@ -220,7 +234,6 @@ public class GhostSpawner : MonoBehaviour
         // Debug.Log("Spawning new ghost set");
         for(int i = 0; i < ghostsPerPerson; i++)
         {
-            yield return new WaitForSeconds(0.75f);
             if (ghostCount < maxGhostsInRoom)
             {
                 StartCoroutine(DelayedGhostSpawn(0f));
