@@ -1,50 +1,51 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Augmenta;
-using UnityEngine.AI;
 
 public class FigureOpacity : MonoBehaviour
 {
-    [SerializeField] bool triggerOpacity = false;
+    [SerializeField] private SpriteRenderer[] sprites;
+    [SerializeField] private float fadeSpeed = 0.5f;
+    public HashSet<AugmentaObject> usersInZone = new();
 
-    [SerializeField] private Material figureMaterial;
-
-    [SerializeField] private Color materialColor;
-
-
-
-    void Awake()
-    {
-        materialColor = figureMaterial.GetColor("_GlowColor");
-    }
 
     void Update()
     {
-
-        if (triggerOpacity)
+        if(usersInZone.Count > 0 && sprites[0].color.a < 1f)
         {
-            if (figureMaterial.GetColor("_GlowColor").a < 255)
+            // Fade In sprites
+            foreach (SpriteRenderer sr in sprites)
             {
-                materialColor.a += 0.01f;
-                figureMaterial.SetColor("_GlowColor", materialColor);
+                Color c = sr.color;
+                c.a = Mathf.MoveTowards(c.a, 1f, fadeSpeed * Time.deltaTime);
+                sr.color = c;
             }
-
         }
-        else if(!triggerOpacity && figureMaterial.GetColor("_GlowColor").a > 0)
+        else if(usersInZone.Count == 0 && sprites[0].color.a > 0f)
         {
-            materialColor.a -= 0.01f;
-            figureMaterial.SetColor("_GlowColor", materialColor);
+            // Fade in sprites
+            foreach (SpriteRenderer sr in sprites)
+            {
+                Color c = sr.color;
+                c.a = Mathf.MoveTowards(c.a, 0f, fadeSpeed * Time.deltaTime);
+                sr.color = c;
+            }
         }
-        
-
     }
-    void OnTriggerStay(Collider other)
+
+
+    void OnTriggerEnter(Collider other)
     {
         AugmentaObject augmenta = other.GetComponent<AugmentaObject>();
         if (augmenta == null)
         {
             return;
         }
-        triggerOpacity = true;
+        else
+        {
+            
+            usersInZone.Add(augmenta);
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -54,6 +55,9 @@ public class FigureOpacity : MonoBehaviour
         {
             return;
         }
-        triggerOpacity = false;
+        else
+        {
+            usersInZone.Remove(augmenta);
+        }
     }
 }

@@ -147,7 +147,8 @@ public class GhostSpawner : MonoBehaviour
                         this,
                         availNode,
                         ghostMovementSpeed,
-                        hoverCountdown
+                        hoverCountdown,
+                        ghostPalette[portalID].splat
                         );
         ghost.gameObject.layer = LayerMask.NameToLayer("GameLogicLayer");
         Instantiate(ghostPalette[portalID].splat, pos + new Vector3(-0.025f, 0f, 0f), Quaternion.Euler(90, -90, 0)); // run the splat with offset

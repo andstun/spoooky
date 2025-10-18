@@ -13,6 +13,7 @@ public class Ghost : MonoBehaviour
     public MovementMaze maze; // cached ref to allow 
     public MovementMazeNode node; // public, but should only be set by GhostSpawner. // TODO: maybe GhostSpawner needs to be a friend class of Ghost.
     public float movementSpeed { get; private set; }
+    public GameObject splat { get;  private set; }
 
     public enum GhostState
     {
@@ -43,7 +44,7 @@ public class Ghost : MonoBehaviour
     private float cobwebCoveredUntil = -1f;
 
     /// <summary> Call this right after AddComponent. Subsequent calls are ignored. </summary>
-    public void Initialise(int _ghostID, GameObject _sprite, Sprite _captureSprite, int _targetSinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed, float _hoverCountdown)
+    public void Initialise(int _ghostID, GameObject _sprite, Sprite _captureSprite, int _targetSinkID, Color _ghostColor, GhostSpawner owner, MovementMazeNode _node, float _movementSpeed, float _hoverCountdown, GameObject _splat)
     {
         if (_initialised)
         {
@@ -60,6 +61,7 @@ public class Ghost : MonoBehaviour
         hoverCountdown = _hoverCountdown;
         hoverTime = _hoverCountdown;
         spawner = owner;
+        splat = _splat;
         dropoffTimer = 0f;
         _initialised = true;
 
@@ -131,6 +133,7 @@ public class Ghost : MonoBehaviour
         transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false; // hide ghost sprite
         personAttached = parent.GetComponent<AugmentaPickup>();
         personAttached.AttachGhostRing(this);
+        Instantiate(splat, transform.position + new Vector3(-0.0125f, 0f, 0f), Quaternion.Euler(90, -90, 0)); // run the splat with offset
         maze.makeMazeNodeAvailable(node);
         PlayPickupSound();
         if (personAttached == null)
